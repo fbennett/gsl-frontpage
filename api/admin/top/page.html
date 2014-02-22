@@ -1,0 +1,196 @@
+<!DOCTYPE html>  
+<html>
+  <head>
+    <title>GSL Frontpage Announcement</title>
+    <meta charset="UTF-8"> 
+    <script type="text/javascript" src="js/local.js"></script>  
+    <script type="text/javascript" src="js/datepicker.js"></script>  
+    <link rel="stylesheet" type="text/css" href="css/simple-grid.css"/>
+    <link rel="stylesheet" type="text/css" href="css/local.css"/>
+  </head>
+  <body onload="initDateFields();fixUploadWidgetWidth();buildTimes();">
+    <div class="grid">  
+      <div class="col-1-1">
+        <hr/>
+        <h1>GSL Frontpage Announcement <span style="font-size:normal;font-weight:normal;margin-left:1em;font-family:courier,mono;border:1px solid black;padding:0.5em;">Reviewed: <span style="color:red;font-weight:bold;">no</span></span></h1>
+        <hr/>
+        <div id="wrapper-content">
+          <h2 id="wrapper-convenor-heading">
+            Convenor
+            <input id="convenor-clear-button" type="button" value="Clear" onclick="setFieldGroupState(this,'clear',true);" disabled="true"/>
+            <input id="convenor-edit-button" type="button" value="Edit" onclick="setFieldGroupState(this,'edit',true);" style="display:none;"/>
+          </h2>
+          <table id="wrapper-convenor" class="wrapper">
+            <tr>
+              <td>Name:</td>
+              <td class="field">
+                <div>
+                  <input id="convenor-person-persons" class="input kb-tab-enter locking" placeholder="Search" type="text"/>
+                </div>
+                <div id="convenor-person-dropdown" class="field-dropdown" style="display:none;">
+                </div>
+              </td>
+              <td>Contact:</td>
+              <td class="field">
+                <div>
+                  <input id="convenor-contact-contacts" class="input kb-tab-enter" type="text" disabled="true"/>
+                </div>
+                <div id="convenor-contact-dropdown" class="field-dropdown" style="display:none;">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Affiliation:</td>
+              <td class="field">
+                <div>
+                  <input id="convenor-affiliation-affiliations" class="input kb-tab-enter" type="text" disabled="true"/>
+                </div>
+                <div id="convenor-affiliation-dropdown" class="field-dropdown" style="display:none;">
+                </div>
+              </td>
+              <td>Position:</td>
+              <td class="field">
+                <div>
+                  <input id="convenor-position-positions" class="input kb-tab-enter" type="text" disabled="true"/>
+                </div>
+                <div id="convenor-position-dropdown" class="field-dropdown" style="display:none;">
+                </div>
+              </td>
+            </tr>
+          </table>
+          <h2 id="wrapper-presenter-heading">
+            Presenter
+            <input id="presenter-clear-button" type="button" value="Clear" onclick="setFieldGroupState(this,'clear',true);" disabled="true"/>
+            <input id="convenor-edit-button" type="button" value="Edit" onclick="setFieldGroupState(this,'edit',true);" style="display:none;"/>
+          </h2>
+          <table id="wrapper-presenter" class="wrapper">
+            <tr>
+              <td>Name:</td>
+              <td class="field">
+                <div>
+                  <input id="presenter-person-persons" class="input kb-tab-enter locking" placeholder="Search" type="text"/>
+                </div>
+                <div id="presenter-person-dropdown" class="field-dropdown" style="display:none;">
+                </div>
+              </td>
+              <td>Contact:</td>
+              <td class="field">
+                <div>
+                  <input id="presenter-contact-contacts" class="input kb-tab-enter" type="text" disabled="true"/>
+                </div>
+                <div id="presenter-contact-dropdown" class="field-dropdown" style="display:none;">
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Affiliation:</td>
+              <td class="field">
+                <div>
+                  <input id="presenter-affiliation-affiliations" class="input kb-tab-enter" type="text" disabled="true"/>
+                </div>
+                <div id="presenter-affiliation-dropdown" class="field-dropdown" style="display:none;">
+                </div>
+              </td>
+              <td>Position:</td>
+              <td class="field">
+                <div>
+                  <input id="presenter-position-positions" class="input kb-tab-enter" type="text" disabled="true"/>
+                </div>
+                <div id="presenter-position-dropdown" class="field-dropdown" style="display:none;">
+                  <div>Hello</div>
+                </div>
+              </td>
+            </tr>
+          </table>
+          <h2 id="wrapper-event-heading">
+            Event details
+          </h2>
+          <table id="wrapper-event" class="wrapper">
+            <tr>
+              <td>Title:</td>
+              <td class="field">
+                <textarea cols="60" id="event-title" class="kb-tab-only field-open" onclick="setFieldState(this,'edit')" placeholder="Required" type="text"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td>Description:</td>
+              <td class="field">
+                <textarea cols="60" id="event-description" class="kb-tab-only field-open" onclick="setFieldState(this,'edit')" placeholder="Optional" type="text"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td>Note:</td>
+              <td class="field">
+                <textarea cols="60" id="event-note" class="kb-tab-only field-open" onclick="setFieldState(this,'edit')" placeholder="Optional" type="text"></textarea>
+              </td>
+            </tr>
+          </table>
+          <h2>Session details</h2>
+          <table id="wrapper-session-1" class="wrapper">
+            <tr>
+              <td>Session title:</td>
+              <td class="field" colspan="3">
+                <input id="session-title-1" class="input kb-tab-enter solo" onclick="setFieldState(this,'edit');" placeholder="Required" type="text" size="50"/>
+              </td>
+              <td rowspan="2">
+                <input type="button" value="Delete" class="delete-button" style="visibility:hidden;"/>
+              </td>
+              <td rowspan="2">
+                <input type="button" value="Add" class="add-button" disabled="true"/>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="field">
+                <input id="session-place-1" class="input kb-tab-enter solo" onclick="setFieldState(this,'edit');" placeholder="Search: place" type="text" size="10"/>
+                <input id="session-date-1" class="input kb-tab-only date-field" onchange="setFieldState(this,'view');setDeleteAddButtonState(this);" placeholder="Date" size="10" type="date"/>
+                <select id="session-hour-1" class="input times" onclick="setDeleteAddButtonState(this);">
+                </select>
+              </td>
+            </tr>
+          </table>
+          <h2>Attachments</h2>
+          <table id="wrapper-attachment-1" class="wrapper">
+            <tr>
+              <td>Title:</td>
+              <td class="field" colspan="3">
+                <input id="attachment-title-1" placeholder="Search" type="text" size="50"/>
+              </td>
+              <td rowspan="2">
+                <input type="button" value="Delete" class="delete-button" disable="true"/>
+              </td>
+              <td rowspan="2">
+                <input type="button" value="Add" class="add-button" disable="true"/>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="field">
+                <form id="attachment-upload-widget-1"
+                      class="attachment-upload-widget"
+                      enctype="multipart/form-data"
+                      action="SET_BY_BROWSER_JS"
+                      method="post"
+                      style="white-space:nowrap;background:#eeeeee;padding:2px;position:relative;overflow:hidden;">
+                  <input type="file" id="attachment-document" name="attachmentDocment"/>
+                  <input type="submit" value="Upload" style="position:absolute;right:0px;"/>
+                </form>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
+        <input type="button" class="button" style="font-size:200%;" value="Save+Preview"/>
+      </div>
+      <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
+        <input type="button" class="button" style="font-size:200%;" value="Request review"/>
+      </div>
+      <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
+        <input type="button" class="button" style="font-size:200%;" value="Publish"/>
+      </div>
+      <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
+      </div>
+    </div>
+  </body>
+</html>

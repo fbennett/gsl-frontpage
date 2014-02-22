@@ -1,0 +1,206 @@
+.field-open {
+    background: white;
+    font-weight: normal;
+}
+
+.field-closed {
+    background: #eeeeee;
+    font-weight: bold;
+}
+
+.wrapper input.input:disabled {
+    color: black;
+    font-weight: bold;
+}
+
+.wrapper {
+    border:3px solid #00dd00;
+    border-radius:2em;
+}
+
+.date-field:hover {
+    cursor: pointer;
+}
+
+input {
+    font-size: normal;
+    cursor: pointer;
+}
+
+select {
+    cursor: pointer;
+}
+
+#travel-payment-transport, #travel-payment-per-diem, #travel-payment-accommodation, #travel-payment-total  {
+    padding: 0.5em;
+    background: #ffff99;
+    border-radius: 1em;
+    border: 1px solid #f1f1f1;
+    width: 6em;
+    display: inline-block;
+}
+
+span#travel-payment-total:after {
+    content: ' 円';
+}
+
+td.field {
+    text-align: left;
+}
+
+div.field-dropdown {
+    position:relative;
+    height:0;
+}
+
+div.field-dropdown div {
+    position:absolute;
+    top:0px;
+    left:0.5em;
+    background:white;
+    padding:0.5em;
+    border:1px solid #bbbbbb;
+}
+
+.email {
+    font-family:ariel,courier,mono;
+    padding-left:1em;
+}
+
+h1 {
+    font-size: 100%;
+    margin:2em 0 2em 0;
+}
+
+input.button {
+    border-radius: 1em;
+    border:2px solid #bbbbbb;
+    padding:0.5em;
+}
+
+div.button-bold {
+    margin: 0.5em 0 0 1em;
+}
+
+div.button-bold input.button {
+    font-weight: bold;
+}
+
+input.button-small {
+    font-size: smaller;
+    border-radius: 0.7em;
+    border: 1px solid #bbbbbb;
+    padding: 0.15em;
+}
+
+input.button-small:hover {
+    font-weight: bold;
+}
+
+/* For comments */
+
+span.quizzer-highlight {
+    color:white;
+    font-weight: bold;
+    background: #c10000;
+    border-radius: 0.7em;
+    padding: 0.2em;
+}
+
+.answer-pair {
+    margin: 0 0 10px 0;
+}
+
+.right-answer {
+    background: #e3ffe6;
+    border: 3px double black;
+    margin: 6px 0 6px 1em;
+    padding: 0 5px 0 5px;
+}
+
+.wrong-answer {
+    background: #ffdfdf;
+    border: 1px solid black;
+    margin: 6px 0 6px 1em;
+    padding: 0 5px 0 5px;
+}
+
+.rubric {
+    font-weight: bold;
+    font-size: 120%;
+    margin-top: 2em;
+}
+
+div.rubric blockquote {
+    margin: 1em;
+    padding: 1px 1em 1px 1em;
+    font-weight:normal;
+    border: 1px solid #000000;
+}
+
+div.rubric blockquote {
+    margin: 1em;
+    padding: 1px 1em 1px 1em;
+    font-weight:normal;
+    border: 1px solid #000000;
+}
+
+div.comment-container {
+    background: #feffb0;
+    margin: 1em 0 0 2em;
+    border: 1px solid black;
+    padding: 0 0.5em 0.2em 0.5em;
+    vertical-align: top:
+}
+
+div.comment-container blockquote, div.rule-gloss blockquote, div.show-box-child blockquote, td.edit-box div blockquote {
+    background: #ffdfdf;
+    padding: 0;
+    margin: 0 2em;
+    border-radius: 0.5em;
+    border: 1px solid #999999;
+}
+
+div.comment-container blockquote blockquote, div.rule-gloss blockquote blockquote, div.show-box-child blockquote blockquote, td.edit-box div blockquote blockquote {
+    padding: 0;
+    margin: 0;
+    background: #e3ffe6;
+}
+
+div.comment-container blockquote blockquote blockquote, div.rule-gloss blockquote blockquote blockquote, div.show-box-child blockquote blockquote blockquote, td.edit-box div blockquote blockquote blockquote {
+    padding: 0;
+    margin: 0;
+    background: white;
+}
+
+div.comment-container blockquote p, div.rule-gloss blockquote p, div.show-box-child blockquote p, td.edit-box div blockquote p {
+    line-height: 1.8em;
+    padding: 0.5em 1em 0.5em 1em;
+    margin: 0;
+}
+
+div.commenter-name {
+    font-weight: bold;
+    float: left;
+    margin: 0.5em 0.5em 0 0;
+    padding: 0.25em 0.8em 0.25em 0.8em;
+    border-radius: 1em;
+    background: white;
+    border: 1px solid #aaaaaa;
+}
+
+table {
+    border-collapse:separate;
+    border-spacing: 0.5em;
+}
+
+th {
+    padding: 0.5em;
+    background:#eeeeee;
+    text-align:center !important;
+}
+
+td {
+    text-align:right;
+    padding: 0 0.5em 0 0.5em;
+}
