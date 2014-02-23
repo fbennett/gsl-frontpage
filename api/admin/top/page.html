@@ -19,21 +19,24 @@
             Convenor
             <input id="convenor-clear-button" type="button" value="Clear" onclick="setFieldGroupState(this,'clear',true);" disabled="true"/>
             <input id="convenor-edit-button" type="button" value="Edit" onclick="setFieldGroupState(this,'edit',true);" style="display:none;"/>
+            <input id="convenor-persons-id" value="" class="input-id" style="display:none;"/>
           </h2>
-          <table id="wrapper-convenor" class="wrapper">
+          <table id="wrapper-convenor" class="wrapper persons">
             <tr>
               <td>Name:</td>
               <td class="field">
                 <div>
-                  <input id="convenor-person-persons" class="input kb-tab-enter locking" placeholder="Search" type="text"/>
+                  <input id="convenor-name-names" class="input kb-tab-enter locking" placeholder="Search" type="text"/>
                 </div>
-                <div id="convenor-person-dropdown" class="field-dropdown" style="display:none;">
+                <div class="field-dropdown-container">
+                  <div id="convenor-name-dropdown" class="field-dropdown" style="display:none;">
+                  </div>
                 </div>
               </td>
               <td>Contact:</td>
               <td class="field">
                 <div>
-                  <input id="convenor-contact-contacts" class="input kb-tab-enter" type="text" disabled="true"/>
+                  <input id="convenor-contact-contacts" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div id="convenor-contact-dropdown" class="field-dropdown" style="display:none;">
                 </div>
@@ -43,7 +46,7 @@
               <td>Affiliation:</td>
               <td class="field">
                 <div>
-                  <input id="convenor-affiliation-affiliations" class="input kb-tab-enter" type="text" disabled="true"/>
+                  <input id="convenor-affiliation-affiliations" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div id="convenor-affiliation-dropdown" class="field-dropdown" style="display:none;">
                 </div>
@@ -51,7 +54,7 @@
               <td>Position:</td>
               <td class="field">
                 <div>
-                  <input id="convenor-position-positions" class="input kb-tab-enter" type="text" disabled="true"/>
+                  <input id="convenor-position-positions" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div id="convenor-position-dropdown" class="field-dropdown" style="display:none;">
                 </div>
@@ -157,10 +160,10 @@
                 <input id="attachment-title-1" placeholder="Search" type="text" size="50"/>
               </td>
               <td rowspan="2">
-                <input type="button" value="Delete" class="delete-button" disable="true"/>
+                <input type="button" value="Delete" class="delete-button" disabled="true"/>
               </td>
               <td rowspan="2">
-                <input type="button" value="Add" class="add-button" disable="true"/>
+                <input type="button" value="Add" class="add-button" disabled="true"/>
               </td>
             </tr>
             <tr>

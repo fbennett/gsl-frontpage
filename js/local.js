@@ -1,7 +1,15 @@
 var lastFocusNode = null;
 
-function setFieldGroupState (node,state,calledFromHeading) {
-    if (calledFromHeading) {
+function clearDropper(node) {
+    var idSplit = node.id.split('-');
+    var dropper = document.getElementById(idSplit.slice(0,-1).join('-') + '-dropdown');
+    if (dropper) {
+        dropper.style.display = 'none';
+    }
+}
+
+function setFieldGroupState (node,state,calledFromButton) {
+    if (calledFromButton) {
         var tableID = node.parentNode.id.replace(/-heading$/,'');
         var table = document.getElementById(tableID);
     } else {
@@ -10,28 +18,29 @@ function setFieldGroupState (node,state,calledFromHeading) {
     var input = getInputNodes(table);
     switch (state) {
     case 'clear':
-        console.log("Focusing");
+        clearDropper(node);
         for (var i=1,ilen=input.fields.length;i<ilen;i+=1) {
             input.fields[i].value = '';
             input.fields[i].disabled = true;
-            input.fields[i].placeholder = '';
+        }
+        for (var i=0,ilen=input.ids.length;i<ilen;i+=1) {
+            input.ids[i].value = '';
         }
         input.fields[0].value = '';
         input.fields[0].disabled = false;
         input.buttons[0].disabled = true;
-        input.fields[0].focus();
-        input.fields[0].focus();
-        console.log("  done");
         input.buttons[1].style.display = 'none';
         break;
     case 'edit':
         for (var i=1,ilen=input.fields.length;i<ilen;i+=1) {
             input.fields[i].disabled = false;
-            input.fields[i].placeholder = 'Required';
         }
         input.fields[0].disabled = true;
         input.buttons[0].disabled = false;
-        input.fields[1].focus();
+        //console.log("XX [2] "+input.fields[1].id);
+        if (calledFromButton) {
+            input.fields[1].focus();
+        }
         input.buttons[1].style.display = 'none';
         break;
     case 'view':
@@ -40,15 +49,16 @@ function setFieldGroupState (node,state,calledFromHeading) {
         // and return the first empty node, so that it can be focused
         // by the calling function.
         for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
-            if (!input.fields[i].value) {
+            if (!input.fields[i].value && !input.fields[i].disabled) {
                 return input.fields[i];
             }
         }
         for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
             input.fields[i].disabled = true;
-            input.fields[i].placeholder = '';
-            input.buttons[1].style.display = 'inline';
         }
+        input.buttons[0].style.display = 'inline';
+        input.buttons[0].disabled = false;
+        input.buttons[1].style.display = 'inline';
         break;
     default:
         break;
@@ -149,9 +159,17 @@ function fieldFocusHandler (ev) {
                 var lastTable = getAncestorByName(lastFocusNode,'TABLE');
                 var thisTable = getAncestorByName(ev.target,'TABLE');
                 if (lastTable !== thisTable) {
-                    var emptyNode = setFieldGroupState(lastTable,'view');
-                    if (emptyNode) {
-                        emptyNode.focus();
+                    if (lastFocusNode.classList.contains('locking')) {
+                        clearDropper(lastFocusNode);
+                        if (!lastFocusNode.disabled) {
+                            lastFocusNode.value = '';
+                        }
+                    } else {
+                        var emptyNode = setFieldGroupState(lastTable,'view');
+                        if (emptyNode) {
+                            emptyNode.focus();
+                            return;
+                        }
                     }
                 }
             }
@@ -164,6 +182,7 @@ function fieldFocusHandler (ev) {
 };
 
 function fieldBlurHandler (ev) {
+    ev.preventDefault();
     var input;
     if (ev.target.classList.contains('kb-tab-enter')) {
         var hasAllValues = true;
@@ -175,9 +194,97 @@ function fieldBlurHandler (ev) {
             }
         }
         if (hasAllValues) {
-            console.log("  Save data ok: "+Date("now"));
+            var table = getAncestorByName(ev.target,'TABLE');
+            if (table.classList.contains('persons')) {
+                savePersonFields(table);
+            }
+            console.log("  Save data ok: "+Date("now")+" "+ev.target.id);
         }
     }
+    return true;
+};
+
+function setPersonFields (ev) {
+    var tableNode = getAncestorByName(ev.target,'TABLE');
+    var fieldNodes = tableNode.getElementsByClassName('field');
+    var fields = {};
+    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
+        var input = fieldNodes[i].getElementsByClassName('input')[0];
+        var inputName = input.id.split('-').slice(-2,-1)[0];
+        fields[inputName] = input;
+    }
+    var fieldsHeading = document.getElementById(tableNode.id + '-heading');
+    var personIdNode = fieldsHeading.getElementsByClassName('input-id')[0];
+
+    var personID = ev.target.value;
+
+    console.log("WHRE AM I? "+personIdNode.id);
+
+    personIdNode.setAttribute('value',personID);
+
+   // personIdNode.value = personID;
+
+    console.log("SET TO VALUE: "+personIdNode.value);
+
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=top'
+            + '&cmd=getoneperson'
+        , {
+            personid:personID
+        }
+    );
+    if (false === row) return;
+    for (var fieldName in fields) {
+        fields[fieldName].value = row[fieldName];
+    }
+    
+    clearDropper(fields.name);
+    // true is for honorLock
+    setFieldGroupState(fields.name,'view');
+    moveFocusForward(fields.name,true);
+};
+
+function savePersonFields (tableNode) {
+    var fieldNodes = tableNode.getElementsByClassName('field');
+    var fieldsHeading = document.getElementById(tableNode.id + '-heading');
+    var personIdNode = fieldsHeading.getElementsByClassName('input-id')[0];
+    var personID = personIdNode.value;
+    var cmd = 'saveto' + personIdNode.id.split('-').slice(-2,-1)[0];
+    var data = {
+        personID:personID,
+        name:null,
+        contact:null,
+        affiliation:null,
+        position:null
+    }
+    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
+        var field = fieldNodes[i];
+        var node = field.getElementsByClassName('input')[0];
+        var value = node.value;
+        var fieldName = node.id.split('-').slice(-2,-1)[0];
+        data[fieldName] = value;
+    }
+    // perform the save
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=top'
+            + '&cmd=' + cmd
+        , {
+            personid:personID,
+            data:data
+        }
+    );
+    if (false === row) return;
+
+    // write the id back to the top-level input-id node
+
 };
 
 function fixUploadWidgetWidth () {
@@ -212,11 +319,15 @@ function getAncestorByName (node,name) {
 }
 
 function getInputNodes (node) {
-    var ret = {fields:[],buttons:[]};
+    var ret = {fields:[],buttons:[],ids:[]};
     var table = getAncestorByName(node,'TABLE');
     if (!table) {
         return ret;
-   }
+    }
+    var idnodes = table.getElementsByClassName('input-id');
+    if (idnodes && idnodes.length) {
+        ret.ids = idnodes;
+    }
     var heading = document.getElementById(table.id + '-heading');
     if (heading) {
         ret.buttons = heading.getElementsByTagName('INPUT');
@@ -232,6 +343,40 @@ function keyHandlerTabPrep (ev) {
     }
 };
 
+function moveFocusForward (node,honorLock) {
+    var input = getInputNodes(node);
+    var nextNodeIndex = 0;
+    var lastNode = false;
+    if (!honorLock) {
+        for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
+            if (i === 0 && input.fields[0].classList.contains('locking')) {
+                setFieldGroupState(node,'edit');
+            }
+            if (input.fields[i] === node && i<(input.fields.length-1)) {
+                nextNodeIndex = i+1;
+            }
+        }
+    }
+    if (nextNodeIndex) {
+        input.fields[nextNodeIndex].focus();
+    } else {
+        var table = getAncestorByName(node,'TABLE');
+        while (table.nextSibling) {
+            table = table.nextSibling;
+            if (table.tagName && table.tagName === 'TABLE') {
+                var inputs = table.getElementsByTagName('INPUT');
+                if (!inputs || !inputs.length) {
+                    inputs = table.getElementsByTagName('TEXTAREA');
+                } 
+                if (inputs.length && !inputs[0].disabled) {
+                    inputs[0].focus();
+                    break;
+                }
+            }
+        }
+    }
+}
+
 function keyHandlerTabEnter (ev,fromTab) {
     var idSplit = ev.target.id.split('-');
     var tableName = idSplit.slice(-1)[0];
@@ -239,44 +384,11 @@ function keyHandlerTabEnter (ev,fromTab) {
     var dropper = document.getElementById(idSplit.slice(0,-1).join('-') + '-dropdown');
     if (ev.key === 'Enter' || fromTab) {
         if (ev.target.value) {
-            var input = getInputNodes(ev.target);
-            var nextNodeIndex = 0;
-            var lastNode = false;
-            for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
-                if (i === 0 && input.fields[0].classList.contains('locking')) {
-                    setFieldGroupState(ev.target,'edit');
-                }
-                if (input.fields[i] === ev.target && i<(input.fields.length-1)) {
-                    nextNodeIndex = i+1;
-                }
-            }
-            if (nextNodeIndex) {
-                input.fields[nextNodeIndex].focus();
-            } else {
-                var table = getAncestorByName(ev.target,'TABLE');
-                while (table.nextSibling) {
-                    table = table.nextSibling;
-                    if (table.tagName && table.tagName === 'TABLE') {
-                        var inputs = table.getElementsByTagName('INPUT');
-                        if (!inputs || !inputs.length) {
-                            inputs = table.getElementsByTagName('TEXTAREA');
-                        } 
-                        if (inputs.length && !inputs[0].disabled) {
-                            inputs[0].focus();
-                            break;
-                        }
-                    }
-                }
-             }
+            moveFocusForward(ev.target);
         }
-        if (dropper) {
-            dropper.style.display = 'none';
-        }
+        clearDropper(ev.target);
     } else if (ev.key === 'Esc') {
         setFieldGroupState(ev.target,'clear');
-        if (dropper) {
-            dropper.style.display = 'none';
-        }
     } else if (dropper) {
         // Expose search lister with updated field value, call API, and populate list
         var adminID = getParameterByName('admin');
@@ -289,7 +401,7 @@ function keyHandlerTabEnter (ev,fromTab) {
             '/?admin='
                 + adminID
                 + '&page=' + pageName
-                + '&cmd=search-' + tableName + '-' + searchName
+                + '&cmd=search' + tableName
             , {
                 str:ev.target.value.toLowerCase()
             }
@@ -298,10 +410,17 @@ function keyHandlerTabEnter (ev,fromTab) {
         for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
             dropper.removeChild(dropper.childNodes[0]);
         }
-        dropper.style.display = 'block';
+        if (!rows.length) {
+            dropper.style.display = 'none';
+        } else {
+            dropper.style.display = 'block';
+        }
         for (var i=0,ilen=rows.length;i<ilen;i+=1) {
             var option = document.createElement('div');
             option.innerHTML = rows[i].name;
+            option.classList.add('dropdown-option');
+            option.onclick = setPersonFields;
+            option.value = rows[i].personID;
             dropper.appendChild(option);
         }
     }

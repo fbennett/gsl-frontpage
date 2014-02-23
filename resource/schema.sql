@@ -20,12 +20,15 @@ CREATE UNIQUE INDEX admin_name_idx ON admin(name);
 CREATE TABLE persons (
        personID INTEGER PRIMARY KEY,
        nameID INTEGER NOT NULL,
-       contactDetail TEXT,
-       affiliationID INTEGER,
-       positionID INTEGER,
+       contactID INTEGER NOT NULL,
+       affiliationID INTEGER NOT NULL,
+       positionID INTEGER NOT NULL,
+       adminID INTEGER NOT NULL,
+       FOREIGN KEY (contactID) REFERENCES contacts(contactID),
        FOREIGN KEY (affiliationID) REFERENCES affiliations(affiliationID),
        FOREIGN KEY (positionID) REFERENCES positions(positionID),
-       FOREIGN KEY (nameID) REFERENCES personalNames(nameID)
+       FOREIGN KEY (nameID) REFERENCES names(nameID),
+       FOREIGN KEY (adminID) REFERENCES admin(adminID)
 );
 
 CREATE TABLE events (
@@ -65,32 +68,37 @@ CREATE TABLE titles (
        str TEXT
 );
 
+CREATE TABLE contacts (
+       contactID INTEGER PRIMARY KEY,
+       contact TEXT
+);
+
 CREATE TABLE affiliations (
        affiliationID INTEGER PRIMARY KEY,
-       str TEXT
+       affiliation TEXT
 );
 
 CREATE TABLE positions (
        positionID INTEGER PRIMARY KEY,
-       str TEXT
+       position TEXT
 );
 
-CREATE TABLE personalNames (
+CREATE TABLE names (
        nameID INTEGER PRIMARY KEY,
        name TEXT
 );
 
 CREATE TABLE descriptions (
        descriptionID INTEGER PRIMARY KEY,
-       str TEXT
+       description TEXT
 );
 
 CREATE TABLE notes (
        noteID INTEGER PRIMARY KEY,
-       str TEXT
+       note TEXT
 );
 
 CREATE TABLE places (
        placeID INTEGER PRIMARY KEY,
-       str TEXT
+       place TEXT
 );

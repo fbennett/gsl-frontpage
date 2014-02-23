@@ -1,3 +1,26 @@
+div.field-dropdown-container {
+    position:relative;
+    height:0;
+}
+
+div.field-dropdown {
+    position:absolute;
+    top:0px;
+    left:0.5em;
+    background:white;
+    border:1px solid #bbbbbb;
+    z-index:99;
+}
+
+.dropdown-option {
+    padding:0.2em 0.5em 0.2em 0.5em;
+}
+
+.dropdown-option:hover {
+    background: #66ff66;
+    cursor:pointer;
+}
+
 .field-open {
     background: white;
     font-weight: normal;
@@ -46,20 +69,6 @@ span#travel-payment-total:after {
 
 td.field {
     text-align: left;
-}
-
-div.field-dropdown {
-    position:relative;
-    height:0;
-}
-
-div.field-dropdown div {
-    position:absolute;
-    top:0px;
-    left:0.5em;
-    background:white;
-    padding:0.5em;
-    border:1px solid #bbbbbb;
 }
 
 .email {

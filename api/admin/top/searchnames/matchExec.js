@@ -4,9 +4,12 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
         var str = params.str;
-        var sql = 'SELECT name FROM personalNames WHERE name LIKE \'%' + str + '%\';';
+        if (!str) {
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.end(JSON.stringify([]));
+        }
+        var sql = 'SELECT personID,name FROM persons JOIN names USING(nameID) WHERE name LIKE \'%' + str + '%\';';
         sys.db.all(sql,function(err,rows){
-            console.log("rows="+rows);
             if (err||!rows) {return oops(response,err,'events/search-persons-person(1)')};
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(rows));
