@@ -151,10 +151,7 @@
                 <input id="session-title-1" class="input kb-tab-enter solo" onclick="setFieldState(this,'edit');" placeholder="Required" type="text" size="50"/>
               </td>
               <td rowspan="2">
-                <input type="button" value="Delete" class="delete-button" style="visibility:hidden;"/>
-              </td>
-              <td rowspan="2">
-                <input type="button" value="Add" class="add-button" disabled="true"/>
+                <input type="button" value="Delete" class="delete-button" disabled="true"/>
               </td>
             </tr>
             <tr>
@@ -172,13 +169,16 @@
             <tr>
               <td>Title:</td>
               <td class="field" colspan="3">
-                <input id="attachment-title-1" placeholder="Search" type="text" size="50"/>
+                <div>
+                  <input id="attachment-attachment-1" class="input kb-tab-enter optional" placeholder="Search" type="text" size="50"/>
+                </div>
+                <div class="field-dropdown-container">
+                  <div id="attachment-attachment-dropdown" class="field-dropdown" style="display:none;">
+                  </div>
+                </div>
               </td>
               <td rowspan="2">
                 <input type="button" value="Delete" class="delete-button" disabled="true"/>
-              </td>
-              <td rowspan="2">
-                <input type="button" value="Add" class="add-button" disabled="true"/>
               </td>
             </tr>
             <tr>
@@ -191,7 +191,7 @@
                       method="post"
                       style="white-space:nowrap;background:#eeeeee;padding:2px;position:relative;overflow:hidden;">
                   <input type="file" id="attachment-document" name="attachmentDocment"/>
-                  <input type="submit" value="Upload" style="position:absolute;right:0px;"/>
+                  <input type="submit" value="Upload" style="position:absolute;right:0px;" disabled="true"/>
                 </form>
               </td>
             </tr>

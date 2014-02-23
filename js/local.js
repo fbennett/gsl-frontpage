@@ -1,19 +1,24 @@
+var status = {
+    sent:false,
+    reviewed:false
+}
+
 var lastFocusNode = null;
 
 function initializePage () {
     var nodes = document.getElementsByClassName('attachment-upload-widget');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
-        var titleNodeID = 'attachment-title-' + node.id.split('-').slice(-1)[0];
+        var titleNodeID = 'attachment-attachment-' + node.id.split('-').slice(-1)[0];
         var titleNode = document.getElementById(titleNodeID);
         var titleNodeWidth = titleNode.offsetWidth;;
         node.style.width = titleNodeWidth + 'px';
     }
     var nodes = document.getElementsByClassName('kb-tab-enter');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
-        nodes[i].onfocus = fieldFocusHandler;
-        nodes[i].onkeydown = keyHandlerTabPrep;
-        nodes[i].onkeyup = keyHandlerTabEnter;
+        nodes[i].addEventListener('focus',fieldFocusHandler);
+        nodes[i].addEventListener('keydown',debounce(keyHandlerTabPrep,100));
+        nodes[i].addEventListener('keyup',debounce(keyHandlerTabEnter,100));
     }
     var nodes = document.getElementsByClassName('kb-tab-only');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
@@ -103,16 +108,24 @@ function setFieldGroupState (node,state,calledFromButton) {
         // Otherwise, leave the fields open and return the first 
         // empty node, so that it can be focused by the caller
         for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
-            if (!input.fields[i].value && !input.fields[i].disabled) {
+            if (!input.fields[i].value && !input.fields[i].disabled && !input.fields[i].classList.contains('optional')) {
                 return input.fields[i];
             }
         }
         for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
-            input.fields[i].disabled = true;
+            if (input.fields[i].value) {
+                if (input.fields[i].classList.contains('optional')) {
+                    input.fields[i].classList.add('field-closed');
+                } else {
+                    input.fields[i].disabled = true;
+                }
+            }
         }
-        input.buttons[0].style.display = 'inline';
-        input.buttons[0].disabled = false;
-        input.buttons[1].style.display = 'inline';
+        if (input.buttons[0]) {
+            input.buttons[0].style.display = 'inline';
+            input.buttons[0].disabled = false;
+            input.buttons[1].style.display = 'inline';
+        }
     }
 };
 
@@ -135,39 +148,27 @@ function setFieldState (node,state) {
     }
 };
 
-function setDeleteAddButtonState (node) {
+function setDeleteButtonState (node) {
     var table = getAncestorByName(node,'TABLE');
-    var addButton = table.getElementsByClassName('add-button');
-    if (addButton && addButton.length) {
-        addButton = addButton[0];
+    var deleteButton = table.getElementsByClassName('delete-button');
+    if (deleteButton && deleteButton.length) {
+        deleteButton = deleteButton[0];
     } else {
-        addButton = null;
+        deleteButton = null;
     }
-    if (addButton) {
-        var deleteButton = table.getElementsByClassName('delete-button');
-        if (deleteButton && deleteButton.length) {
-            deleteButton = deleteButton[0];
-        }
+    if (deleteButton) {
         var inputs = table.getElementsByClassName('input');
-        var showDeleteButton = false;
-        var enableAddButton = true;
+        var enableDeleteButton = false;
         for (var i=0,ilen=inputs.length;i<ilen;i+=1) {
             var input = inputs[i];
             if (input.value && input.value != 0) {
-                showDeleteButton = true;
-            } else {
-                enableAddButton = false;
+                enableDeleteButton = true;
             }
         }
-        if (showDeleteButton) {
-            deleteButton.style.visibility = 'visible';
+        if (enableDeleteButton) {
+            deleteButton.disabled = false;
         } else {
-            deleteButton.style.visibility = 'hidden';
-        }
-        if (enableAddButton) {
-            addButton.disabled = false;
-        } else {
-            addButton.disabled = true;
+            deleteButton.disabled = true;
         }
     }
 }
@@ -178,7 +179,7 @@ function fieldFocusHandler (ev) {
             var saveLastFields = !lastFocusNode.disabled;
             if (lastFocusNode.classList.contains('kb-tab-only') || lastFocusNode.classList.contains('solo')) {
                 setFieldState(lastFocusNode,'view');
-                setDeleteAddButtonState (lastFocusNode);
+                setDeleteButtonState (lastFocusNode);
             } else {
                 var lastTable = getAncestorByName(lastFocusNode,'TABLE');
                 var thisTable = getAncestorByName(ev.target,'TABLE');
@@ -421,24 +422,38 @@ function moveFocusForward (node,honorLock) {
     }
 }
 
-function keyHandlerTabEnter (ev,fromTab) {
-    var idSplit = ev.target.id.split('-');
-    var tableName = idSplit.slice(-1)[0];
+// From http://remysharp.com/2010/07/21/throttling-function-calls/
+function debounce(fn, delay) {
+  var timer = null;
+  return function (ev) {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
+}
+
+function keyHandlerTabEnter (event,fromTab) {
+    console.log("Heya")
+    console.log("EVE");
+    var idSplit = event.target.id.split('-');
+    var searchName = idSplit.slice(-2,-1)[0];
+    var tableName = searchName + 's';
     if (tableName === 'names') {
         tableName = 'persons';
     }
-    var searchName = idSplit.slice(-2,-1)[0];
     if (searchName === 'name') {
         searchName = 'person';
     }
     var dropper = document.getElementById(idSplit.slice(0,-1).join('-') + '-dropdown');
-    if (ev.key === 'Enter' || fromTab) {
-        if (ev.target.value) {
-            moveFocusForward(ev.target);
+    if (event.key === 'Enter' || fromTab) {
+        if (event.target.value) {
+            moveFocusForward(event.target);
         }
-        clearDropper(ev.target);
-    } else if (ev.key === 'Esc') {
-        setFieldGroupState(ev.target,'clear');
+        clearDropper(event.target);
+    } else if (event.key === 'Esc') {
+        setFieldGroupState(event.target,'clear');
     } else if (dropper) {
         // Expose search lister with updated field value, call API, and populate list
         var adminID = getParameterByName('admin');
@@ -453,7 +468,7 @@ function keyHandlerTabEnter (ev,fromTab) {
                 + '&page=' + pageName
                 + '&cmd=search' + tableName
             , {
-                str:ev.target.value.toLowerCase()
+                str:event.target.value.toLowerCase()
             }
         );
         if (false === rows) return;
