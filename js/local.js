@@ -9,15 +9,18 @@ function clearDropper(node) {
 }
 
 function setFieldGroupState (node,state,calledFromButton) {
+    console.log("HEY TRY FOCUS");
     if (calledFromButton) {
         var tableID = node.parentNode.id.replace(/-heading$/,'');
         var table = document.getElementById(tableID);
+        console.log("GOT TABLE: "+table)
     } else {
         var table = getAncestorByName(node,'TABLE');
     }
     var input = getInputNodes(table);
-    switch (state) {
-    case 'clear':
+    console.log("GOT INPUT: "+input+" "+state);
+    if (state === 'clear') {
+        console.log("TRY FOCUS");
         clearDropper(node);
         for (var i=1,ilen=input.fields.length;i<ilen;i+=1) {
             input.fields[i].value = '';
@@ -26,12 +29,15 @@ function setFieldGroupState (node,state,calledFromButton) {
         for (var i=0,ilen=input.ids.length;i<ilen;i+=1) {
             input.ids[i].value = '';
         }
+        if (calledFromButton) {
+            input.buttons[0].disabled = false;
+            input.fields[0].focus();
+        }
         input.fields[0].value = '';
         input.fields[0].disabled = false;
         input.buttons[0].disabled = true;
         input.buttons[1].style.display = 'none';
-        break;
-    case 'edit':
+    } else if (state === 'edit') {
         for (var i=1,ilen=input.fields.length;i<ilen;i+=1) {
             input.fields[i].disabled = false;
         }
@@ -42,8 +48,7 @@ function setFieldGroupState (node,state,calledFromButton) {
             input.fields[1].focus();
         }
         input.buttons[1].style.display = 'none';
-        break;
-    case 'view':
+    } else if (state === 'view') {
         // Only permit view mode if all fields are filled in.
         // Otherwise, this function should leave the fields open
         // and return the first empty node, so that it can be focused
@@ -59,9 +64,6 @@ function setFieldGroupState (node,state,calledFromButton) {
         input.buttons[0].style.display = 'inline';
         input.buttons[0].disabled = false;
         input.buttons[1].style.display = 'inline';
-        break;
-    default:
-        break;
     }
 };
 
@@ -177,16 +179,16 @@ function fieldFocusHandler (ev) {
                 setFieldState(ev.target,'edit');
             }
         }
+        fieldFakeBlurHandler(lastFocusNode);
     }
     lastFocusNode = ev.target;
 };
 
-function fieldBlurHandler (ev) {
-    ev.preventDefault();
-    var input;
-    if (ev.target.classList.contains('kb-tab-enter')) {
+function fieldFakeBlurHandler (node) {
+    var input = null;
+    if (node.classList.contains('kb-tab-enter')) {
         var hasAllValues = true;
-        input = getInputNodes(ev.target);
+        input = getInputNodes(node);
         for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
             if (!input.fields[i].value) {
                 hasAllValues = false;
@@ -194,14 +196,13 @@ function fieldBlurHandler (ev) {
             }
         }
         if (hasAllValues) {
-            var table = getAncestorByName(ev.target,'TABLE');
+            console.log("  Save data ok: "+Date("now")+" "+node.id);
+            var table = getAncestorByName(node,'TABLE');
             if (table.classList.contains('persons')) {
                 savePersonFields(table);
             }
-            console.log("  Save data ok: "+Date("now")+" "+ev.target.id);
         }
     }
-    return true;
 };
 
 function setPersonFields (ev) {
@@ -268,23 +269,24 @@ function savePersonFields (tableNode) {
         var fieldName = node.id.split('-').slice(-2,-1)[0];
         data[fieldName] = value;
     }
-    // perform the save
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
-    var row = apiRequest(
-        '/?admin='
-            + adminID
-            + '&page=top'
-            + '&cmd=' + cmd
-        , {
-            personid:personID,
-            data:data
-        }
-    );
-    if (false === row) return;
-
-    // write the id back to the top-level input-id node
-
+    setTimeout(function(){
+        // perform the save
+        var adminID = getParameterByName('admin');
+        var pageName = getParameterByName('page');
+        var row = apiRequest(
+            '/?admin='
+                + adminID
+                + '&page=top'
+                + '&cmd=' + cmd
+            , {
+                personid:personID,
+                data:data
+            }
+        );
+        if (false === row) return;
+        // write the id back to the top-level input-id node
+        personIdNode.value = row.personID;
+    },1000); 
 };
 
 function fixUploadWidgetWidth () {
@@ -299,16 +301,24 @@ function fixUploadWidgetWidth () {
     var nodes = document.getElementsByClassName('kb-tab-enter');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         nodes[i].onfocus = fieldFocusHandler;
-        nodes[i].onblur = fieldBlurHandler;
+        //nodes[i].addEventListener('blur',fieldBlurHandler);
         nodes[i].onkeydown = keyHandlerTabPrep;
         nodes[i].onkeyup = keyHandlerTabEnter;
     }
     var nodes = document.getElementsByClassName('kb-tab-only');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         nodes[i].onfocus = fieldFocusHandler;
-        nodes[i].onblur = fieldBlurHandler;
+        //nodes[i].addEventListener('blur',fieldBlurHandler);
+    }
+    var nodes = document.getElementsByClassName('clear-button');
+    for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
+        nodes[i].addEventListener('click', setFieldGroupStateListener);
     }
 }
+
+function setFieldGroupStateListener (event) {
+    setFieldGroupState(event.target,'clear',true);
+};
 
 function getAncestorByName (node,name) {
     if (node && node.tagName !== name) {
@@ -457,11 +467,11 @@ function apiRequest (url, obj, returnAsString) {
     xhr.open('POST', url, false);
     xhr.setRequestHeader("Content-type","application/json");
     xhr.send(obj);
-    if (xhr.getResponseHeader('content-type') === 'text/html') {
-        document = xhr.responseXML;
-    }
     if (200 != xhr.status) {
         return false;
+    }
+    if (xhr.getResponseHeader('content-type') === 'text/html') {
+        document = xhr.responseXML;
     }
     var ret = xhr.responseText;
     if (!returnAsString) {

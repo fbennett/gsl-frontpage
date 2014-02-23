@@ -29,19 +29,11 @@
                 if (err) {return oops(response,err,'event/savetopersons(2)')};
                 if (row && row[fieldName + 'ID']) {
                     var fieldID = row[fieldName + 'ID'];
-                    updateFieldStr(fieldName, fieldID, str, pos, limit);
+                    data[fieldName + 'ID'] = fieldID;
+                    checkForFieldStr(pos+1,limit);
                 } else {
                     addFieldStr(fieldName, str, pos, limit);
                 }
-            });
-        };
-
-        function updateFieldStr (fieldName, fieldID, str, pos, limit) {
-            var sql = 'UPDATE ' + fieldName + 's SET ' + fieldName + '=? WHERE ' + fieldName + 'ID=?;';
-            sys.db.run(sql,[str,fieldID],function (err) {
-                if (err) {return oops(response,err,'event/savetopersons(3)')};
-                data[fieldName + 'ID'] = fieldID;
-                checkForFieldStr(pos+1,limit);
             });
         };
 
@@ -56,7 +48,7 @@
         };
 
         function updatePerson () {
-            console.log("update");
+            console.log("update: "+personID);
             var sql = 'INSERT OR REPLACE INTO persons VALUES (?,?,?,?,?,?);';
             sys.db.run(sql,[personID,data.nameID,data.contactID,data.affiliationID,data.positionID,adminID],function(err){
                 if (err) {return oops(response,err,'event/savetopersons(5)')};

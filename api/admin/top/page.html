@@ -17,7 +17,7 @@
         <div id="wrapper-content">
           <h2 id="wrapper-convenor-heading">
             Convenor
-            <input id="convenor-clear-button" type="button" value="Clear" onclick="setFieldGroupState(this,'clear',true);" disabled="true"/>
+            <input id="convenor-clear-button" type="button" class="clear-button" value="Clear" disabled="true"/>
             <input id="convenor-edit-button" type="button" value="Edit" onclick="setFieldGroupState(this,'edit',true);" style="display:none;"/>
             <input id="convenor-persons-id" value="" class="input-id" style="display:none;"/>
           </h2>
@@ -38,7 +38,9 @@
                 <div>
                   <input id="convenor-contact-contacts" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
-                <div id="convenor-contact-dropdown" class="field-dropdown" style="display:none;">
+                <div class="field-dropdown-container">
+                  <div id="convenor-contact-dropdown" class="field-dropdown" style="display:none;">
+                  </div>
                 </div>
               </td>
             </tr>

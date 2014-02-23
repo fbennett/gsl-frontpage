@@ -15,7 +15,7 @@
 
         sys.db.get(sql,[personID],function(err,row){
             if (err) {return oops(response,err,'event/getoneperson(1)')};
-            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(row));
         });
     }

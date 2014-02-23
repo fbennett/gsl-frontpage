@@ -59,46 +59,46 @@ CREATE TABLE sessions (
 CREATE TABLE attachments (
        attachmentID INTEGER PRIMARY KEY,
        titleID INTEGER NOT NULL,
-       keyStr TEXT,
+       keyStr TEXT NOT NULL,
        FOREIGN KEY (titleID) REFERENCES titles(titleID)
 );
 
 CREATE TABLE titles (
        titleID INTEGER PRIMARY KEY,
-       str TEXT
+       str TEXT NOT NULL
 );
 
 CREATE TABLE contacts (
        contactID INTEGER PRIMARY KEY,
-       contact TEXT
+       contact TEXT NOT NULL
 );
 
 CREATE TABLE affiliations (
        affiliationID INTEGER PRIMARY KEY,
-       affiliation TEXT
+       affiliation TEXT NOT NULL
 );
 
 CREATE TABLE positions (
        positionID INTEGER PRIMARY KEY,
-       position TEXT
+       position TEXT NOT NULL
 );
 
 CREATE TABLE names (
        nameID INTEGER PRIMARY KEY,
-       name TEXT
+       name TEXT NOT NULL
 );
 
 CREATE TABLE descriptions (
        descriptionID INTEGER PRIMARY KEY,
-       description TEXT
+       description TEXT NOT NULL
 );
 
 CREATE TABLE notes (
        noteID INTEGER PRIMARY KEY,
-       note TEXT
+       note TEXT NOT NULL
 );
 
 CREATE TABLE places (
        placeID INTEGER PRIMARY KEY,
-       place TEXT
+       place TEXT NOT NULL
 );
