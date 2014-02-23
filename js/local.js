@@ -17,8 +17,8 @@ function initializePage () {
     var nodes = document.getElementsByClassName('kb-tab-enter');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         nodes[i].addEventListener('focus',fieldFocusHandler);
-        nodes[i].addEventListener('keydown',debounce(keyHandlerTabPrep,100));
-        nodes[i].addEventListener('keyup',debounce(keyHandlerTabEnter,100));
+        nodes[i].addEventListener('keydown',debounce(keyHandlerTabPrep,250));
+        nodes[i].addEventListener('keyup',debounce(keyHandlerTabEnter,250));
     }
     var nodes = document.getElementsByClassName('kb-tab-only');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
@@ -115,7 +115,7 @@ function setFieldGroupState (node,state,calledFromButton) {
         for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
             if (input.fields[i].value) {
                 if (input.fields[i].classList.contains('optional')) {
-                    input.fields[i].classList.add('field-closed');
+                    //input.fields[i].classList.add('field-closed');
                 } else {
                     input.fields[i].disabled = true;
                 }
@@ -435,8 +435,6 @@ function debounce(fn, delay) {
 }
 
 function keyHandlerTabEnter (event,fromTab) {
-    console.log("Heya")
-    console.log("EVE");
     var idSplit = event.target.id.split('-');
     var searchName = idSplit.slice(-2,-1)[0];
     var tableName = searchName + 's';
@@ -455,6 +453,16 @@ function keyHandlerTabEnter (event,fromTab) {
     } else if (event.key === 'Esc') {
         setFieldGroupState(event.target,'clear');
     } else if (dropper) {
+        // Try to find the Upload button and enable or disable it as appropriate
+        var uploadButton = document.getElementById(idSplit.slice(0,1)[0] + '-upload-' + idSplit.slice(2,3)[0]);
+        console.log(idSplit.slice(0,1)[0] + '-upload-' + idSplit.slice(2,3)[0]);
+        if (uploadButton) {
+            if (event.target.value) {
+                uploadButton.disabled = false;
+            } else {
+                uploadButton.disabled = true;
+            }
+        }
         // Expose search lister with updated field value, call API, and populate list
         var adminID = getParameterByName('admin');
         var pageName = getParameterByName('page');
