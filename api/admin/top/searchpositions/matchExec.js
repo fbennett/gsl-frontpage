@@ -8,9 +8,9 @@
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify([]));
         }
-        var sql = 'SELECT personID,name FROM persons JOIN names USING(nameID) WHERE name LIKE \'%' + str + '%\';';
+        var sql = 'SELECT positionID,position FROM positions WHERE position LIKE \'%' + str + '%\' ORDER BY position;';
         sys.db.all(sql,function(err,rows){
-            if (err||!rows) {return oops(response,err,'events/search-persons-person(1)')};
+            if (err||!rows) {return oops(response,err,'events/searchpositions(1)')};
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(rows));
         });

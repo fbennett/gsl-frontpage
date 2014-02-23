@@ -48,7 +48,6 @@
         };
 
         function updatePerson () {
-            console.log("update: "+personID);
             var sql = 'INSERT OR REPLACE INTO persons VALUES (?,?,?,?,?,?);';
             sys.db.run(sql,[personID,data.nameID,data.contactID,data.affiliationID,data.positionID,adminID],function(err){
                 if (err) {return oops(response,err,'event/savetopersons(5)')};
@@ -57,7 +56,6 @@
         };
 
         function addPerson () {
-            console.log("add");
             var sql = 'INSERT INTO persons VALUES(NULL,?,?,?,?,?);';
             sys.db.run(sql,[data.nameID,data.contactID,data.affiliationID,data.positionID,adminID],function(err){
                 if (err) {return oops(response,err,'event/savetopersons(6)')};

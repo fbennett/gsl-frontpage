@@ -1,71 +1,25 @@
 var lastFocusNode = null;
 
-function clearDropper(node) {
-    var idSplit = node.id.split('-');
-    var dropper = document.getElementById(idSplit.slice(0,-1).join('-') + '-dropdown');
-    if (dropper) {
-        dropper.style.display = 'none';
+function initializePage () {
+    var nodes = document.getElementsByClassName('attachment-upload-widget');
+    for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
+        var node = nodes[i];
+        var titleNodeID = 'attachment-title-' + node.id.split('-').slice(-1)[0];
+        var titleNode = document.getElementById(titleNodeID);
+        var titleNodeWidth = titleNode.offsetWidth;;
+        node.style.width = titleNodeWidth + 'px';
+    }
+    var nodes = document.getElementsByClassName('kb-tab-enter');
+    for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
+        nodes[i].onfocus = fieldFocusHandler;
+        nodes[i].onkeydown = keyHandlerTabPrep;
+        nodes[i].onkeyup = keyHandlerTabEnter;
+    }
+    var nodes = document.getElementsByClassName('kb-tab-only');
+    for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
+        nodes[i].onfocus = fieldFocusHandler;
     }
 }
-
-function setFieldGroupState (node,state,calledFromButton) {
-    console.log("HEY TRY FOCUS");
-    if (calledFromButton) {
-        var tableID = node.parentNode.id.replace(/-heading$/,'');
-        var table = document.getElementById(tableID);
-        console.log("GOT TABLE: "+table)
-    } else {
-        var table = getAncestorByName(node,'TABLE');
-    }
-    var input = getInputNodes(table);
-    console.log("GOT INPUT: "+input+" "+state);
-    if (state === 'clear') {
-        console.log("TRY FOCUS");
-        clearDropper(node);
-        for (var i=1,ilen=input.fields.length;i<ilen;i+=1) {
-            input.fields[i].value = '';
-            input.fields[i].disabled = true;
-        }
-        for (var i=0,ilen=input.ids.length;i<ilen;i+=1) {
-            input.ids[i].value = '';
-        }
-        if (calledFromButton) {
-            input.buttons[0].disabled = false;
-            input.fields[0].focus();
-        }
-        input.fields[0].value = '';
-        input.fields[0].disabled = false;
-        input.buttons[0].disabled = true;
-        input.buttons[1].style.display = 'none';
-    } else if (state === 'edit') {
-        for (var i=1,ilen=input.fields.length;i<ilen;i+=1) {
-            input.fields[i].disabled = false;
-        }
-        input.fields[0].disabled = true;
-        input.buttons[0].disabled = false;
-        //console.log("XX [2] "+input.fields[1].id);
-        if (calledFromButton) {
-            input.fields[1].focus();
-        }
-        input.buttons[1].style.display = 'none';
-    } else if (state === 'view') {
-        // Only permit view mode if all fields are filled in.
-        // Otherwise, this function should leave the fields open
-        // and return the first empty node, so that it can be focused
-        // by the calling function.
-        for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
-            if (!input.fields[i].value && !input.fields[i].disabled) {
-                return input.fields[i];
-            }
-        }
-        for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
-            input.fields[i].disabled = true;
-        }
-        input.buttons[0].style.display = 'inline';
-        input.buttons[0].disabled = false;
-        input.buttons[1].style.display = 'inline';
-    }
-};
 
 function buildTimes (node) {
     var timesHTML = '<option value="0">Time</option>\n';
@@ -94,6 +48,73 @@ function buildTimes (node) {
         }
     }
 }
+
+function clearDropper(node) {
+    var idSplit = node.id.split('-');
+    var dropper = document.getElementById(idSplit.slice(0,-1).join('-') + '-dropdown');
+    if (dropper) {
+        dropper.style.display = 'none';
+    }
+}
+
+function setFieldGroupState (node,state,calledFromButton) {
+    if (calledFromButton) {
+        var tableID = node.parentNode.id.replace(/-heading$/,'');
+        var table = document.getElementById(tableID);
+    } else {
+        var table = getAncestorByName(node,'TABLE');
+    }
+    var input = getInputNodes(table);
+    if (state === 'clear') {
+        clearDropper(node);
+        for (var i=1,ilen=input.fields.length;i<ilen;i+=1) {
+            input.fields[i].value = null;
+            input.fields[i].disabled = true;
+        }
+        for (var i=0,ilen=input.ids.length;i<ilen;i+=1) {
+            input.ids[i].value = null;
+        }
+        input.fields[0].value = null;
+        if (calledFromButton) {
+            var fieldsHeading = document.getElementById(table.id + '-heading');
+            var personIdNode = fieldsHeading.getElementsByClassName('input-id')[0];
+            personIdNode.setAttribute('value','');
+            input.buttons[0].disabled = false;
+            // Let the DOM catch up
+            setTimeout(function(){
+                input.fields[0].focus();
+            }, 100);
+        }
+        input.fields[0].disabled = false;
+        input.buttons[0].disabled = true;
+        input.buttons[1].style.display = 'none';
+    } else if (state === 'edit') {
+        for (var i=1,ilen=input.fields.length;i<ilen;i+=1) {
+            input.fields[i].disabled = false;
+        }
+        input.fields[0].disabled = true;
+        input.buttons[0].disabled = false;
+        if (calledFromButton) {
+            input.fields[1].focus();
+        }
+        input.buttons[1].style.display = 'none';
+    } else if (state === 'view') {
+        // Only permit view mode if all fields are filled in.
+        // Otherwise, leave the fields open and return the first 
+        // empty node, so that it can be focused by the caller
+        for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
+            if (!input.fields[i].value && !input.fields[i].disabled) {
+                return input.fields[i];
+            }
+        }
+        for (var i=0,ilen=input.fields.length;i<ilen;i+=1) {
+            input.fields[i].disabled = true;
+        }
+        input.buttons[0].style.display = 'inline';
+        input.buttons[0].disabled = false;
+        input.buttons[1].style.display = 'inline';
+    }
+};
 
 function setFieldState (node,state) {
     if (!node.value) {
@@ -152,8 +173,9 @@ function setDeleteAddButtonState (node) {
 }
 
 function fieldFocusHandler (ev) {
-    if (lastFocusNode) {
+    if (lastFocusNode && lastFocusNode.classList.contains('input')) {
         if (lastFocusNode !== ev.target) {
+            var saveLastFields = !lastFocusNode.disabled;
             if (lastFocusNode.classList.contains('kb-tab-only') || lastFocusNode.classList.contains('solo')) {
                 setFieldState(lastFocusNode,'view');
                 setDeleteAddButtonState (lastFocusNode);
@@ -164,7 +186,7 @@ function fieldFocusHandler (ev) {
                     if (lastFocusNode.classList.contains('locking')) {
                         clearDropper(lastFocusNode);
                         if (!lastFocusNode.disabled) {
-                            lastFocusNode.value = '';
+                            lastFocusNode.value = null;
                         }
                     } else {
                         var emptyNode = setFieldGroupState(lastTable,'view');
@@ -178,8 +200,10 @@ function fieldFocusHandler (ev) {
             if (ev.target.classList.contains('kb-tab-only') || ev.target.classList.contains('solo')) {
                 setFieldState(ev.target,'edit');
             }
+            if (lastFocusNode.value && saveLastFields) {
+                fieldFakeBlurHandler(lastFocusNode);
+            }
         }
-        fieldFakeBlurHandler(lastFocusNode);
     }
     lastFocusNode = ev.target;
 };
@@ -205,6 +229,54 @@ function fieldFakeBlurHandler (node) {
     }
 };
 
+function setContactFields(ev) {
+    var node = ev.target;
+    var tableNode = getAncestorByName(ev.target,'TABLE');
+    var fieldNodes = tableNode.getElementsByClassName('field');
+    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
+        var input = fieldNodes[i].getElementsByClassName('input')[0];
+        var inputName = input.id.split('-').slice(-2,-1)[0];
+        if (inputName === 'contact') {
+            input.value = node.textContent;
+            break;
+        }
+    }
+    clearDropper(input);
+    moveFocusForward(input);
+}
+
+function setAffiliationFields(ev) {
+    var node = ev.target;
+    var tableNode = getAncestorByName(ev.target,'TABLE');
+    var fieldNodes = tableNode.getElementsByClassName('field');
+    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
+        var input = fieldNodes[i].getElementsByClassName('input')[0];
+        var inputName = input.id.split('-').slice(-2,-1)[0];
+        if (inputName === 'affiliation') {
+            input.value = node.textContent;
+            break;
+        }
+    }
+    clearDropper(input);
+    moveFocusForward(input);
+}
+
+function setPositionFields(ev) {
+    var node = ev.target;
+    var tableNode = getAncestorByName(ev.target,'TABLE');
+    var fieldNodes = tableNode.getElementsByClassName('field');
+    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
+        var input = fieldNodes[i].getElementsByClassName('input')[0];
+        var inputName = input.id.split('-').slice(-2,-1)[0];
+        if (inputName === 'position') {
+            input.value = node.textContent;
+            break;
+        }
+    }
+    clearDropper(input);
+    moveFocusForward(input);
+}
+
 function setPersonFields (ev) {
     var tableNode = getAncestorByName(ev.target,'TABLE');
     var fieldNodes = tableNode.getElementsByClassName('field');
@@ -219,13 +291,7 @@ function setPersonFields (ev) {
 
     var personID = ev.target.value;
 
-    console.log("WHRE AM I? "+personIdNode.id);
-
     personIdNode.setAttribute('value',personID);
-
-   // personIdNode.value = personID;
-
-    console.log("SET TO VALUE: "+personIdNode.value);
 
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
@@ -253,8 +319,7 @@ function savePersonFields (tableNode) {
     var fieldNodes = tableNode.getElementsByClassName('field');
     var fieldsHeading = document.getElementById(tableNode.id + '-heading');
     var personIdNode = fieldsHeading.getElementsByClassName('input-id')[0];
-    var personID = personIdNode.value;
-    var cmd = 'saveto' + personIdNode.id.split('-').slice(-2,-1)[0];
+    var personID = personIdNode.getAttribute('value');
     var data = {
         personID:personID,
         name:null,
@@ -277,7 +342,7 @@ function savePersonFields (tableNode) {
             '/?admin='
                 + adminID
                 + '&page=top'
-                + '&cmd=' + cmd
+                + '&cmd=savetopersons'
             , {
                 personid:personID,
                 data:data
@@ -287,37 +352,6 @@ function savePersonFields (tableNode) {
         // write the id back to the top-level input-id node
         personIdNode.value = row.personID;
     },1000); 
-};
-
-function fixUploadWidgetWidth () {
-    var nodes = document.getElementsByClassName('attachment-upload-widget');
-    for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
-        var node = nodes[i];
-        var titleNodeID = 'attachment-title-' + node.id.split('-').slice(-1)[0];
-        var titleNode = document.getElementById(titleNodeID);
-        var titleNodeWidth = titleNode.offsetWidth;;
-        node.style.width = titleNodeWidth + 'px';
-    }
-    var nodes = document.getElementsByClassName('kb-tab-enter');
-    for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
-        nodes[i].onfocus = fieldFocusHandler;
-        //nodes[i].addEventListener('blur',fieldBlurHandler);
-        nodes[i].onkeydown = keyHandlerTabPrep;
-        nodes[i].onkeyup = keyHandlerTabEnter;
-    }
-    var nodes = document.getElementsByClassName('kb-tab-only');
-    for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
-        nodes[i].onfocus = fieldFocusHandler;
-        //nodes[i].addEventListener('blur',fieldBlurHandler);
-    }
-    var nodes = document.getElementsByClassName('clear-button');
-    for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
-        nodes[i].addEventListener('click', setFieldGroupStateListener);
-    }
-}
-
-function setFieldGroupStateListener (event) {
-    setFieldGroupState(event.target,'clear',true);
 };
 
 function getAncestorByName (node,name) {
@@ -390,7 +424,13 @@ function moveFocusForward (node,honorLock) {
 function keyHandlerTabEnter (ev,fromTab) {
     var idSplit = ev.target.id.split('-');
     var tableName = idSplit.slice(-1)[0];
+    if (tableName === 'names') {
+        tableName = 'persons';
+    }
     var searchName = idSplit.slice(-2,-1)[0];
+    if (searchName === 'name') {
+        searchName = 'person';
+    }
     var dropper = document.getElementById(idSplit.slice(0,-1).join('-') + '-dropdown');
     if (ev.key === 'Enter' || fromTab) {
         if (ev.target.value) {
@@ -427,10 +467,11 @@ function keyHandlerTabEnter (ev,fromTab) {
         }
         for (var i=0,ilen=rows.length;i<ilen;i+=1) {
             var option = document.createElement('div');
-            option.innerHTML = rows[i].name;
+            option.innerHTML = rows[i][searchName];
             option.classList.add('dropdown-option');
-            option.onclick = setPersonFields;
-            option.value = rows[i].personID;
+            console.log('set' + searchName.slice(0,1).toUpperCase() + searchName.slice(1) + 'Fields');
+            option.onclick = window['set' + searchName.slice(0,1).toUpperCase() + searchName.slice(1) + 'Fields'];
+            option.value = rows[i][searchName + 'ID'];
             dropper.appendChild(option);
         }
     }

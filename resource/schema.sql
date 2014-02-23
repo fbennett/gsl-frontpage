@@ -24,6 +24,7 @@ CREATE TABLE persons (
        affiliationID INTEGER NOT NULL,
        positionID INTEGER NOT NULL,
        adminID INTEGER NOT NULL,
+       UNIQUE(nameID),
        FOREIGN KEY (contactID) REFERENCES contacts(contactID),
        FOREIGN KEY (affiliationID) REFERENCES affiliations(affiliationID),
        FOREIGN KEY (positionID) REFERENCES positions(positionID),

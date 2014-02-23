@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/simple-grid.css"/>
     <link rel="stylesheet" type="text/css" href="css/local.css"/>
   </head>
-  <body onload="initDateFields();fixUploadWidgetWidth();buildTimes();">
+  <body onload="initDateFields();initializePage();buildTimes();">
     <div class="grid">  
       <div class="col-1-1">
         <hr/>
@@ -17,7 +17,7 @@
         <div id="wrapper-content">
           <h2 id="wrapper-convenor-heading">
             Convenor
-            <input id="convenor-clear-button" type="button" class="clear-button" value="Clear" disabled="true"/>
+            <input id="convenor-clear-button" type="button" onclick="setFieldGroupState(this,'clear',true);" value="Clear" disabled="true"/>
             <input id="convenor-edit-button" type="button" value="Edit" onclick="setFieldGroupState(this,'edit',true);" style="display:none;"/>
             <input id="convenor-persons-id" value="" class="input-id" style="display:none;"/>
           </h2>
@@ -50,7 +50,9 @@
                 <div>
                   <input id="convenor-affiliation-affiliations" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
-                <div id="convenor-affiliation-dropdown" class="field-dropdown" style="display:none;">
+                <div class="field-dropdown-container">
+                  <div id="convenor-affiliation-dropdown" class="field-dropdown" style="display:none;">
+                  </div>
                 </div>
               </td>
               <td>Position:</td>
@@ -58,7 +60,9 @@
                 <div>
                   <input id="convenor-position-positions" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
-                <div id="convenor-position-dropdown" class="field-dropdown" style="display:none;">
+                <div class="field-dropdown-container">
+                  <div id="convenor-position-dropdown" class="field-dropdown" style="display:none;">
+                  </div>
                 </div>
               </td>
             </tr>
@@ -67,23 +71,28 @@
             Presenter
             <input id="presenter-clear-button" type="button" value="Clear" onclick="setFieldGroupState(this,'clear',true);" disabled="true"/>
             <input id="convenor-edit-button" type="button" value="Edit" onclick="setFieldGroupState(this,'edit',true);" style="display:none;"/>
+            <input id="presenter-persons-id" value="" class="input-id" style="display:none;"/>
           </h2>
-          <table id="wrapper-presenter" class="wrapper">
+          <table id="wrapper-presenter" class="wrapper persons">
             <tr>
               <td>Name:</td>
               <td class="field">
                 <div>
-                  <input id="presenter-person-persons" class="input kb-tab-enter locking" placeholder="Search" type="text"/>
+                  <input id="presenter-name-names" class="input kb-tab-enter locking" placeholder="Search" type="text"/>
                 </div>
-                <div id="presenter-person-dropdown" class="field-dropdown" style="display:none;">
+                <div class="field-dropdown-container">
+                  <div id="presenter-name-dropdown" class="field-dropdown" style="display:none;">
+                  </div>
                 </div>
               </td>
               <td>Contact:</td>
               <td class="field">
                 <div>
-                  <input id="presenter-contact-contacts" class="input kb-tab-enter" type="text" disabled="true"/>
+                  <input id="presenter-contact-contacts" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
-                <div id="presenter-contact-dropdown" class="field-dropdown" style="display:none;">
+                <div class="field-dropdown-container">
+                  <div id="presenter-contact-dropdown" class="field-dropdown" style="display:none;">
+                  </div>
                 </div>
               </td>
             </tr>
@@ -91,18 +100,22 @@
               <td>Affiliation:</td>
               <td class="field">
                 <div>
-                  <input id="presenter-affiliation-affiliations" class="input kb-tab-enter" type="text" disabled="true"/>
+                  <input id="presenter-affiliation-affiliations" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
-                <div id="presenter-affiliation-dropdown" class="field-dropdown" style="display:none;">
+                <div class="field-dropdown-container">
+                  <div id="presenter-affiliation-dropdown" class="field-dropdown" style="display:none;">
+                  </div>
                 </div>
               </td>
               <td>Position:</td>
               <td class="field">
                 <div>
-                  <input id="presenter-position-positions" class="input kb-tab-enter" type="text" disabled="true"/>
+                  <input id="presenter-position-positions" class="input kb-tab-enter" placeholder="Required" type="text" disabled="true"/>
                 </div>
-                <div id="presenter-position-dropdown" class="field-dropdown" style="display:none;">
-                  <div>Hello</div>
+                <div class="field-dropdown-container">
+                  <div id="presenter-position-dropdown" class="field-dropdown" style="display:none;">
+                    <div>Hello</div>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -186,7 +199,7 @@
         </div>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
-        <input type="button" class="button" style="font-size:200%;" value="Save+Preview"/>
+        <input type="button" class="button" style="font-size:200%;" value="Preview"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
         <input type="button" class="button" style="font-size:200%;" value="Request review"/>
