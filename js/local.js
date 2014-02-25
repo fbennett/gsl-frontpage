@@ -1,9 +1,21 @@
 var status = {
     sent:false,
-    reviewed:false
+    reviewed:false,
+    uploadID:null
 }
 
 var lastFocusNode = null;
+
+/*
+ * jQuery throttle / debounce - v1.1 - 3/7/2010
+ * http://benalman.com/projects/jquery-throttle-debounce-plugin/
+ * 
+ * Copyright (c) 2010 "Cowboy" Ben Alman
+ * Dual licensed under the MIT and GPL licenses.
+ * http://benalman.com/about/license/
+ */
+(function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);
+
 
 function initializePage () {
     var nodes = document.getElementsByClassName('attachment-upload-widget');
@@ -17,14 +29,110 @@ function initializePage () {
     var nodes = document.getElementsByClassName('kb-tab-enter');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         nodes[i].addEventListener('focus',fieldFocusHandler);
-        nodes[i].addEventListener('keydown',debounce(keyHandlerTabPrep,250));
-        nodes[i].addEventListener('keyup',debounce(keyHandlerTabEnter,250));
+        nodes[i].addEventListener('keydown',keyHandlerTabPrep);
+        nodes[i].addEventListener('keyup',Cowboy.throttle(250,keyHandlerTabEnter));
     }
     var nodes = document.getElementsByClassName('kb-tab-only');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         nodes[i].onfocus = fieldFocusHandler;
     }
+    var hiddenIframe = document.getElementById('hidden-iframe-id');
+    hiddenIframe.addEventListener('load',completedUpload);
 }
+
+function keyHandlerTabEnter (event,fromTab) {
+    var idSplit = event.target.id.split('-');
+    var searchName = idSplit.slice(-2,-1)[0];
+    var tableName = searchName + 's';
+    if (tableName === 'names') {
+        tableName = 'persons';
+    }
+    if (searchName === 'name') {
+        searchName = 'person';
+    }
+    var dropper = document.getElementById(idSplit.slice(0,-1).join('-') + '-dropdown');
+    if (event.key === 'Enter' || fromTab) {
+        if (event.target.value) {
+            moveFocusForward(event.target);
+        }
+        clearDropper(event.target);
+    } else if (event.key === 'Esc') {
+        setFieldGroupState(event.target,'clear');
+    } else if (dropper) {
+        // Try to find the Upload button and enable or disable it as appropriate
+        var uploadButton = document.getElementById(idSplit.slice(0,1)[0] + '-upload-' + idSplit.slice(2,3)[0]);
+        if (uploadButton) {
+            if (event.target.value) {
+                if (uploadButton.disabled) {
+                    uploadButton.disabled = false;
+                    var form = document.getElementById(idSplit.slice(0,1)[0] + '-upload-widget-' + idSplit.slice(2,3)[0]);
+                    form.action = '?admin=' + getParameterByName('admin') + '&cmd=upload';
+                    var input = document.getElementById(idSplit.slice(0,1)[0] + '-title-' + idSplit.slice(2,3)[0]);
+                    input.value = event.target.value;
+                }
+            } else {
+                uploadButton.disabled = true;
+            }
+        }
+        // Expose search lister with updated field value, call API, and populate list
+        var adminID = getParameterByName('admin');
+        var pageName = getParameterByName('page');
+        if (!pageName) {
+            pageName = 'top';
+        }
+        
+        var rows = apiRequest(
+            '/?admin='
+                + adminID
+                + '&page=' + pageName
+                + '&cmd=search' + tableName
+            , {
+                str:event.target.value.toLowerCase()
+            }
+        );
+        if (false === rows) return;
+        for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
+            dropper.removeChild(dropper.childNodes[0]);
+        }
+        if (!rows.length) {
+            dropper.style.display = 'none';
+        } else {
+            dropper.style.display = 'block';
+        }
+        for (var i=0,ilen=rows.length;i<ilen;i+=1) {
+            var option = document.createElement('div');
+            option.innerHTML = rows[i][searchName];
+            option.classList.add('dropdown-option');
+            option.onclick = window['set' + searchName.slice(0,1).toUpperCase() + searchName.slice(1) + 'Fields'];
+            option.value = rows[i][searchName + 'ID'];
+            dropper.appendChild(option);
+        }
+    }
+};
+
+function startingUpload (ev) {
+    status.uploadID = ev.id;
+};
+
+function completedUpload (ev) {
+    // Rewrite uploader node, wake up delete button
+    var iframe = ev.target;
+    var innerDocument = iframe.contentDocument || iframe.contentWindow.document;
+    var body = innerDocument.getElementsByTagName('BODY')[0];
+    var ret = JSON.parse(body.textContent)
+    var id = status.uploadID;
+    var idLst = id.split('-');
+    var node = document.getElementById(id);
+    var prev = document.getElementById(idLst[0] + '-attachment-' + idLst.slice(-1)[0]);
+    prev.disabled = true;
+    var parent = node.parentNode;
+    var newNode = document.createElement('div');
+    newNode.innerHTML = 'Pow';
+    parent.replaceChild(newNode,node);
+    var deleteButton = document.getElementById(idLst[0] + '-delete-' + idLst.slice(-1)[0]);
+    deleteButton.disabled = false;
+    status.uploadID = null;
+};
 
 function buildTimes (node) {
     var timesHTML = '<option value="0">Time</option>\n';
@@ -278,6 +386,27 @@ function setPositionFields(ev) {
     moveFocusForward(input);
 }
 
+function setAttachmentFields (ev) {
+    var documentID = ev.target.value;
+    var form = getAncestorByName(ev.target, 'FORM');
+
+    var tableNode = getAncestorByName(ev.target,'TABLE');
+    var fieldNodes = tableNode.getElementsByClassName('field');
+    var fields = {};
+    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
+        var input = fieldNodes[i].getElementsByClassName('input')[0];
+        if (!input) continue;
+        var inputName = input.id.split('-').slice(-2,-1)[0];
+        console.log("INPUT: "+inputName);
+        fields[inputName] = input;
+    }
+    var documentID = ev.target.value;
+    // API call
+    clearDropper(fields.attachment);
+    
+    
+};
+
 function setPersonFields (ev) {
     var tableNode = getAncestorByName(ev.target,'TABLE');
     var fieldNodes = tableNode.getElementsByClassName('field');
@@ -422,81 +551,28 @@ function moveFocusForward (node,honorLock) {
     }
 }
 
-// From http://remysharp.com/2010/07/21/throttling-function-calls/
-function debounce(fn, delay) {
-  var timer = null;
-  return function (ev) {
-    var context = this, args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-      fn.apply(context, args);
-    }, delay);
-  };
+var mimeTypes = {
+    txt: 'text/plain',
+    doc: 'application/word',
+    pdf: 'application/pdf'
 }
 
-function keyHandlerTabEnter (event,fromTab) {
-    var idSplit = event.target.id.split('-');
-    var searchName = idSplit.slice(-2,-1)[0];
-    var tableName = searchName + 's';
-    if (tableName === 'names') {
-        tableName = 'persons';
-    }
-    if (searchName === 'name') {
-        searchName = 'person';
-    }
-    var dropper = document.getElementById(idSplit.slice(0,-1).join('-') + '-dropdown');
-    if (event.key === 'Enter' || fromTab) {
-        if (event.target.value) {
-            moveFocusForward(event.target);
-        }
-        clearDropper(event.target);
-    } else if (event.key === 'Esc') {
-        setFieldGroupState(event.target,'clear');
-    } else if (dropper) {
-        // Try to find the Upload button and enable or disable it as appropriate
-        var uploadButton = document.getElementById(idSplit.slice(0,1)[0] + '-upload-' + idSplit.slice(2,3)[0]);
-        console.log(idSplit.slice(0,1)[0] + '-upload-' + idSplit.slice(2,3)[0]);
-        if (uploadButton) {
-            if (event.target.value) {
-                uploadButton.disabled = false;
-            } else {
-                uploadButton.disabled = true;
-            }
-        }
-        // Expose search lister with updated field value, call API, and populate list
-        var adminID = getParameterByName('admin');
-        var pageName = getParameterByName('page');
-        if (!pageName) {
-            pageName = 'top';
-        }
-        
-        var rows = apiRequest(
-            '/?admin='
-                + adminID
-                + '&page=' + pageName
-                + '&cmd=search' + tableName
-            , {
-                str:event.target.value.toLowerCase()
-            }
-        );
-        if (false === rows) return;
-        for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
-            dropper.removeChild(dropper.childNodes[0]);
-        }
-        if (!rows.length) {
-            dropper.style.display = 'none';
+function setFileExtension (node) {
+    var idSplit = node.id.split('-');
+    var mimeNode = document.getElementById(idSplit.slice(0,1)[0] + '-mimetype-' + idSplit.slice(2,3)[0]);
+    var extNode = document.getElementById(idSplit.slice(0,1)[0] + '-extension-' + idSplit.slice(2,3)[0]);
+    var m = node.value.match(/.*\.([a-zA-Z]+)$/);
+    if (m) {
+        if (mimeTypes[m[1]]) {
+            mimeNode.value = mimeTypes[m[1].toLowerCase()];
+            extNode.value = "." + m[1].toLowerCase();
         } else {
-            dropper.style.display = 'block';
+            mimeNode.value = "application/octet-stream";
+            extNode.value = "";
         }
-        for (var i=0,ilen=rows.length;i<ilen;i+=1) {
-            var option = document.createElement('div');
-            option.innerHTML = rows[i][searchName];
-            option.classList.add('dropdown-option');
-            console.log('set' + searchName.slice(0,1).toUpperCase() + searchName.slice(1) + 'Fields');
-            option.onclick = window['set' + searchName.slice(0,1).toUpperCase() + searchName.slice(1) + 'Fields'];
-            option.value = rows[i][searchName + 'ID'];
-            dropper.appendChild(option);
-        }
+    } else {
+        mimeNode.value = "application/octet-stream";
+        extNode.value = "";
     }
 };
 
