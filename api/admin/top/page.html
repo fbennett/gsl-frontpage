@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/local.css"/>
   </head>
   <body onload="initDateFields();initializePage();buildTimes();">
+    <iframe name="hidden-iframe" id="hidden-iframe-id" style="display: none;"></iframe>
     <div class="grid">  
       <div class="col-1-1">
         <hr/>
@@ -178,7 +179,7 @@
                 </div>
               </td>
               <td rowspan="2">
-                <input type="button" value="Delete" class="delete-button" disabled="true"/>
+                <input type="button" id="attachment-delete-1" value="Delete" class="delete-button" disabled="true"/>
               </td>
             </tr>
             <tr>
@@ -188,9 +189,14 @@
                       class="attachment-upload-widget"
                       enctype="multipart/form-data"
                       action="SET_BY_BROWSER_JS"
+                      target="hidden-iframe"
                       method="post"
+                      onsubmit="startingUpload(this);" 
                       style="white-space:nowrap;background:#eeeeee;padding:2px;position:relative;overflow:hidden;">
-                  <input type="file" id="attachment-document" name="attachmentDocment"/>
+                  <input type="text" id="attachment-title-1" name="attachmentTitle" style="display:none;" value="Untitled"/>
+                  <input type="text" id="attachment-mimetype-1" name="mimeType" style="display:none;" value=""/>
+                  <input type="text" id="attachment-extension-1" name="filenameExtension" style="display:none;" value=""/>
+                  <input type="file" id="attachment-document-1" onchange="setFileExtension(this);" name="attachmentDocument"/>
                   <input type="submit" value="Upload" style="position:absolute;right:0px;" id="attachment-upload-1" disabled="true"/>
                 </form>
               </td>

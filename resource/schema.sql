@@ -49,6 +49,7 @@ CREATE TABLE events (
 CREATE TABLE sessions (
        sessionID INTEGER PRIMARY KEY,
        eventID INTEGER NOT NULL,
+       adminID INTEGER NOT NULL,
        titleID INTEGER NOT NULL,
        placeID INTEGER NOT NULL,
        dateTime INTEGER NOT NULL,
@@ -59,14 +60,28 @@ CREATE TABLE sessions (
 
 CREATE TABLE attachments (
        attachmentID INTEGER PRIMARY KEY,
+       eventID INTEGER NOT NULL,
+       adminID TEXT NOT NULL,
+       documentID INTEGER NOT NULL,
+       UNIQUE (eventID,documentID),
+       FOREIGN KEY (eventID) REFERENCES events(eventID),
+       FOREIGN KEY (adminID) REFERENCES admin(adminID),
+       FOREIGN KEY (documentID) REFERENCES documents(documentID)
+);
+
+CREATE TABLE documents (
+       documentID INTEGER PRIMARY KEY,
        titleID INTEGER NOT NULL,
-       keyStr TEXT NOT NULL,
+       mimeType TEXT NOT NULL,
+       filenameExtension TEXT NOT NULL,
+       UNIQUE(titleID,filenameExtension),
        FOREIGN KEY (titleID) REFERENCES titles(titleID)
 );
 
 CREATE TABLE titles (
        titleID INTEGER PRIMARY KEY,
-       str TEXT NOT NULL
+       title TEXT NOT NULL,
+       UNIQUE(title)
 );
 
 CREATE TABLE contacts (
