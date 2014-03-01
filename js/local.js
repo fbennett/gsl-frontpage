@@ -32,6 +32,12 @@ function initializePage () {
         nodes[i].addEventListener('focus',fieldFocusHandler);
         nodes[i].addEventListener('keydown',keyHandlerTabPrep);
         nodes[i].onkeyup = Cowboy.throttle(250,keyHandlerTabEnter);
+        nodes[i].addEventListener('blur', function(event){
+            var ev = event;
+            setTimeout(
+                function() {
+                    clearDropper(ev.target)
+                },1000)});
     }
     var nodes = document.getElementsByClassName('kb-tab-only');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
@@ -416,13 +422,16 @@ function setPositionFields(ev) {
 }
 
 function setAttachmentFields (ev) {
+    console.log("BROKEN");
     var tableNode = getAncestorByName(ev.target,'TABLE');
     var documentID = ev.target.value;
     var documentTitle = ev.target.textContent;
+    console.log("WELL? "+tableNode+" "+documentID+" "+documentTitle);
     addAttachment(tableNode,documentID,documentTitle);
 };
 
 function addAttachment (tableNode, documentID, documentTitle) {
+    console.log("(1)");
     // Get existing values, if any
     status.attachments = {};
     var attachmentContainer = document.getElementById('attachment-container');
@@ -434,6 +443,7 @@ function addAttachment (tableNode, documentID, documentTitle) {
         status.attachments[title] = id;
     }
 
+    console.log("(2)");
     // Add this documentID and documentTitle to status.attachments IF it is a new one.
     if (!status.attachments[documentTitle]) {
         status.attachments[documentTitle] = documentID;
@@ -445,6 +455,7 @@ function addAttachment (tableNode, documentID, documentTitle) {
         attachments.push({documentID:status.attachments[title],documentTitle:title});
     }
     
+    console.log("(3): "+JSON.stringify(attachments,null,2));
     // XXX Sort the list
     attachments.sort(
         function (a,b) {
@@ -456,6 +467,7 @@ function addAttachment (tableNode, documentID, documentTitle) {
     for (var i=0,ilen=attachmentContainer.childNodes.length;i<ilen;i+=1) {
         attachmentContainer.removeChild(attachmentContainer.childNodes[0]);
     }
+    console.log("(4)");
 
     // Add the updated nodes
     for (var i=0,ilen=attachments.length;i<ilen;i+=1) {
@@ -471,10 +483,10 @@ function addAttachment (tableNode, documentID, documentTitle) {
     // Clear the visible values in the uploader widget
     attachmentTitleNode.value = '';
     attachmentUploadFilenameNode.value = '';
+    console.log("(5)");
 
     // Clear the dropper
     clearDropper(attachmentTitleNode);
-
 };
 
 function setPersonFields (ev) {
