@@ -74,7 +74,8 @@ CREATE TABLE documents (
        titleID INTEGER NOT NULL,
        mimeType TEXT NOT NULL,
        filenameExtension TEXT NOT NULL,
-       UNIQUE(titleID,filenameExtension),
+       uploadDate INTEGER,
+       UNIQUE(titleID,filenameExtension,uploadDate),
        FOREIGN KEY (titleID) REFERENCES titles(titleID)
 );
 

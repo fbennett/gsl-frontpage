@@ -1,7 +1,8 @@
 var status = {
     sent:false,
     reviewed:false,
-    uploadID:null
+    uploadID:null,
+    attachments:{}
 }
 
 var lastFocusNode = null;
@@ -21,16 +22,16 @@ function initializePage () {
     var nodes = document.getElementsByClassName('attachment-upload-widget');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
-        var titleNodeID = 'attachment-attachment-' + node.id.split('-').slice(-1)[0];
-        var titleNode = document.getElementById(titleNodeID);
-        var titleNodeWidth = titleNode.offsetWidth;;
-        node.style.width = titleNodeWidth + 'px';
+        //var titleNodeID = 'attachment-attachment-' + node.id.split('-').slice(-1)[0];
+        //var titleNode = document.getElementById(titleNodeID);
+        //var titleNodeWidth = titleNode.offsetWidth;;
+        //node.style.width = titleNodeWidth + 'px';
     }
     var nodes = document.getElementsByClassName('kb-tab-enter');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         nodes[i].addEventListener('focus',fieldFocusHandler);
         nodes[i].addEventListener('keydown',keyHandlerTabPrep);
-        nodes[i].addEventListener('keyup',Cowboy.throttle(250,keyHandlerTabEnter));
+        nodes[i].onkeyup = Cowboy.throttle(250,keyHandlerTabEnter);
     }
     var nodes = document.getElementsByClassName('kb-tab-only');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
@@ -39,6 +40,33 @@ function initializePage () {
     var hiddenIframe = document.getElementById('hidden-iframe-id');
     hiddenIframe.addEventListener('load',completedUpload);
 }
+
+function keyHandlerEnterOnly (event) {
+    if (event.key === 'Enter') {
+        var adminID = getParameterByName('admin');
+        var pageName = getParameterByName('page');
+        var documentIDnode = getAncestorByName(event.target,'TABLE');
+        var documentID = documentIDnode.getElementsByClassName('input-id')[0].value;
+        var title = event.target.value;
+
+        var ret = apiRequest(
+            '/?admin='
+                + adminID
+                + '&page=top'
+                + '&cmd=updateattachmenttitle'
+            , {
+                documentid:documentID,
+                title:title
+            }
+        );
+        if (false === ret) return;
+        var node = event.target;
+        node.classList.add('change-succeeded');
+        setTimeout(function() {
+            node.classList.remove('change-succeeded');
+        }, 1000);
+    }
+};
 
 function keyHandlerTabEnter (event,fromTab) {
     var idSplit = event.target.id.split('-');
@@ -59,21 +87,6 @@ function keyHandlerTabEnter (event,fromTab) {
     } else if (event.key === 'Esc') {
         setFieldGroupState(event.target,'clear');
     } else if (dropper) {
-        // Try to find the Upload button and enable or disable it as appropriate
-        var uploadButton = document.getElementById(idSplit.slice(0,1)[0] + '-upload-' + idSplit.slice(2,3)[0]);
-        if (uploadButton) {
-            if (event.target.value) {
-                if (uploadButton.disabled) {
-                    uploadButton.disabled = false;
-                    var form = document.getElementById(idSplit.slice(0,1)[0] + '-upload-widget-' + idSplit.slice(2,3)[0]);
-                    form.action = '?admin=' + getParameterByName('admin') + '&cmd=upload';
-                    var input = document.getElementById(idSplit.slice(0,1)[0] + '-title-' + idSplit.slice(2,3)[0]);
-                    input.value = event.target.value;
-                }
-            } else {
-                uploadButton.disabled = true;
-            }
-        }
         // Expose search lister with updated field value, call API, and populate list
         var adminID = getParameterByName('admin');
         var pageName = getParameterByName('page');
@@ -110,8 +123,33 @@ function keyHandlerTabEnter (event,fromTab) {
     }
 };
 
+function setSearchable (ev) {
+    var node = document.getElementById('attachment-upload-searchable');
+    node.checked = ev.target.checked;
+};
+
 function startingUpload (ev) {
     status.uploadID = ev.id;
+    var title = document.getElementById('attachment-upload-title').value;
+    var uploadButton = document.getElementById('attachment-upload-button');
+    var form = document.getElementById('attachment-upload-widget');
+    form.action = '?admin=' + getParameterByName('admin') + '&cmd=upload';
+    var inputTitle = document.getElementById('attachment-attachment-0');
+    var uploadTitle = document.getElementById('attachment-upload-title');
+    uploadTitle.value = inputTitle.value;
+    var uploadExtension = document.getElementById('attachment-upload-extension');
+    uploadExtension.value = '';
+    var uploadMimeType = document.getElementById('attachment-upload-mimetype');
+    uploadMimeType.value = 'application/octet-stream';
+    var uploadFilename = document.getElementById('attachment-upload-filename');
+    var fileName = uploadFilename.files[0].name;
+    var m = fileName.match(/.*\.([a-zA-Z]+$)/);
+    if (m) {
+        // XXX Get and set the extension, if any
+        uploadExtension.value = m[1].toLowerCase();
+        // XXX Set the mimeType
+        uploadMimeType.value = mimeTypes[m[1].toLowerCase()] ? mimeTypes[m[1].toLowerCase()] : 'application/octet-stream';
+    }
 };
 
 function completedUpload (ev) {
@@ -120,17 +158,8 @@ function completedUpload (ev) {
     var innerDocument = iframe.contentDocument || iframe.contentWindow.document;
     var body = innerDocument.getElementsByTagName('BODY')[0];
     var ret = JSON.parse(body.textContent)
-    var id = status.uploadID;
-    var idLst = id.split('-');
-    var node = document.getElementById(id);
-    var prev = document.getElementById(idLst[0] + '-attachment-' + idLst.slice(-1)[0]);
-    prev.disabled = true;
-    var parent = node.parentNode;
-    var newNode = document.createElement('div');
-    newNode.innerHTML = 'Pow';
-    parent.replaceChild(newNode,node);
-    var deleteButton = document.getElementById(idLst[0] + '-delete-' + idLst.slice(-1)[0]);
-    deleteButton.disabled = false;
+    var tableNode = document.getElementById('wrapper-attachment-0');
+    addAttachment(tableNode,ret.documentID,ret.documentTitle);
     status.uploadID = null;
 };
 
@@ -387,24 +416,65 @@ function setPositionFields(ev) {
 }
 
 function setAttachmentFields (ev) {
-    var documentID = ev.target.value;
-    var form = getAncestorByName(ev.target, 'FORM');
-
     var tableNode = getAncestorByName(ev.target,'TABLE');
-    var fieldNodes = tableNode.getElementsByClassName('field');
-    var fields = {};
-    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
-        var input = fieldNodes[i].getElementsByClassName('input')[0];
-        if (!input) continue;
-        var inputName = input.id.split('-').slice(-2,-1)[0];
-        console.log("INPUT: "+inputName);
-        fields[inputName] = input;
-    }
     var documentID = ev.target.value;
-    // API call
-    clearDropper(fields.attachment);
+    var documentTitle = ev.target.textContent;
+    addAttachment(tableNode,documentID,documentTitle);
+};
+
+function addAttachment (tableNode, documentID, documentTitle) {
+    // Get existing values, if any
+    status.attachments = {};
+    var attachmentContainer = document.getElementById('attachment-container');
+    for (var i=0,ilen=attachmentContainer.childNodes.length;i<ilen;i+=1) {
+        var attachmentNode = attachmentContainer.childNodes[i];
+        var fieldNode = attachmentNode.getElementsByClassName('field')[0];
+        var id = fieldNode.getElementsByClassName('input-id')[0].value;
+        var title = fieldNode.getElementsByClassName('input-title')[0].value;
+        status.attachments[title] = id;
+    }
+
+    // Add this documentID and documentTitle to status.attachments IF it is a new one.
+    if (!status.attachments[documentTitle]) {
+        status.attachments[documentTitle] = documentID;
+    }
+
+    // 
+    var attachments = [];
+    for (var title in status.attachments) {
+        attachments.push({documentID:status.attachments[title],documentTitle:title});
+    }
     
-    
+    // XXX Sort the list
+    attachments.sort(
+        function (a,b) {
+            return a.documentTitle.localeCompare(b.documentTitle);
+        }
+    );
+
+    // Clear the DOM nodes
+    for (var i=0,ilen=attachmentContainer.childNodes.length;i<ilen;i+=1) {
+        attachmentContainer.removeChild(attachmentContainer.childNodes[0]);
+    }
+
+    // Add the updated nodes
+    for (var i=0,ilen=attachments.length;i<ilen;i+=1) {
+        appendAttachmentNode(attachmentContainer,attachments[i].documentID,attachments[i].documentTitle);
+    }
+
+
+    var attachmentIdNode = document.getElementById('attachment-id-0');
+    var attachmentTitleNode = document.getElementById('attachment-attachment-0');
+    var attachmentUploadTitleNode = document.getElementById('attachment-upload-title');
+    var attachmentUploadFilenameNode = document.getElementById('attachment-upload-filename');
+
+    // Clear the visible values in the uploader widget
+    attachmentTitleNode.value = '';
+    attachmentUploadFilenameNode.value = '';
+
+    // Clear the dropper
+    clearDropper(attachmentTitleNode);
+
 };
 
 function setPersonFields (ev) {
@@ -558,9 +628,14 @@ var mimeTypes = {
 }
 
 function setFileExtension (node) {
+    var uploadButton = document.getElementById('attachment-upload-button');
+    uploadButton.disabled = false;
+    return;
+
+    // Ignore this
     var idSplit = node.id.split('-');
-    var mimeNode = document.getElementById(idSplit.slice(0,1)[0] + '-mimetype-' + idSplit.slice(2,3)[0]);
-    var extNode = document.getElementById(idSplit.slice(0,1)[0] + '-extension-' + idSplit.slice(2,3)[0]);
+    var mimeNode = document.getElementById('attachment-upload-mimetype');
+    var extNode = document.getElementById('attachment-upload-extension');
     var m = node.value.match(/.*\.([a-zA-Z]+)$/);
     if (m) {
         if (mimeTypes[m[1]]) {
@@ -665,3 +740,27 @@ function confirmDelete (node,callbackName) {
     },2000);
 }
 
+var attachmentHtmlTemplate = '<tr>'
+    + '  <td>Title:</td>'
+    +'   <td class="field">'
+    + '    <div>'
+    + '      <input class="input-id" type="text" style="display:none;" value="@@DOCUMENT_ID@@"/>'
+    + '      <input class="input-title" type="text" size="50" value="@@DOCUMENT_TITLE@@" onkeyup="keyHandlerEnterOnly(event)"/>'
+    + '    </div>'
+    + '  </td>'
+    + '  <td rowspan="2">'
+    + '    <input type="button" value="Delete" onclick="deleteAttachment(event)">'
+    + '  </td>'
+    + '</tr>'
+    + '<tr>'
+    + '  <td></td>'
+    + '  <td class="field">'
+    + '<div class="document-link"><a href="/attachments/@@DOCUMENT_ID@@">attachments/@@DOCUMENT_ID@@</a></div>'
+    + '  </td>'
+    + '</tr>';
+
+function appendAttachmentNode(node,documentID,documentTitle) {
+    var attachmentNode = document.createElement('table');
+    attachmentNode.innerHTML = attachmentHtmlTemplate.replace(/@@DOCUMENT_ID@@/g,documentID).replace(/@@DOCUMENT_TITLE@@/,documentTitle);
+    node.appendChild(attachmentNode);
+};

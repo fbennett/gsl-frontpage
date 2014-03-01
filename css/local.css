@@ -1,3 +1,7 @@
+input.change-succeeded {
+    background:#66ff66;
+}
+
 div.field-dropdown-container {
     position:relative;
     height:0;

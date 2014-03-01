@@ -166,26 +166,25 @@
             </tr>
           </table>
           <h2>Attachments</h2>
-          <table id="wrapper-attachment-1" class="wrapper">
+          <div id="attachment-container"></div>
+          <table id="wrapper-attachment-0" class="wrapper">
             <tr>
               <td>Title:</td>
-              <td class="field" colspan="3">
+              <td class="field">
                 <div>
-                  <input id="attachment-attachment-1" class="input kb-tab-enter optional" placeholder="Search" type="text" size="50"/>
+                  <input id="attachment-id-0" class="input-id" type="text" style="display:none;" value=""/>
+                  <input id="attachment-attachment-0" autocomplete="off" class="input kb-tab-enter optional" placeholder="Search" type="text" size="50"/>
                 </div>
                 <div class="field-dropdown-container">
                   <div id="attachment-attachment-dropdown" class="field-dropdown" style="display:none;">
                   </div>
                 </div>
               </td>
-              <td rowspan="2">
-                <input type="button" id="attachment-delete-1" value="Delete" class="delete-button" disabled="true"/>
-              </td>
             </tr>
             <tr>
               <td></td>
               <td class="field">
-                <form id="attachment-upload-widget-1"
+                <form id="attachment-upload-widget"
                       class="attachment-upload-widget"
                       enctype="multipart/form-data"
                       action="SET_BY_BROWSER_JS"
@@ -193,12 +192,18 @@
                       method="post"
                       onsubmit="startingUpload(this);" 
                       style="white-space:nowrap;background:#eeeeee;padding:2px;position:relative;overflow:hidden;">
-                  <input type="text" id="attachment-title-1" name="attachmentTitle" style="display:none;" value="Untitled"/>
-                  <input type="text" id="attachment-mimetype-1" name="mimeType" style="display:none;" value=""/>
-                  <input type="text" id="attachment-extension-1" name="filenameExtension" style="display:none;" value=""/>
-                  <input type="file" id="attachment-document-1" onchange="setFileExtension(this);" name="attachmentDocument"/>
-                  <input type="submit" value="Upload" style="position:absolute;right:0px;" id="attachment-upload-1" disabled="true"/>
+                  <input type="text" id="attachment-upload-title" name="attachmentTitle" style="display:none;" value="Untitled"/>
+                  <input type="text" id="attachment-upload-mimetype" name="mimeType" style="display:none;" value=""/>
+                  <input type="text" id="attachment-upload-extension" name="filenameExtension" style="display:none;" value=""/>
+                  <input type="checkbox" id="attachment-upload-searchable" name="searchableTitle" value="Yes" style="display:none;"/>
+                  <input type="file" id="attachment-upload-filename" onchange="setFileExtension(this);" name="attachmentDocument"/>
+                  <input type="submit" value="Upload" style="position:absolute;right:0px;" id="attachment-upload-button" disabled="true"/>
                 </form>
+              </td>
+              <td>
+                <div>
+                  <input onclick="setSearchable(event);" type="checkbox"/> searchable
+                </div>
               </td>
             </tr>
           </table>
