@@ -4,6 +4,13 @@
     <title>GSL Frontpage Announcement</title>
     <meta charset="UTF-8"> 
     <script type="text/javascript" src="js/local.js"></script>  
+    <script type="text/javascript" src="js/focus.js"></script>  
+    <script type="text/javascript" src="js/keyb-plainfield.js"></script>  
+    <script type="text/javascript" src="js/keyb-searchable.js"></script>  
+    <script type="text/javascript" src="js/keyb-attachments.js"></script>  
+    <script type="text/javascript" src="js/sessions.js"></script>  
+    <script type="text/javascript" src="js/attachment-upload.js"></script>  
+    <script type="text/javascript" src="js/top.js"></script>  
     <script type="text/javascript" src="js/datepicker.js"></script>  
     <link rel="stylesheet" type="text/css" href="css/simple-grid.css"/>
     <link rel="stylesheet" type="text/css" href="css/local.css"/>
@@ -145,35 +152,34 @@
             </tr>
           </table>
           <h2>Session details</h2>
-          <table id="wrapper-session-1" class="wrapper">
+          <table id="wrapper-session-0" class="wrapper">
             <tr>
               <td>Session title:</td>
-              <td class="field" colspan="3">
-                <input id="session-title-1" class="input kb-tab-enter solo" onclick="setFieldState(this,'edit');" placeholder="Required" type="text" size="50"/>
+              <td class="field">
+                <input id="session-title-0" class="input kb-tab-enter solo" onclick="setFieldState(this,'edit');" placeholder="Required" type="text" size="50"/>
               </td>
               <td rowspan="2">
-                <input type="button" value="Delete" class="delete-button" disabled="true"/>
+                <input type="button" value="Add" class="add-button" disabled="true"/>
               </td>
             </tr>
             <tr>
               <td></td>
               <td class="field">
-                <input id="session-place-1" class="input kb-tab-enter solo" onclick="setFieldState(this,'edit');" placeholder="Search: place" type="text" size="10"/>
-                <input id="session-date-1" class="input kb-tab-only date-field" onchange="setFieldState(this,'view');setDeleteAddButtonState(this);" placeholder="Date" size="10" type="date"/>
-                <select id="session-hour-1" class="input times" onclick="setDeleteAddButtonState(this);">
+                <input id="session-place-0" class="input kb-tab-enter solo" onclick="setFieldState(this,'edit');" placeholder="Search: place" type="text" size="10"/>
+                <input id="session-date-0" class="input kb-tab-only date-field" onchange="setFieldState(this,'view');setAddButtonState(this);" placeholder="Date" size="10" type="date"/>
+                <select id="session-hour-0" class="input times" onclick="setAddButtonState(this);">
                 </select>
               </td>
             </tr>
           </table>
           <h2>Attachments</h2>
-          <div id="attachment-container"></div>
           <table id="wrapper-attachment-0" class="wrapper">
             <tr>
               <td>Title:</td>
               <td class="field">
                 <div>
-                  <input id="attachment-id-0" class="input-id" type="text" style="display:none;" value=""/>
-                  <input id="attachment-attachment-0" autocomplete="off" class="input kb-tab-enter optional" placeholder="Search" type="text" size="50"/>
+                  <input class="input-id" type="text" name="attachment-upload-id" form="attachment-upload-widget" style="display:none;" value=""/>
+                  <input id="attachment-attachment-0" name="attachmentTitle" autocomplete="off" form="attachment-upload-widget" class="input kb-tab-enter optional" placeholder="Search" type="text" size="50"/>
                 </div>
                 <div class="field-dropdown-container">
                   <div id="attachment-attachment-dropdown" class="field-dropdown" style="display:none;">
@@ -185,6 +191,7 @@
               <td></td>
               <td class="field">
                 <form id="attachment-upload-widget"
+                      name="uploadForm"
                       class="attachment-upload-widget"
                       enctype="multipart/form-data"
                       action="SET_BY_BROWSER_JS"
@@ -192,21 +199,20 @@
                       method="post"
                       onsubmit="startingUpload(this);" 
                       style="white-space:nowrap;background:#eeeeee;padding:2px;position:relative;overflow:hidden;">
-                  <input type="text" id="attachment-upload-title" name="attachmentTitle" style="display:none;" value="Untitled"/>
                   <input type="text" id="attachment-upload-mimetype" name="mimeType" style="display:none;" value=""/>
                   <input type="text" id="attachment-upload-extension" name="filenameExtension" style="display:none;" value=""/>
-                  <input type="checkbox" id="attachment-upload-searchable" name="searchableTitle" value="Yes" style="display:none;"/>
                   <input type="file" id="attachment-upload-filename" onchange="setFileExtension(this);" name="attachmentDocument"/>
                   <input type="submit" value="Upload" style="position:absolute;right:0px;" id="attachment-upload-button" disabled="true"/>
                 </form>
               </td>
               <td>
                 <div>
-                  <input onclick="setSearchable(event);" type="checkbox"/> searchable
+                  <input form="attachment-upload-widget" type="checkbox" name="searchableTitle"/> searchable
                 </div>
               </td>
             </tr>
           </table>
+          <div id="attachment-container"></div>
         </div>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">

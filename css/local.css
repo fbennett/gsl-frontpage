@@ -45,6 +45,12 @@ div.field-dropdown {
     border-radius:2em;
 }
 
+.wrapper.ephemeral {
+    margin:1em 0 0 2em;
+    border:3px solid #666666;
+    border-radius:1em;
+}
+
 .date-field:hover {
     cursor: pointer;
 }
