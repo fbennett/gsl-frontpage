@@ -1,3 +1,30 @@
+.relative {
+    position: relative;
+}
+
+.combo-mask {
+    vertical-align: top;
+    overflow: hidden;
+    border: 1px solid grey;
+    box-shadow: 10px 10px 5px #888888;
+    position:absolute;
+    top: 0px;
+    left: 1em;
+}
+
+.combo {
+    width: 200px;
+    padding: 10px;
+    margin: -5px -20px -5px -5px;
+}
+
+.combo option:hover {
+    background:#66ff66;
+}
+
+.absolute {
+}
+
 input.change-succeeded {
     background:#66ff66;
 }

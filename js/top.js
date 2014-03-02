@@ -25,4 +25,6 @@ function initializePage () {
     }
     var hiddenIframe = document.getElementById('hidden-iframe-id');
     hiddenIframe.addEventListener('load',completedUpload);
+    var testdrop = document.getElementById('convenor-name-dropdown');
+    testdrop.size = 7;
 };
