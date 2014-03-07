@@ -54,11 +54,6 @@ function keyPersonMasterEnter(event, fromKeyDown) {
             pageName = 'top';
         }
         
-        var dropper = getDropper(event.target);
-        for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
-            dropper.removeChild(dropper.childNodes[0]);
-        }
-
         var rows = apiRequest(
             '/?admin='
                 + adminID
@@ -69,6 +64,12 @@ function keyPersonMasterEnter(event, fromKeyDown) {
             }
         );
         if (false === rows) return;
+
+        var dropper = getDropper(event.target);
+        for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
+            dropper.removeChild(dropper.childNodes[0]);
+        }
+
         for (var i=0,ilen=rows.length;i<ilen;i+=1) {
             var option = document.createElement('option');
             option.innerHTML = rows[i].person;
