@@ -1,3 +1,17 @@
+form#attachment-uploader {
+    white-space:nowrap;
+    background:#eeeeee;
+    padding:2px;
+    position:relative;
+    overflow:hidden;
+}
+
+
+input#attachment-uploader-button {
+    position:absolute;
+    right:0px;
+}
+
 .relative {
     position: relative;
 }
