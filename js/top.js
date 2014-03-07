@@ -2,7 +2,6 @@ function buildTimes(){};
 
 function initializePage () {
     lastFocusedElement = document.getElementsByClassName('field')[0];
-    console.log("LAST: "+lastFocusedElement);
     var uploaderNodeWidth = document.getElementById('attachment-uploader').offsetWidth;
     document.getElementById('attachment-uploader-filename').style.width = (uploaderNodeWidth + 'px');
     setKeyboardHandlers();

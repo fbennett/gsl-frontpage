@@ -24,6 +24,7 @@ input#attachment-uploader-button {
     position:absolute;
     top: 0px;
     left: 1em;
+    z-index: 99;
 }
 
 .combo {
