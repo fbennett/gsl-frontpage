@@ -18,10 +18,23 @@ function unblockBlurRestore (event) {
 };
 
 function blurSearchDropdown (event) {
+    if (event.target.classList.contains('block-dropper-blur')) {
+        event.target.classList.remove('block-dropper-blur');
+        return;
+    }
     var node = event.target;
     var id = node.id;
     var dropdown = document.getElementById(id + '-dropdown');
     dropdown.style.display = 'none';
+};
+
+function blurSelectedSearchDropdown (event) {
+    if (event.target.classList.contains('combo')) {
+        var id = event.target.id.split('-').slice(0,-2).join('-');
+        var field = document.getElementById(id);
+        field.focus();
+        event.target.selectedIndex = -1;
+    }
 };
 
 function blurRestoreFromCache (event) {

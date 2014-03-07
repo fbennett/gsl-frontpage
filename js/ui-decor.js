@@ -94,6 +94,12 @@ function getContainer(node) {
     return document.getElementById(containerID);
 };
 
+function getDropper(node) {
+    var container = document.getElementById(node.id + '-dropdown');
+    var dropper = container.getElementsByClassName('combo')[0];
+    return dropper;
+};
+
 function forServants(node,callback) {
     var container = getContainer(node);
     var servants = container.getElementsByClassName('person-servant');

@@ -1,12 +1,19 @@
 function keyPersonMasterTab(event) {
-    if (event.key === 'Tab') {
+    if (['Tab','Down','Esc'].indexOf(event.key) > -1) {
         event.preventDefault();
-        keyPersonMasterEnter(event, true);
+        keyPersonMasterEnter(event, event.key);
     }
 };
 
-function keyPersonMasterEnter(event, fromTab) {
-    if (event.key === 'Enter' || fromTab) {
+function keyPersonMasterEnter(event, fromKeyDown) {
+    if (fromKeyDown) {
+        event.preventDefault();
+    }
+    if (event.target.classList.contains('block-sayt')) {
+        event.target.classList.remove('block-sayt');
+        return;
+    }
+    if (event.key === 'Enter' || fromKeyDown === 'Tab') {
         event.preventDefault();
         event.target.removeEventListener('blur',blurRestoreFromCache);
         if (event.target.value) {
@@ -27,6 +34,48 @@ function keyPersonMasterEnter(event, fromTab) {
             moveFocusForward(event.target);
         }
         event.target.addEventListener('blur',blurRestoreFromCache);
+    } else if (fromKeyDown === 'Down') {
+        var dropper = getDropper(event.target);
+        if (dropper.childNodes.length) {
+            event.target.classList.remove('block-sayt');
+            event.target.classList.add('block-sayt');
+            event.target.classList.remove('block-dropper-blur');
+            event.target.classList.add('block-dropper-blur');
+            event.target.classList.remove('block-blur-restore');
+            event.target.classList.add('block-blur-restore');
+            dropper.selectedIndex = 0;
+            dropper.focus();
+        }
+    } else {
+        // Expose search lister with updated field value, call API, and populate list
+        var adminID = getParameterByName('admin');
+        var pageName = getParameterByName('page');
+        if (!pageName) {
+            pageName = 'top';
+        }
+        
+        var dropper = getDropper(event.target);
+        for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
+            dropper.removeChild(dropper.childNodes[0]);
+        }
+
+        var rows = apiRequest(
+            '/?admin='
+                + adminID
+                + '&page=' + pageName
+                + '&cmd=searchpersons'
+            , {
+                str:event.target.value.toLowerCase()
+            }
+        );
+        if (false === rows) return;
+        for (var i=0,ilen=rows.length;i<ilen;i+=1) {
+            var option = document.createElement('option');
+            option.innerHTML = rows[i].person;
+            console.log("SET PERSONS");
+            option.value = rows[i].personID;
+            dropper.appendChild(option);
+        }
     }
 };
 
@@ -66,3 +115,11 @@ function keyPersonServantEnter(event, fromTab) {
     }
 };
 
+function keyPersonMasterDropdown(event) {
+    console.log("eventKey: "+event.key);
+    if (event.key === 'Enter') {
+        console.log('Set person fields!');
+    } else if ((event.key === 'Up' && event.target.selectedIndex === 0) || event.key === 'Esc') {
+        blurSelectedSearchDropdown(event);
+    }
+};

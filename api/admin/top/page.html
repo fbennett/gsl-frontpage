@@ -3,6 +3,7 @@
   <head>
     <title>GSL Frontpage Announcement</title>
     <meta charset="UTF-8"> 
+    <script type="text/javascript" src="js/local.js"></script>  
     <script type="text/javascript" src="js/ui-decor.js"></script>  
     <script type="text/javascript" src="js/keyboard-handlers.js"></script>  
     <script type="text/javascript" src="js/api-save.js"></script>
@@ -22,7 +23,7 @@
         <hr/>
         <div id="content">
           <h2>
-            Convenor
+            Staffer
             <input id="convenor-clear" type="button" value="Clear" class="clear-person" disabled="true"/>
             <input id="convenor-edit" type="button" value="Edit" class="edit-person" style="display:none;"/>
           </h2>
@@ -36,7 +37,7 @@
                 </div>
                 <div class="relative" id="convenor-name-dropdown" style="display:none;">
                   <div class="combo-mask">
-                    <select size="6" class="combo"></select>
+                    <select id="convenor-name-dropdown-select" size="6" class="combo"></select>
                   </div>
                 </div>
               </td>
@@ -47,7 +48,7 @@
                 </div>
                 <div class="relative" id="convenor-contact-dropdown" style="display:none;">
                   <div class="combo-mask">
-                    <select size="6" class="combo"></select>
+                    <select id="convenor-contact-dropdown-select" size="6" class="combo"></select>
                   </div>
                 </div>
               </td>
@@ -60,7 +61,7 @@
                 </div>
                 <div class="relative" id="convenor-affiliation-dropdown" style="display:none;">
                   <div class="combo-mask">
-                    <select size="6" class="combo"></select>
+                    <select id="convenor-affiliation-dropdown-select" size="6" class="combo"></select>
                   </div>
                 </div>
               </td>
@@ -71,70 +72,14 @@
                 </div>
                 <div class="relative" id="convenor-position-dropdown" style="display:none;">
                   <div class="combo-mask">
-                    <select size="6" class="combo"></select>
+                    <select id="convenor-position-dropdown-select" size="6" class="combo"></select>
                   </div>
                 </div>
               </td>
             </tr>
           </table>
           <h2>
-            Presenter
-            <input id="presenter-clear" type="button" value="Clear" class="clear-person" disabled="true"/>
-            <input id="presenter-edit" type="button" value="Edit" class="edit-person" style="display:none;"/>
-          </h2>
-          <table id="presenter" class="wrapper">
-            <tr>
-              <td>Name:</td>
-              <td>
-                <div>
-                  <input id="presenter-name" class="presenter field person-master search" placeholder="Search" type="text"/>
-                  <input id="presenter-name-id" value="" class="form-input require" style="display:none;"/>
-                </div>
-                <div class="relative" id="presenter-name-dropdown" style="display:none;">
-                  <div class="combo-mask">
-                    <select size="6" class="combo"></select>
-                  </div>
-                </div>
-              </td>
-              <td>Contact:</td>
-              <td>
-                <div>
-                  <input id="presenter-contact" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
-                </div>
-                <div class="relative" id="presenter-contact-dropdown" style="display:none;">
-                  <div class="combo-mask">
-                    <select size="6" class="combo"></select>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Affiliation:</td>
-              <td>
-                <div>
-                  <input id="presenter-affiliation" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
-                </div>
-                <div class="relative" id="presenter-affiliation-dropdown" style="display:none;">
-                  <div class="combo-mask">
-                    <select size="6" class="combo"></select>
-                  </div>
-                </div>
-              </td>
-              <td>Position:</td>
-              <td>
-                <div>
-                  <input id="presenter-position" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
-                </div>
-                <div class="relative" id="presenter-position-dropdown" style="display:none;">
-                  <div class="combo-mask">
-                    <select size="6" class="combo"></select>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </table>
-          <h2>
-            Event details
+            Details
           </h2>
           <table id="event" class="wrapper">
             <tr>
@@ -156,27 +101,6 @@
               </td>
             </tr>
           </table>
-          <h2>Session details</h2>
-          <table id="session" class="wrapper">
-            <tr>
-              <td>Session title:</td>
-              <td>
-                <input id="session-title" class="session field solo-field" placeholder="Required" type="text" size="50"/>
-              </td>
-              <td rowspan="2">
-                <input type="button" value="Add" class="add-button" disabled="true"/>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>
-                <input id="session-place" class="session field solo-field" onclick="setFieldState(this,'edit');" placeholder="Search: place" type="text" size="10"/>
-                <input id="session-date" class="session field date-field" onchange="setFieldState(this,'view');setAddButtonState(this);" placeholder="Date" size="10" type="date"/>
-                <select id="session-hour" class="session field time-field" onchange="setAddButtonState(this);">
-                </select>
-              </td>
-            </tr>
-          </table>
           <h2>Attachments</h2>
           <table id="attachment" class="wrapper">
             <tr>
@@ -188,7 +112,7 @@
                 </div>
                 <div class="relative" id="attachment-title-dropdown" style="display:none;">
                   <div class="combo-mask">
-                    <select size="6" class="combo"></select>
+                    <select id="attachment-title-dropdown-select" size="6" class="combo"></select>
                   </div>
                 </div>
               </td>
@@ -217,6 +141,85 @@
             </tr>
           </table>
           <div id="attachment-container"></div>
+          <p>&nbsp;</p>
+          <hr/>
+          <h2>
+            Presenter
+            <input id="presenter-clear" type="button" value="Clear" class="clear-person" disabled="true"/>
+            <input id="presenter-edit" type="button" value="Edit" class="edit-person" style="display:none;"/>
+          </h2>
+          <table id="presenter" class="wrapper">
+            <tr>
+              <td>Name:</td>
+              <td>
+                <div>
+                  <input id="presenter-name" class="presenter field person-master search" placeholder="Search" type="text"/>
+                  <input id="presenter-name-id" value="" class="form-input require" style="display:none;"/>
+                </div>
+                <div class="relative" id="presenter-name-dropdown" style="display:none;">
+                  <div class="combo-mask">
+                    <select id="presenter-name-dropdown-select" size="6" class="combo"></select>
+                  </div>
+                </div>
+              </td>
+              <td>Contact:</td>
+              <td>
+                <div>
+                  <input id="presenter-contact" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                </div>
+                <div class="relative" id="presenter-contact-dropdown" style="display:none;">
+                  <div class="combo-mask">
+                    <select id="presenter-contact-dropdown-select" size="6" class="combo"></select>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Affiliation:</td>
+              <td>
+                <div>
+                  <input id="presenter-affiliation" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                </div>
+                <div class="relative" id="presenter-affiliation-dropdown" style="display:none;">
+                  <div class="combo-mask">
+                    <select id="presenter-affiliation-dropdown-select" size="6" class="combo"></select>
+                  </div>
+                </div>
+              </td>
+              <td>Position:</td>
+              <td>
+                <div>
+                  <input id="presenter-position" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                </div>
+                <div class="relative" id="presenter-position-dropdown" style="display:none;">
+                  <div class="combo-mask">
+                    <select id="presenter-position-dropdown-select" size="6" class="combo"></select>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+          <h2>Session details</h2>
+          <table id="session" class="wrapper">
+            <tr>
+              <td>Session title:</td>
+              <td>
+                <input id="session-title" class="session field solo-field" placeholder="Required" type="text" size="50"/>
+              </td>
+              <td rowspan="2">
+                <input type="button" value="Add" class="add-button" disabled="true"/>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <input id="session-place" class="session field solo-field" onclick="setFieldState(this,'edit');" placeholder="Search: place" type="text" size="10"/>
+                <input id="session-date" class="session field date-field" onchange="setFieldState(this,'view');setAddButtonState(this);" placeholder="Date" size="10" type="date"/>
+                <select id="session-hour" class="session field time-field" onchange="setAddButtonState(this);">
+                </select>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
