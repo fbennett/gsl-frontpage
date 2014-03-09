@@ -17,8 +17,9 @@ function setupSearchNodeHandlers () {
     for (var i=0,ilen=searchableFields.length;i<ilen;i+=1) {
         var field = searchableFields[i];
         var dropdown = document.getElementById(field.id + '-dropdown');
+        var fieldName = field.id.split('-')[1]
         //var select = dropdown.getElementsByClassName('combo')[0];
-        console.log("XXX getClickDropdown: "+getClickDropdown);
+        console.log("XXX getClickDropdown: "+field.id);
         var specs = [
             {
                 event:'click',

@@ -56,28 +56,33 @@ function showSave (fieldNode) {
 
 function getServantFieldSetter (fieldName) {
     return function (event) {
-        if (event.target.value) {
-            // If field has content, check for completeness, save if appropriate, and focus next
-            var containerID = event.target.id.split('-')[0];
-            var container = document.getElementById(containerID);
-            var servantNodes = container.getElementsByClassName('person-servant');
-            var complete = true;
-            for (var i=0,ilen=servantNodes.length;i<ilen;i+=1) {
-                if (!servantNodes[i].value) {
-                    complete = false;
-                    break;
-                }
-            }
-            if (complete) {
-                savePersonFields(container);
-                moveFocusForward(servantNodes[servantNodes.length - 1]);
-                enableEditButton(container);
-                disablePersonServants(container);
-            } else {
-                moveFocusForward(event.target);
+        var node = event.target;
+        setServantFields(node);
+    };
+};
+
+function setServantFields(node) {
+    if (node.value) {
+        // If field has content, check for completeness, save if appropriate, and focus next
+        var containerID = node.id.split('-')[0];
+        var container = document.getElementById(containerID);
+        var servantNodes = container.getElementsByClassName('person-servant');
+        var complete = true;
+        for (var i=0,ilen=servantNodes.length;i<ilen;i+=1) {
+            if (!servantNodes[i].value) {
+                complete = false;
+                break;
             }
         }
-    };
+        if (complete) {
+            savePersonFields(container);
+            moveFocusForward(servantNodes[servantNodes.length - 1]);
+            enableEditButton(container);
+            disablePersonServants(container);
+        } else {
+            moveFocusForward(node);
+        }
+    }
 };
 
 function getSearchableKeydownHandler (fieldName) {
@@ -117,7 +122,6 @@ function getSearchableKeyupHandler (fieldName) {
                 dropper.focus();
             }
         } else {
-            console.log("Should call search");
             // Expose search lister with updated field value, call API, and populate list
             var adminID = getParameterByName('admin');
             var pageName = getParameterByName('page');
@@ -164,9 +168,15 @@ function getKeyDropdown(fieldID) {
             event.preventDefault();
             var fieldID = event.target.id.split('-').slice(0,2).join('-');
             var fieldNode = document.getElementById(fieldID);
+            var fieldName = event.target.id.split('-')[1];
             if (['Enter','Tab'].indexOf(event.key) > -1) {
-                var fieldName = fieldNode.id.split('-')[1];
-                window[fieldName + 'Pull'](event.target,event.target.options[event.target.selectedIndex].value);
+                if (fieldName === 'name') {
+                    var fieldName = fieldNode.id.split('-')[1];
+                    window[fieldName + 'Pull'](event.target,event.target.options[event.target.selectedIndex].value);
+                } else {
+                    fieldNode.value = event.target.options[event.target.selectedIndex].textContent;
+                    setServantFields(fieldNode);
+                }
                 var dropdown = document.getElementById(fieldID + '-dropdown');
                 dropdown.classList.remove('block-dropper-blur');
                 enableClearButton(event.target);
