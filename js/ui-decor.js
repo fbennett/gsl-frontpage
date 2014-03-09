@@ -5,6 +5,8 @@ function clearPerson(event) {
     forServants(event.target,function(servant){
         servant.value = '';
         servant.disabled = true;
+        servant.classList.remove('has-content');
+        servant.classList.remove('block-sayt');
         cache[servant.id] = '';
     });
     disableClearButton(event.target);
@@ -12,15 +14,16 @@ function clearPerson(event) {
     forMaster(event.target,function(master) {
         master.value = '';
         master.disabled = false;
+        master.classList.remove('has-content');
+        master.classList.remove('block-sayt');
         cache[master.id] = '';
+        document.getElementById(master.id + '-id').value = "";
         master.focus();
     });
 };
 
 function editPerson(event) {
-    var firstServant = forServants(event.target,function(servant){
-        servant.disabled = false;
-    });
+    var firstServant = enablePersonServants(event.target);
     disableEditButton(event.target);
     firstServant.focus();
 };
@@ -38,14 +41,17 @@ function disablePersonMaster(node) {
 };
 
 function enablePersonServants(node) {
-    forServants(node,function(servant){
+    var firstServant = forServants(node,function(servant){
         servant.disabled = false;
+        servant.classList.remove('has-content');
     });
+    return firstServant;
 };
 
 function enablePersonMaster(node) {
     forMaster(node,function(master){
         master.disabled = false;
+        master.classList.remove('has-content');
     });
 };
 
@@ -64,7 +70,7 @@ function disableEditButton(node) {
 function enableClearButton(node) {
     var containerID = getContainer(node).id;
     var clearButton = document.getElementById(containerID + '-clear');
-    clearButton.style.display = 'inline';
+    clearButton.disabled = false;
 };
 
 function disableClearButton(node) {

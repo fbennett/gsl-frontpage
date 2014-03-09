@@ -8,6 +8,8 @@
         var personID = params.personid;
         var adminID = sys.admin[params.admin].id;
 
+        console.log("PERSON ID: ("+personID+")");
+
         sys.db.run('BEGIN TRANSACTION',function(err){
             if (err) {return oops(response,err,'event/savetopersons(1)')};
             checkForFieldStr(0,4);
@@ -49,9 +51,11 @@
 
         function updatePerson () {
             var sql = 'INSERT OR REPLACE INTO persons VALUES (?,?,?,?,?,?);';
+            console.log("XX "+personID);
+            console.log("XX "+JSON.stringify(data,null,2));
             sys.db.run(sql,[personID,data.nameID,data.contactID,data.affiliationID,data.positionID,adminID],function(err){
                 if (err) {return oops(response,err,'event/savetopersons(5)')};
-                endTransaction();
+                endTransaction(personID);
             });
         };
 
@@ -59,18 +63,17 @@
             var sql = 'INSERT INTO persons VALUES(NULL,?,?,?,?,?);';
             sys.db.run(sql,[data.nameID,data.contactID,data.affiliationID,data.positionID,adminID],function(err){
                 if (err) {return oops(response,err,'event/savetopersons(6)')};
-                endTransaction();
+                endTransaction(this.lastID);
             });
         };
 
-        function endTransaction () {
+        function endTransaction (personID) {
             sys.db.run('END TRANSACTION',function(err){
                 if (err) {return oops(response,err,'event/savetopersons(7)')};
                 response.writeHead(200, {'Content-Type': 'application/json'});
-                response.end(JSON.stringify(data))
+                response.end(JSON.stringify({personID:personID}))
             });
         };
-
     }
     exports.cogClass = cogClass;
 })();

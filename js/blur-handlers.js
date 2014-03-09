@@ -22,20 +22,25 @@ function blurSearchDropdown (event) {
         event.target.classList.remove('block-dropper-blur');
         return;
     }
-    var node = event.target;
-    var id = node.id;
-    var dropdown = document.getElementById(id + '-dropdown');
-    dropdown.style.display = 'none';
+    setTimeout(function(){
+        console.log("blurSearchDropdown()");
+        var node = event.target;
+        var id = node.id;
+        var dropdown = document.getElementById(id + '-dropdown');
+        dropdown.style.display = 'none';
+    },100);
 };
 
-function blurSelectedSearchDropdown (event) {
-    if (event.target.classList.contains('combo')) {
-        var id = event.target.id.split('-').slice(0,-2).join('-');
-        var field = document.getElementById(id);
-        field.focus();
-        event.target.selectedIndex = -1;
-    }
-};
+//function getBlurDropdown(fieldID) {
+//    return function (event) {
+//        if (event.target.id === fieldID) {
+//            var id = event.target.id.split('-').slice(0,-2).join('-');
+//            var field = document.getElementById(id);
+//            event.target.selectedIndex = -1;
+//            field.focus();
+//        }
+//    }
+//};
 
 function blurRestoreFromCache (event) {
     setTimeout(function(){
@@ -54,16 +59,21 @@ function blurRestoreFromCache (event) {
                 return 'break';
             }
         });
+        console.log(JSON.stringify(cache));
         if (complete) {
+            console.log("YYY complete");
             // XXX If complete in cache, just restore field content and close
             forField(event.target,function(field){
                 field.value = cache[field.id];
+                field.classList.remove('has-content');
+                field.classList.add('has-content');
             });
             disablePersonServants(event.target);
             disablePersonMaster(event.target);
             enableEditButton(event.target);
             enableClearButton(event.target);
         } else {
+            console.log("YYY incomplete");
             // XXX If incomplete in cache, clear the person and set to initial mode
             forField(event.target,function(field){
                 field.value = '';

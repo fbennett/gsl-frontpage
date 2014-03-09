@@ -34,14 +34,29 @@ input#attachment-uploader-button {
 }
 
 .combo option:hover {
-    background:#66ff66;
+    background:#eeeeee;
 }
 
-.absolute {
+input.has-content {
+    background:#eeeeee;
+    font-weight: bold;
+    color: black;
+    -webkit-transition:background 0.6s linear;
+	-moz-transition:background 0.6s linear;
+	-ms-transition:background 0.6s linear;
+	-o-transition:background 0.6s linear;
+	transition:background 0.6s linear;
 }
 
 input.change-succeeded {
     background:#66ff66;
+    font-weight: bold;
+    color: black;
+    -webkit-transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
+	-moz-transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
+	-ms-transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
+	-o-transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
+	transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
 }
 
 div.field-dropdown-container {

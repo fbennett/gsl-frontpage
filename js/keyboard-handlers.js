@@ -1,96 +1,61 @@
-function keyPersonMasterTab(event) {
-    if (['Tab','Down','Esc'].indexOf(event.key) > -1) {
-        event.preventDefault();
-        keyPersonMasterEnter(event, event.key);
-    }
-};
-
-function keyPersonMasterEnter(event, fromKeyDown) {
-    if (fromKeyDown) {
-        event.preventDefault();
-    }
-    if (event.target.classList.contains('block-sayt')) {
-        event.target.classList.remove('block-sayt');
-        return;
-    }
-    if (event.key === 'Enter' || fromKeyDown === 'Tab') {
-        event.preventDefault();
-        event.target.removeEventListener('blur',blurRestoreFromCache);
-        if (event.target.value) {
-            // If field has content, open servants, close master, and focus first servant
-            var containerID = event.target.id.split('-')[0];
-            var container = document.getElementById(containerID);
-            var servantNodes = container.getElementsByClassName('person-servant');
-            for (var i=0,ilen=servantNodes.length;i<ilen;i+=1) {
-                servantNodes[i].disabled = false;
-            }
-            // Enable clear button
-            var clearButton = document.getElementById(containerID + '-clear');
-            clearButton.disabled = false;
-            moveFocusForward(event.target);
-            event.target.disabled = true;
-        } else {
-            // Otherwise just open the next field
-            moveFocusForward(event.target);
-        }
-        event.target.addEventListener('blur',blurRestoreFromCache);
-    } else if (fromKeyDown === 'Down') {
-        var dropper = getDropper(event.target);
-        if (dropper.childNodes.length) {
-            event.target.classList.remove('block-sayt');
-            event.target.classList.add('block-sayt');
-            event.target.classList.remove('block-dropper-blur');
-            event.target.classList.add('block-dropper-blur');
-            event.target.classList.remove('block-blur-restore');
-            event.target.classList.add('block-blur-restore');
-            dropper.selectedIndex = 0;
-            dropper.focus();
-        }
-    } else {
-        // Expose search lister with updated field value, call API, and populate list
+function nameSet (event) {
+    if (event.target.value) {
+        var container = getContainer(event.target);
+        // If a value exists, either set the group from it, or set it as solo
         var adminID = getParameterByName('admin');
         var pageName = getParameterByName('page');
         if (!pageName) {
             pageName = 'top';
         }
-        
         var rows = apiRequest(
             '/?admin='
                 + adminID
                 + '&page=' + pageName
-                + '&cmd=searchpersons'
+                + '&cmd=searchname'
             , {
                 str:event.target.value.toLowerCase()
             }
         );
-        if (false === rows) return;
-
-        var dropper = getDropper(event.target);
-        for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
-            dropper.removeChild(dropper.childNodes[0]);
+        var perfectMatch = false;
+        if (rows) {
+            // Check for match
+            for (var i=0,ilen=rows.length;i<ilen;i+=1) {
+                var row = rows[i];
+                if (row.name.toLowerCase() === event.target.value.toLowerCase()) {
+                    perfectMatch = row;
+                }
+            }
         }
-
-        for (var i=0,ilen=rows.length;i<ilen;i+=1) {
-            var option = document.createElement('option');
-            option.innerHTML = rows[i].person;
-            console.log("SET PERSONS");
-            option.value = rows[i].personID;
-            dropper.appendChild(option);
+        if (perfectMatch) {
+            namePull(event.target,perfectMatch.personID);
+        } else {
+            // If no perfect match found, open servants for editing
+            event.target.classList.add('has-content');
+            var servantNodes = container.getElementsByClassName('person-servant');
+            for (var i=0,ilen=servantNodes.length;i<ilen;i+=1) {
+                servantNodes[i].disabled = false;
+            }
         }
+        var clearButton = document.getElementById(container.id + '-clear');
+        clearButton.disabled = false;
+        moveFocusForward(event.target);
+        event.target.disabled = true;
+    } else {
+        // Otherwise just open the next field
+        moveFocusForward(event.target);
     }
 };
 
-function keyPersonServantTab(event) {
-    if (event.key === 'Tab') {
-        event.preventDefault();
-        keyPersonServantEnter(event, true);
-    }
+function showSave (fieldNode) {
+    fieldNode.classList.add('change-succeeded');
+    setTimeout(function(){
+        fieldNode.classList.remove('change-succeeded');
+        fieldNode.classList.add('has-content');
+    },1500);
 };
 
-function keyPersonServantEnter(event, fromTab) {
-    if (event.key === 'Enter' || fromTab) {
-        event.preventDefault();
-        event.target.removeEventListener('blur',blurRestoreFromCache);
+function getServantFieldSetter (fieldName) {
+    return function (event) {
         if (event.target.value) {
             // If field has content, check for completeness, save if appropriate, and focus next
             var containerID = event.target.id.split('-')[0];
@@ -112,15 +77,105 @@ function keyPersonServantEnter(event, fromTab) {
                 moveFocusForward(event.target);
             }
         }
-        event.target.addEventListener('blur',blurRestoreFromCache);
+    };
+};
+
+function getSearchableKeydownHandler (fieldName) {
+    return function (event) {
+        if (['Tab','Down','Esc'].indexOf(event.key) > -1) {
+            event.preventDefault();
+            console.log("cc "+fieldName);
+            window[fieldName + 'KeyupHandler'](event, event.key);
+        }
+    };
+};
+
+function getSearchableKeyupHandler (fieldName) {
+    return function (event, fromKeyDown) {
+        if (fromKeyDown) {
+            event.preventDefault();
+        }
+        if (event.target.classList.contains('block-sayt')) {
+            event.target.classList.remove('block-sayt');
+            return;
+        }
+        if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+            event.preventDefault();
+            event.target.removeEventListener('blur',blurRestoreFromCache);
+            window[fieldName + 'Set'](event);
+            event.target.addEventListener('blur',blurRestoreFromCache);
+        } else if (fromKeyDown === 'Down') {
+            var dropper = getDropper(event.target);
+            if (dropper.childNodes.length) {
+                event.target.classList.remove('block-sayt');
+                event.target.classList.add('block-sayt');
+                event.target.classList.remove('block-dropper-blur');
+                event.target.classList.add('block-dropper-blur');
+                event.target.classList.remove('block-blur-restore');
+                event.target.classList.add('block-blur-restore');
+                dropper.selectedIndex = 0;
+                dropper.focus();
+            }
+        } else {
+            console.log("Should call search");
+            // Expose search lister with updated field value, call API, and populate list
+            var adminID = getParameterByName('admin');
+            var pageName = getParameterByName('page');
+            if (!pageName) {
+                pageName = 'top';
+            }
+            
+            var rows = apiRequest(
+                '/?admin='
+                    + adminID
+                    + '&page=' + pageName
+                    + '&cmd=search' + fieldName
+                , {
+                    str:event.target.value.toLowerCase()
+                }
+            );
+            if (false === rows) return;
+
+            var dropper = getDropper(event.target);
+            for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
+                dropper.removeChild(dropper.childNodes[0]);
+            }
+
+            // Nip and tuck
+            var fieldIDkey = fieldName + 'ID';
+            if (fieldName === 'name') {
+                fieldIDkey = 'personID'
+            }
+
+            for (var i=0,ilen=rows.length;i<ilen;i+=1) {
+                var option = document.createElement('option');
+                option.innerHTML = rows[i][fieldName];
+                option.value = rows[i][fieldIDkey];
+                dropper.appendChild(option);
+            }
+        }
+    };
+};
+
+
+function getKeyDropdown(fieldID) {
+    return function (event) {
+        if (event.target.tagName === 'SELECT') {
+            event.preventDefault();
+            var fieldID = event.target.id.split('-').slice(0,2).join('-');
+            var fieldNode = document.getElementById(fieldID);
+            if (['Enter','Tab'].indexOf(event.key) > -1) {
+                var fieldName = fieldNode.id.split('-')[1];
+                window[fieldName + 'Pull'](event.target,event.target.options[event.target.selectedIndex].value);
+                var dropdown = document.getElementById(fieldID + '-dropdown');
+                dropdown.classList.remove('block-dropper-blur');
+                enableClearButton(event.target);
+                moveFocusForward(fieldNode);
+                dropdown.style.display = 'none';
+            } else if ((event.key === 'Up' && event.target.selectedIndex === 0) || event.key === 'Esc') {
+                fieldNode.focus();
+            }
+        }
     }
 };
 
-function keyPersonMasterDropdown(event) {
-    console.log("eventKey: "+event.key);
-    if (event.key === 'Enter') {
-        console.log('Set person fields!');
-    } else if ((event.key === 'Up' && event.target.selectedIndex === 0) || event.key === 'Esc') {
-        blurSelectedSearchDropdown(event);
-    }
-};

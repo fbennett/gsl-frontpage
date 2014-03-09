@@ -8,18 +8,44 @@ function initializePage () {
     setSearchableBlurHandlers();
     setSearchableFocusHandlers();
     setFieldFocusHandlers();
-    setDropdownHandlers();
+    setupSearchNodeHandlers();
     setButtons();
 };
 
-function setDropdownHandlers() {
-    var convenorDropdown = document.getElementById('convenor-name').getElementsByClassName('combo')[0];
-    convenor.addEventListener('keydown',keyPersonMasterDropdown);
-    convenor.addEventListener('blur',blurSelectedSearchDropdown);
-    var presenterDropdown = document.getElementById('presenter-name').getElementsByClassName('combo')[0];
-    presenter.addEventListener('keydown',keyPersonMasterDropdown)
-    presenter.addEventListener('blur',blurSelectedSearchDropdown);
-}
+function setupSearchNodeHandlers () {
+    var searchableFields = document.getElementsByClassName('search');
+    for (var i=0,ilen=searchableFields.length;i<ilen;i+=1) {
+        var field = searchableFields[i];
+        var dropdown = document.getElementById(field.id + '-dropdown');
+        //var select = dropdown.getElementsByClassName('combo')[0];
+        console.log("XXX getClickDropdown: "+getClickDropdown);
+        var specs = [
+            {
+                event:'click',
+                handler:getClickDropdown(field.id),
+                capture:true
+            },
+            {
+                event:'keydown',
+                handler:getKeyDropdown(field.id),
+                capture:true
+            }
+        ];
+        for (var j=0,jlen=specs.length;j<jlen;j+=1) {
+            var spec = specs[j];
+            dropdown.addEventListener(spec.event,spec.handler,spec.capture);
+        }
+    }
+};
+
+
+//,
+//            {
+//                event:'blur',
+//                handler:getBlurDropdown(field.id),
+//                capture:true
+//            }
+
 
 function setFieldFocusHandlers () {
     var fields = document.getElementsByClassName('field');
@@ -43,16 +69,28 @@ function setButtons() {
 
 function setKeyboardHandlers() {
     var nodes = document.getElementsByClassName('person-master');
+    window['nameKeydownHandler'] = getSearchableKeydownHandler('name');
+    window['nameKeyupHandler'] = getSearchableKeyupHandler('name');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
-        node.addEventListener('keydown',keyPersonMasterTab);
-        node.addEventListener('keyup',Cowboy.throttle(250,keyPersonMasterEnter));
+        node.addEventListener('keydown',window['nameKeydownHandler']);
+        node.addEventListener('keyup',Cowboy.throttle(250,window['nameKeyupHandler']));
     }
     var nodes = document.getElementsByClassName('person-servant');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
-        node.addEventListener('keydown',keyPersonServantTab);
-        node.addEventListener('keyup',Cowboy.throttle(250,keyPersonServantEnter));
+        var fieldName = node.id.split('-')[1];
+        if (!window[fieldName + 'KeydownHandler']) {
+            window[fieldName + 'KeydownHandler'] = getSearchableKeydownHandler(fieldName);
+        }
+        if (!window[fieldName + 'KeyupHandler']) {
+            window[fieldName + 'KeyupHandler'] = getSearchableKeyupHandler(fieldName);
+        }
+        if (!window[fieldName + 'Set']) {
+            window[fieldName + 'Set'] = getServantFieldSetter(fieldName);
+        }
+        node.addEventListener('keydown',window[fieldName + 'KeydownHandler']);
+        node.addEventListener('keyup',Cowboy.throttle(250,window[fieldName + 'KeyupHandler']));
     }
 };
 
