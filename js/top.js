@@ -1,6 +1,9 @@
 function buildTimes(){};
 
+var pageDate = null;
+
 function initializePage () {
+    pageDate = new Date().getTime();
     lastFocusedElement = document.getElementsByClassName('field')[0];
     var uploaderNodeWidth = document.getElementById('uploader-attachment').offsetWidth;
     document.getElementById('uploader-attachment-filename').style.width = (uploaderNodeWidth + 'px');

@@ -1,5 +1,4 @@
 function savePersonFields (node) {
-    console.log("WHAAAT? Running savePersonFields() ... ? "+node.id);
     var base = node.id.split('-')[0];
     var personIdNode = document.getElementById(base + '-name-id');
     var personID = personIdNode.value;
@@ -44,6 +43,8 @@ function startingUpload (ev) {
     var uploadButton = document.getElementById('uploader-attachment-button');
     var form = document.getElementById('uploader');
     form.action = '?admin=' + getParameterByName('admin') + '&cmd=upload';
+    var uploadPagedate = document.getElementById('uploader-attachment-pagedate');
+    uploadPagedate.value = pageDate;
     var uploadExtension = document.getElementById('uploader-attachment-extension');
     uploadExtension.value = '';
     var uploadMimeType = document.getElementById('uploader-attachment-mimetype');
@@ -70,5 +71,7 @@ function completedUpload (ev) {
     status.uploadID = null;
     var uploadButton = document.getElementById('uploader-attachment-button');
     uploadButton.disabled = true;
+    var searchableToggle = document.getElementById('uploader-attachment-searchable');
+    searchableToggle.checked = false;
 };
 
