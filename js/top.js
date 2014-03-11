@@ -65,7 +65,7 @@ function setButtons() {
 function setKeyboardHandlers() {
     var nodes = document.getElementsByClassName('person-master');
     var nameKeydownHandler = getSearchableKeydownHandler('name');
-    var nameKeyupHandler = Cowboy.throttle(250,getSearchableKeyupHandler('name'));
+    var nameKeyupHandler = keyboardSearchThrottle(250,getSearchableKeyupHandler('name'));
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
         node.addEventListener('keydown',nameKeydownHandler);
@@ -76,10 +76,10 @@ function setKeyboardHandlers() {
         var node = nodes[i];
         var fieldName = node.id.split('-')[1];
         if (!window[fieldName + 'KeydownHandler']) {
-            window[fieldName + 'KeydownHandler'] = Cowboy.throttle(250,getSearchableKeydownHandler(fieldName));
+            window[fieldName + 'KeydownHandler'] = keyboardSearchThrottle(250,getSearchableKeydownHandler(fieldName));
         }
         if (!window[fieldName + 'KeyupHandler']) {
-            window[fieldName + 'KeyupHandler'] = Cowboy.throttle(250,getSearchableKeyupHandler(fieldName));
+            window[fieldName + 'KeyupHandler'] = keyboardSearchThrottle(250,getSearchableKeyupHandler(fieldName));
         }
         if (!window[fieldName + 'Set']) {
             window[fieldName + 'Set'] = getServantFieldSetter(fieldName);
@@ -91,7 +91,7 @@ function setKeyboardHandlers() {
     attachmentKeydownHandler = getSearchableKeydownHandler('attachment');
     node.addEventListener('keydown',attachmentKeydownHandler);
     attachmentKeyupHandler = getSearchableKeyupHandler('attachment')
-    node.addEventListener('keyup',Cowboy.throttle(250,attachmentKeyupHandler));
+    node.addEventListener('keyup',keyboardSearchThrottle(250,attachmentKeyupHandler));
 };
 
 function setSearchableBlurHandlers() {
