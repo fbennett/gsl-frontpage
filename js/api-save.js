@@ -1,4 +1,5 @@
 function savePersonFields (node) {
+    console.log("WHAAAT? Running savePersonFields() ... ? "+node.id);
     var base = node.id.split('-')[0];
     var personIdNode = document.getElementById(base + '-name-id');
     var personID = personIdNode.value;
@@ -38,5 +39,36 @@ function savePersonFields (node) {
     personIdNode.value = row.personID;
 };
 
+function startingUpload (ev) {
+    status.uploadID = ev.id;
+    var uploadButton = document.getElementById('uploader-attachment-button');
+    var form = document.getElementById('uploader');
+    form.action = '?admin=' + getParameterByName('admin') + '&cmd=upload';
+    var uploadExtension = document.getElementById('uploader-attachment-extension');
+    uploadExtension.value = '';
+    var uploadMimeType = document.getElementById('uploader-attachment-mimetype');
+    uploadMimeType.value = 'application/octet-stream';
+    var uploadFilename = document.getElementById('uploader-attachment-filename');
+    var fileName = uploadFilename.files[0].name;
+    var m = fileName.match(/.*\.([a-zA-Z]+$)/);
+    if (m) {
+        // XXX Get and set the extension, if any
+        uploadExtension.value = m[1].toLowerCase();
+        // XXX Set the mimeType
+        uploadMimeType.value = mimeTypes[m[1].toLowerCase()] ? mimeTypes[m[1].toLowerCase()] : 'application/octet-stream';
+    }
+};
 
+function completedUpload (ev) {
+    // Rewrite uploader node, wake up delete button
+    var iframe = ev.target;
+    var innerDocument = iframe.contentDocument || iframe.contentWindow.document;
+    var body = innerDocument.getElementsByTagName('BODY')[0];
+    var ret = JSON.parse(body.textContent)
+    console.log("IN completedUpload(): "+ret.documentID+" "+ret.documentTitle);
+    addAttachment(ret.documentID,ret.documentTitle);
+    status.uploadID = null;
+    var uploadButton = document.getElementById('uploader-attachment-button');
+    uploadButton.disabled = true;
+};
 

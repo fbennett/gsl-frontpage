@@ -2,8 +2,10 @@ function buildTimes(){};
 
 function initializePage () {
     lastFocusedElement = document.getElementsByClassName('field')[0];
-    var uploaderNodeWidth = document.getElementById('attachment-uploader').offsetWidth;
-    document.getElementById('attachment-uploader-filename').style.width = (uploaderNodeWidth + 'px');
+    var uploaderNodeWidth = document.getElementById('uploader-attachment').offsetWidth;
+    document.getElementById('uploader-attachment-filename').style.width = (uploaderNodeWidth + 'px');
+    var hiddenIframe = document.getElementById('hidden-iframe-id');
+    hiddenIframe.addEventListener('load',completedUpload);
     setKeyboardHandlers();
     setSearchableBlurHandlers();
     setSearchableFocusHandlers();
@@ -18,8 +20,6 @@ function setupSearchNodeHandlers () {
         var field = searchableFields[i];
         var dropdown = document.getElementById(field.id + '-dropdown');
         var fieldName = field.id.split('-')[1]
-        //var select = dropdown.getElementsByClassName('combo')[0];
-        console.log("XXX getClickDropdown: "+field.id);
         var specs = [
             {
                 event:'click',
@@ -38,15 +38,6 @@ function setupSearchNodeHandlers () {
         }
     }
 };
-
-
-//,
-//            {
-//                event:'blur',
-//                handler:getBlurDropdown(field.id),
-//                capture:true
-//            }
-
 
 function setFieldFocusHandlers () {
     var fields = document.getElementsByClassName('field');
@@ -70,29 +61,34 @@ function setButtons() {
 
 function setKeyboardHandlers() {
     var nodes = document.getElementsByClassName('person-master');
-    window['nameKeydownHandler'] = getSearchableKeydownHandler('name');
-    window['nameKeyupHandler'] = getSearchableKeyupHandler('name');
+    var nameKeydownHandler = getSearchableKeydownHandler('name');
+    var nameKeyupHandler = Cowboy.throttle(250,getSearchableKeyupHandler('name'));
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
-        node.addEventListener('keydown',window['nameKeydownHandler']);
-        node.addEventListener('keyup',Cowboy.throttle(250,window['nameKeyupHandler']));
+        node.addEventListener('keydown',nameKeydownHandler);
+        node.onkeyup = nameKeyupHandler;
     }
     var nodes = document.getElementsByClassName('person-servant');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
         var fieldName = node.id.split('-')[1];
         if (!window[fieldName + 'KeydownHandler']) {
-            window[fieldName + 'KeydownHandler'] = getSearchableKeydownHandler(fieldName);
+            window[fieldName + 'KeydownHandler'] = Cowboy.throttle(250,getSearchableKeydownHandler(fieldName));
         }
         if (!window[fieldName + 'KeyupHandler']) {
-            window[fieldName + 'KeyupHandler'] = getSearchableKeyupHandler(fieldName);
+            window[fieldName + 'KeyupHandler'] = Cowboy.throttle(250,getSearchableKeyupHandler(fieldName));
         }
         if (!window[fieldName + 'Set']) {
             window[fieldName + 'Set'] = getServantFieldSetter(fieldName);
         }
         node.addEventListener('keydown',window[fieldName + 'KeydownHandler']);
-        node.addEventListener('keyup',Cowboy.throttle(250,window[fieldName + 'KeyupHandler']));
+        node.onkeyup = window[fieldName + 'KeyupHandler'];
     }
+    var node = document.getElementById('uploader-attachment');
+    attachmentKeydownHandler = getSearchableKeydownHandler('attachment');
+    node.addEventListener('keydown',attachmentKeydownHandler);
+    attachmentKeyupHandler = getSearchableKeyupHandler('attachment')
+    node.addEventListener('keyup',Cowboy.throttle(250,attachmentKeyupHandler));
 };
 
 function setSearchableBlurHandlers() {

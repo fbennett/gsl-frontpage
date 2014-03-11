@@ -1,6 +1,5 @@
 function namePull (node,personID) {
     var container = getContainer(node);
-    // Check for a perfect match in persons. If found, set the group and move on.
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
     if (!pageName) {
@@ -32,3 +31,24 @@ function namePull (node,personID) {
     editButton.style.display = 'inline';
 };
 
+function attachmentPull(node,documentID) {
+    console.log("Update from documentID: "+documentID);
+    var container = getContainer(node);
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    if (!pageName) {
+        pageName = 'top';
+    }
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=getonedocument'
+        , {
+            documentid:documentID
+        }
+    );
+    if (false === row) return;
+    console.log("PROCEED");
+    addAttachment(row.documentID,row.title);
+};

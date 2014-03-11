@@ -173,13 +173,18 @@ function getKeyDropdown(fieldID) {
                 if (fieldName === 'name') {
                     var fieldName = fieldNode.id.split('-')[1];
                     window[fieldName + 'Pull'](event.target,event.target.options[event.target.selectedIndex].value);
+                } else if (fieldName === 'attachment') {
+                    attachmentPull(event.target,event.target.options[event.target.selectedIndex].value);
                 } else {
                     fieldNode.value = event.target.options[event.target.selectedIndex].textContent;
                     setServantFields(fieldNode);
                 }
+                if (fieldName !== 'attachment') {
+                    enableClearButton(event.target);
+                }
                 var dropdown = document.getElementById(fieldID + '-dropdown');
                 dropdown.classList.remove('block-dropper-blur');
-                enableClearButton(event.target);
+                fieldNode.classList.remove('block-sayt');
                 moveFocusForward(fieldNode);
                 dropdown.style.display = 'none';
             } else if ((event.key === 'Up' && event.target.selectedIndex === 0) || event.key === 'Esc') {
@@ -189,3 +194,46 @@ function getKeyDropdown(fieldID) {
     }
 };
 
+function attachmentSet(event) {
+    console.log("RUNNING");
+    // Check for perfect *searchable* match on title, use existing DB entry if exists.
+    // Otherwise just set the field.
+    if (event.target.value) {
+        var container = getContainer(event.target);
+        // If a value exists, either set the group from it, or set it as solo
+        var adminID = getParameterByName('admin');
+        var pageName = getParameterByName('page');
+        if (!pageName) {
+            pageName = 'top';
+        }
+        var rows = apiRequest(
+            '/?admin='
+                + adminID
+                + '&page=' + pageName
+                + '&cmd=searchattachment'
+            , {
+                str:event.target.value.toLowerCase()
+            }
+        );
+        var perfectMatch = false;
+        var row = null;
+        if (rows) {
+            // Check for match
+            for (var i=0,ilen=rows.length;i<ilen;i+=1) {
+                row = rows[i];
+                if (row.attachment.toLowerCase() === event.target.value.toLowerCase()) {
+                    perfectMatch = row;
+                    break;
+                }
+            }
+        }
+        //if (perfectMatch) {
+            // Set document ID and allow upload
+        //    moveFocusForward(event.target);
+        //} else {
+            // Just change the highlight and move forward
+        //    moveFocusForward(event.target);
+        //}
+    }
+    moveFocusForward(event.target);
+};

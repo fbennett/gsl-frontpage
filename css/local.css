@@ -1,4 +1,4 @@
-form#attachment-uploader {
+form#uploader {
     white-space:nowrap;
     background:#eeeeee;
     padding:2px;
@@ -7,7 +7,7 @@ form#attachment-uploader {
 }
 
 
-input#attachment-uploader-button {
+input#uploader-attachment-button {
     position:absolute;
     right:0px;
 }

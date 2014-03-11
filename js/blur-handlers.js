@@ -60,6 +60,10 @@ function blurRestoreFromCache (event) {
             }
         });
         console.log(JSON.stringify(cache));
+        var masterServant = false;
+        if (event.target.classList.contains('person-servant') || event.target.classList.contains('person-master')) {
+            masterServant = true;
+        }
         if (complete) {
             console.log("YYY complete");
             // XXX If complete in cache, just restore field content and close
@@ -68,20 +72,26 @@ function blurRestoreFromCache (event) {
                 field.classList.remove('has-content');
                 field.classList.add('has-content');
             });
-            disablePersonServants(event.target);
-            disablePersonMaster(event.target);
-            enableEditButton(event.target);
-            enableClearButton(event.target);
+            if (masterServant) {
+                disablePersonServants(event.target);
+                disablePersonMaster(event.target);
+                enableEditButton(event.target);
+                enableClearButton(event.target);
+            }
         } else {
             console.log("YYY incomplete");
             // XXX If incomplete in cache, clear the person and set to initial mode
             forField(event.target,function(field){
                 field.value = '';
             });
-            disablePersonServants(event.target);
-            enablePersonMaster(event.target);
-            disableEditButton(event.target);
-            disableClearButton(event.target);
+            
+            // 
+            if (masterServant) {
+                disablePersonServants(event.target);
+                enablePersonMaster(event.target);
+                disableEditButton(event.target);
+                disableClearButton(event.target);
+            }
         }
     },100);
 };

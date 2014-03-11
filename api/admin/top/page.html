@@ -34,7 +34,7 @@
               <td>Name:</td>
               <td>
                 <div>
-                  <input id="convenor-name" class="convenor field person-master search" placeholder="Search" type="text"/>
+                  <input id="convenor-name" class="convenor field person-master search" autocomplete="off" placeholder="Search" type="text"/>
                   <input id="convenor-name-id" class="form-input require" style="display:none;"/>
                 </div>
                 <div class="relative" id="convenor-name-dropdown" style="display:none;">
@@ -46,7 +46,7 @@
               <td>Contact:</td>
               <td>
                 <div>
-                  <input id="convenor-contact" class="convenor field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                  <input id="convenor-contact" class="convenor field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-contact-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -59,7 +59,7 @@
               <td>Affiliation:</td>
               <td>
                 <div>
-                  <input id="convenor-affiliation" class="convenor field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                  <input id="convenor-affiliation" class="convenor field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-affiliation-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -70,7 +70,7 @@
               <td>Position:</td>
               <td>
                 <div>
-                  <input id="convenor-position" class="convenor field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                  <input id="convenor-position" class="convenor field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-position-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -109,12 +109,11 @@
               <td>Title:</td>
               <td>
                 <div>
-                  <input id="attachment-title" name="attachmentTitle" autocomplete="off" form="attachment-uploader" class="attachment field solo-field search" placeholder="Search" type="text" size="50"/>
-                  <input type="text" name="attachment-title-id" form="attachment-uploader" style="display:none;" value=""/>
+                  <input id="uploader-attachment" name="attachmentTitle" autocomplete="off" form="uploader" class="attachment field search" placeholder="Search" type="text" size="50"/>
                 </div>
-                <div class="relative" id="attachment-title-dropdown" style="display:none;">
+                <div class="relative" id="uploader-attachment-dropdown" style="display:none;">
                   <div class="combo-mask">
-                    <select id="attachment-title-dropdown-select" size="6" class="combo"></select>
+                    <select id="uploader-attachment-dropdown-select" size="6" class="combo"></select>
                   </div>
                 </div>
               </td>
@@ -122,22 +121,22 @@
             <tr>
               <td></td>
               <td>
-                <form id="attachment-uploader"
+                <form id="uploader"
                       name="uploadForm"
                       enctype="multipart/form-data"
                       action="SET_BY_BROWSER_JS"
                       target="hidden-iframe"
                       method="post"
                       onsubmit="startingUpload(this);">
-                  <input type="text" id="attachment-uploader-mimetype" name="mimeType" style="display:none;" value=""/>
-                  <input type="text" id="attachment-uploader-extension" name="filenameExtension" style="display:none;" value=""/>
-                  <input type="file" id="attachment-uploader-filename" onchange="setFileExtension(this);" name="attachmentDocument"/>
-                  <input type="submit" value="Upload" id="attachment-uploader-button" disabled="true"/>
+                  <input type="text" id="uploader-attachment-mimetype" name="mimeType" style="display:none;" value=""/>
+                  <input type="text" id="uploader-attachment-extension" name="filenameExtension" style="display:none;" value=""/>
+                  <input type="file" id="uploader-attachment-filename" class="field" onchange="setFileExtension(this);" name="attachmentDocument"/>
+                  <input type="submit" value="Upload" id="uploader-attachment-button" disabled="true"/>
                 </form>
               </td>
               <td>
                 <div>
-                  <input form="attachment-uploader" type="checkbox" name="searchableTitle"/> searchable
+                  <input id="uploader-attachment-searchable" form="uploader" type="checkbox" name="searchableTitle"/> searchable
                 </div>
               </td>
             </tr>
@@ -155,7 +154,7 @@
               <td>Name:</td>
               <td>
                 <div>
-                  <input id="presenter-name" class="presenter field person-master search" placeholder="Search" type="text"/>
+                  <input id="presenter-name" class="presenter field person-master search" autocomplete="off" placeholder="Search" type="text"/>
                   <input id="presenter-name-id" value="" class="form-input require" style="display:none;"/>
                 </div>
                 <div class="relative" id="presenter-name-dropdown" style="display:none;">
@@ -167,7 +166,7 @@
               <td>Contact:</td>
               <td>
                 <div>
-                  <input id="presenter-contact" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                  <input id="presenter-contact" class="presenter field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-contact-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -180,7 +179,7 @@
               <td>Affiliation:</td>
               <td>
                 <div>
-                  <input id="presenter-affiliation" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                  <input id="presenter-affiliation" class="presenter field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-affiliation-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -191,7 +190,7 @@
               <td>Position:</td>
               <td>
                 <div>
-                  <input id="presenter-position" class="presenter field person-servant search" placeholder="Required" type="text" disabled="true"/>
+                  <input id="presenter-position" class="presenter field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-position-dropdown" style="display:none;">
                   <div class="combo-mask">

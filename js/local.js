@@ -24,7 +24,7 @@ var mimeTypes = {
 }
 
 function setFileExtension (node) {
-    var uploadButton = document.getElementById('attachment-upload-button');
+    var uploadButton = document.getElementById('uploader-attachment-button');
     uploadButton.disabled = false;
     return;
 };
