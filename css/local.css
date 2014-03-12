@@ -41,22 +41,22 @@ input.has-content {
     background:#eeeeee;
     font-weight: bold;
     color: black;
-    -webkit-transition:background 0.6s linear;
-	-moz-transition:background 0.6s linear;
-	-ms-transition:background 0.6s linear;
-	-o-transition:background 0.6s linear;
-	transition:background 0.6s linear;
+    -webkit-transition:background 0.3s linear;
+	-moz-transition:background 0.3s linear;
+	-ms-transition:background 0.3s linear;
+	-o-transition:background 0.3s linear;
+	transition:background 0.3s linear;
 }
 
 input.change-succeeded {
     background:#66ff66;
     font-weight: bold;
     color: black;
-    -webkit-transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
-	-moz-transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
-	-ms-transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
-	-o-transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
-	transition:font-weight 0.6s linear,color 0.6s linear,background 0.6s linear;
+    -webkit-transition:font-weight 0.3s linear,color 0.3s linear,background 0.3s linear;
+	-moz-transition:font-weight 0.3s linear,color 0.3s linear,background 0.3s linear;
+	-ms-transition:font-weight 0.3s linear,color 0.3s linear,background 0.3s linear;
+	-o-transition:font-weight 0.3s linear,color 0.3s linear,background 0.3s linear;
+	transition:font-weight 0.3s linear,color 0.3s linear,background 0.3s linear;
 }
 
 div.field-dropdown-container {
@@ -190,14 +190,14 @@ span.quizzer-highlight {
 .right-answer {
     background: #e3ffe6;
     border: 3px double black;
-    margin: 6px 0 6px 1em;
+    margin: 6px 0.3px 1em;
     padding: 0 5px 0 5px;
 }
 
 .wrong-answer {
     background: #ffdfdf;
     border: 1px solid black;
-    margin: 6px 0 6px 1em;
+    margin: 6px 0.3px 1em;
     padding: 0 5px 0 5px;
 }
 

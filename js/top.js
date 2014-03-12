@@ -31,8 +31,16 @@ function buildTimes (node,placeholder) {
 function initializePage () {
     pageDate = new Date().getTime();
     lastFocusedElement = document.getElementsByClassName('field')[0];
+
     var uploaderNodeWidth = document.getElementById('uploader-attachment').offsetWidth;
     document.getElementById('uploader-attachment-filename').style.width = (uploaderNodeWidth + 'px');
+
+    var titleNode = document.getElementById('title');
+    var descriptionNode = document.getElementById('description');
+    var noteNode = document.getElementById('note');
+    descriptionNode.style.width = (titleNode.offsetWidth + 'px');
+    noteNode.style.width = (titleNode.offsetWidth + 'px');
+
     var hiddenIframe = document.getElementById('hidden-iframe-id');
     hiddenIframe.addEventListener('load',completedUpload);
     var sessionHourStart = document.getElementById('session-hour-start');
