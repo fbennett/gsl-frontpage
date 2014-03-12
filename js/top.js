@@ -62,10 +62,13 @@ function setButtons() {
     }
 };
 
+var nameKeyupHandler = null;
+var nameKeydownHandler = null;
+
 function setKeyboardHandlers() {
     var nodes = document.getElementsByClassName('person-master');
-    var nameKeydownHandler = getSearchableKeydownHandler('name');
-    var nameKeyupHandler = keyboardSearchThrottle(250,getSearchableKeyupHandler('name'));
+    nameKeyupHandler = getSearchableKeyupHandler('name');
+    nameKeydownHandler = getSearchableKeydownHandler('name');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
         node.addEventListener('keydown',nameKeydownHandler);
@@ -75,23 +78,23 @@ function setKeyboardHandlers() {
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
         var fieldName = node.id.split('-')[1];
-        if (!window[fieldName + 'KeydownHandler']) {
-            window[fieldName + 'KeydownHandler'] = keyboardSearchThrottle(250,getSearchableKeydownHandler(fieldName));
-        }
         if (!window[fieldName + 'KeyupHandler']) {
-            window[fieldName + 'KeyupHandler'] = keyboardSearchThrottle(250,getSearchableKeyupHandler(fieldName));
+            window[fieldName + 'KeyupHandler'] = getSearchableKeyupHandler(fieldName);
+        }
+        if (!window[fieldName + 'KeydownHandler']) {
+            window[fieldName + 'KeydownHandler'] = getSearchableKeydownHandler(fieldName);
         }
         if (!window[fieldName + 'Set']) {
             window[fieldName + 'Set'] = getServantFieldSetter(fieldName);
         }
-        node.addEventListener('keydown',window[fieldName + 'KeydownHandler']);
         node.onkeyup = window[fieldName + 'KeyupHandler'];
+        node.addEventListener('keydown',window[fieldName + 'KeydownHandler']);
     }
     var node = document.getElementById('uploader-attachment');
+    attachmentKeyupHandler = getSearchableKeyupHandler('attachment')
+    node.addEventListener('keyup',attachmentKeyupHandler);
     attachmentKeydownHandler = getSearchableKeydownHandler('attachment');
     node.addEventListener('keydown',attachmentKeydownHandler);
-    attachmentKeyupHandler = getSearchableKeyupHandler('attachment')
-    node.addEventListener('keyup',keyboardSearchThrottle(250,attachmentKeyupHandler));
 };
 
 function setSearchableBlurHandlers() {

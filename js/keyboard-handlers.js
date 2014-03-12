@@ -89,7 +89,7 @@ function getSearchableKeydownHandler (fieldName) {
     return function (event) {
         if (['Tab','Down','Esc'].indexOf(event.key) > -1) {
             event.preventDefault();
-            console.log("cc "+fieldName);
+            console.log("cc "+fieldName+" "+event.key);
             window[fieldName + 'KeyupHandler'](event, event.key);
         }
     };
@@ -97,10 +97,12 @@ function getSearchableKeydownHandler (fieldName) {
 
 function getSearchableKeyupHandler (fieldName) {
     return function (event, fromKeyDown) {
+        console.log("RUN key down handler: ("+event.key+") ("+fromKeyDown+")");
         if (fromKeyDown) {
             event.preventDefault();
         }
         if (event.target.classList.contains('block-sayt')) {
+            console.log("block-sayt");
             event.target.classList.remove('block-sayt');
             return;
         }
@@ -110,6 +112,7 @@ function getSearchableKeyupHandler (fieldName) {
             window[fieldName + 'Set'](event);
             event.target.addEventListener('blur',blurRestoreFromCache);
         } else if (fromKeyDown === 'Down') {
+            console.log("DOWN");
             var dropper = getDropper(event.target);
             if (dropper.childNodes.length) {
                 event.target.classList.remove('block-sayt');
@@ -122,41 +125,43 @@ function getSearchableKeyupHandler (fieldName) {
                 dropper.focus();
             }
         } else {
-            // Expose search lister with updated field value, call API, and populate list
-            var adminID = getParameterByName('admin');
-            var pageName = getParameterByName('page');
-            if (!pageName) {
-                pageName = 'top';
-            }
-            
-            var rows = apiRequest(
-                '/?admin='
-                    + adminID
-                    + '&page=' + pageName
-                    + '&cmd=search' + fieldName
-                , {
-                    str:event.target.value.toLowerCase()
+            keyboardSearchThrottle (250,function(){
+                // Expose search lister with updated field value, call API, and populate list
+                var adminID = getParameterByName('admin');
+                var pageName = getParameterByName('page');
+                if (!pageName) {
+                    pageName = 'top';
                 }
-            );
-            if (false === rows) return;
+                
+                var rows = apiRequest(
+                    '/?admin='
+                        + adminID
+                        + '&page=' + pageName
+                        + '&cmd=search' + fieldName
+                    , {
+                        str:event.target.value.toLowerCase()
+                    }
+                );
+                if (false === rows) return;
 
-            var dropper = getDropper(event.target);
-            for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
-                dropper.removeChild(dropper.childNodes[0]);
-            }
+                var dropper = getDropper(event.target);
+                for (i=0,ilen=dropper.childNodes.length;i<ilen;i+=1) {
+                    dropper.removeChild(dropper.childNodes[0]);
+                }
 
-            // Nip and tuck
-            var fieldIDkey = fieldName + 'ID';
-            if (fieldName === 'name') {
-                fieldIDkey = 'personID'
-            }
+                // Nip and tuck
+                var fieldIDkey = fieldName + 'ID';
+                if (fieldName === 'name') {
+                    fieldIDkey = 'personID'
+                }
 
-            for (var i=0,ilen=rows.length;i<ilen;i+=1) {
-                var option = document.createElement('option');
-                option.innerHTML = rows[i][fieldName];
-                option.value = rows[i][fieldIDkey];
-                dropper.appendChild(option);
-            }
+                for (var i=0,ilen=rows.length;i<ilen;i+=1) {
+                    var option = document.createElement('option');
+                    option.innerHTML = rows[i][fieldName];
+                    option.value = rows[i][fieldIDkey];
+                    dropper.appendChild(option);
+                }
+            })(event);
         }
     };
 };
