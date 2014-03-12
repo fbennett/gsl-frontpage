@@ -205,7 +205,7 @@
           <table id="session" class="wrapper">
             <tr>
               <td>Session title:</td>
-              <td>
+              <td colspan="2">
                 <input id="session-title" class="session field solo-field" placeholder="Required" type="text" size="50"/>
               </td>
               <td rowspan="2">
@@ -214,14 +214,23 @@
             </tr>
             <tr>
               <td></td>
+              <td style="text-align:left;">
+                <input id="session-place" class="session field search" placeholder="Search: place" type="text" size="10"/>
+                <div class="relative" id="session-place-dropdown" style="display:none;">
+                  <div class="combo-mask">
+                    <select id="session-place-dropdown-select" size="6" class="combo"></select>
+                  </div>
+                </div>
+              </td>
               <td>
-                <input id="session-place" class="session field solo-field" onclick="setFieldState(this,'edit');" placeholder="Search: place" type="text" size="10"/>
                 <input id="session-date" class="session field date-field" onchange="setFieldState(this,'view');setAddButtonState(this);" placeholder="Date" size="10" type="date"/>
-                <select id="session-hour" class="session field time-field" onchange="setAddButtonState(this);">
-                </select>
+                <select id="session-hour-start" class="session field time-field" onchange="setAddButtonState(this);"></select>
+                〜
+                <select id="session-hour-end" class="session field time-field" onchange="setAddButtonState(this);"></select>
               </td>
             </tr>
           </table>
+          <p>&nbsp;</p>
         </div>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
