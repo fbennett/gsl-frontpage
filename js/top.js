@@ -128,10 +128,17 @@ function setKeyboardHandlers() {
         node.onkeyup = window[fieldName + 'KeyupHandler'];
         node.addEventListener('keydown',window[fieldName + 'KeydownHandler']);
     }
+
     var node = document.getElementById('uploader-attachment');
     attachmentKeyupHandler = getSearchableKeyupHandler('attachment')
     node.addEventListener('keyup',attachmentKeyupHandler);
     attachmentKeydownHandler = getSearchableKeydownHandler('attachment');
+    node.addEventListener('keydown',attachmentKeydownHandler);
+
+    var node = document.getElementById('session-place');
+    sessionplaceKeyupHandler = getSearchableKeyupHandler('session')
+    node.addEventListener('keyup',attachmentKeyupHandler);
+    sessionplaceKeydownHandler = getSearchableKeydownHandler('session');
     node.addEventListener('keydown',attachmentKeydownHandler);
 };
 

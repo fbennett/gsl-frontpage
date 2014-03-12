@@ -227,23 +227,39 @@ var attachmentHtmlTemplate = '<tr>'
     + '</tr>';
 
 function appendAttachmentNode(documentID,documentTitle) {
-    console.log("TRY");
     var attachmentContainer = document.getElementById('attachment-container');
-    console.log("(1)");
     var attachmentNode = document.createElement('table');
-    console.log("(2)");
     attachmentNode.setAttribute('id', 'document' + documentID);
     attachmentNode.classList.add('wrapper')
-    console.log("(3)");
     attachmentNode.classList.add('ephemeral');
-    console.log("(4)");
     attachmentNode.innerHTML = attachmentHtmlTemplate.replace(/@@DOCUMENT_ID@@/g,documentID).replace(/@@DOCUMENT_TITLE@@/,documentTitle);
-    console.log("(5)");
     attachmentContainer.appendChild(attachmentNode);
-    console.log("(6)");
 };
 
 function deleteAttachment(documentID) {
     var attachmentNode = document.getElementById('document' + documentID);
     attachmentNode.parentNode.removeChild(attachmentNode);
+};
+
+function getSessionFieldValues (node) {
+    var fields = {};
+    fields.complete = true;
+    var container = getContainer(node);
+    var fieldNodes = container.getElementsByClassName('field');
+    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
+        var fieldNode = fieldNodes[i];
+        fields[fieldNode.id.split('-')[1]] = fieldNode.value;
+        if (!fieldNode.value) {
+            fields.complete = false;
+        }
+    }
+    return fields;
+};
+
+var attachmentHtmlTemplate = '<tr>'
+
+
+function appendSessionNode (title, place, date, startTime, endTime) {
+    var sessionContainer = document.getElementById('session-container');
+    var sessionNode = document.createElement('table');
 };

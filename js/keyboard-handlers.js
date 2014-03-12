@@ -200,7 +200,6 @@ function getKeyDropdown(fieldID) {
 };
 
 function attachmentSet(event) {
-    console.log("RUNNING");
     // Check for perfect *searchable* match on title, use existing DB entry if exists.
     // Otherwise just set the field.
     if (event.target.value) {
@@ -232,13 +231,6 @@ function attachmentSet(event) {
                 }
             }
         }
-        //if (perfectMatch) {
-            // Set document ID and allow upload
-        //    moveFocusForward(event.target);
-        //} else {
-            // Just change the highlight and move forward
-        //    moveFocusForward(event.target);
-        //}
     }
     moveFocusForward(event.target);
 };
@@ -283,5 +275,29 @@ function attachmentTitleKeydown(event) {
     if (['Tab','Esc'].indexOf(event.key) > -1) {
         event.preventDefault();
         attachmentTitleKeyup(event, event.key);
+    }
+};
+
+function sessionSet(node) {
+    // If we're full, case a fresh session node
+    var fields = getSessionFieldValues(node);
+    console.log("JSON: "+JSON.stringify(fields));
+};
+
+function sessionTitleKeyup (event,fromKeyDown) {
+    // Wow
+   if (fromKeyDown) {
+        event.preventDefault();
+    }
+    if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+        event.preventDefault();
+        sessionSet(event.target);
+    }
+};
+
+function sessionTitleKeydown (event) {
+    if (['Tab','Esc'].indexOf(event.key) > -1) {
+        event.preventDefault();
+        sessionplaceKeyup(event, event.key);
     }
 };

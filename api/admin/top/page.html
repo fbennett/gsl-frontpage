@@ -224,7 +224,7 @@
             <tr>
               <td>Session title:</td>
               <td colspan="2">
-                <input id="session-title" class="session field" placeholder="Required" type="text" size="50"/>
+                <input id="session-title" class="session field" placeholder="Required" onkeyup="sessionTitleKeyup(event);" onkeydown="sessionTitleKeydown(event);" type="text" size="50"/>
               </td>
               <td rowspan="2">
                 <input type="button" value="Add" class="add-button" disabled="true"/>
@@ -248,6 +248,7 @@
               </td>
             </tr>
           </table>
+          <div id="session-container"></div>
           <p>&nbsp;</p>
         </div>
       </div>
