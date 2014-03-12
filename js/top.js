@@ -1,7 +1,7 @@
 var pageDate = null;
 
-function buildTimes (node) {
-    var timesHTML = '<option value="0">Time</option>\n';
+function buildTimes (node,placeholder) {
+    var timesHTML = '<option value="0">' + placeholder + '</option>\n';
     for (var j=8,jlen=20;j<jlen;j+=1) {
         for (var k=0,klen=60;k<klen;k+=15) {
             var time = j + ':';
@@ -36,9 +36,9 @@ function initializePage () {
     var hiddenIframe = document.getElementById('hidden-iframe-id');
     hiddenIframe.addEventListener('load',completedUpload);
     var sessionHourStart = document.getElementById('session-hour-start');
-    buildTimes(sessionHourStart);
+    buildTimes(sessionHourStart,'Start');
     var sessionHourEnd = document.getElementById('session-hour-end');
-    buildTimes(sessionHourEnd);
+    buildTimes(sessionHourEnd,'End');
     setKeyboardHandlers();
     setSearchableBlurHandlers();
     setSearchableFocusHandlers();
