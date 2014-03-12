@@ -20,9 +20,27 @@
     <iframe name="hidden-iframe" id="hidden-iframe-id" style="display: none;"></iframe>
     <div class="grid">  
       <div class="col-1-1">
-        <hr/>
-        <h1>GSL Frontpage Announcement <span style="font-size:normal;font-weight:normal;margin-left:1em;font-family:courier,mono;border:1px solid black;padding:0.5em;">Reviewed: <span style="color:red;font-weight:bold;">no</span></span></h1>
-        <hr/>
+        <div style="position:relative;">
+          <h1>GSL Frontpage Manager</h1>
+          <table style="position:absolute;right:0px;top:0px;">
+            <tr>
+              <td>
+                Announcements:
+              </td>
+              <td style="text-align:left;">
+                <select id="announcements"><option value="">Select an announcement</select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Events:
+              </td>
+              <td style="text-align:left;">
+                <select id="events"><option value="">Select an event</select>
+              </td>
+            </tr>
+          </table>
+        </div>
         <div id="content">
           <h2>
             Staffer

@@ -1,0 +1,13 @@
+Edit support for attachment titles
+Fill out code for session place search
+Insert session items to form
+Save announcement/event from form
+Pulldown list of announcements & events with retrieval
+Template for mail notices
+Templates for website updates
+Website update code
+Mailing list support
+Announcement/event cancellation & delete
+Announcement revision notices
+Purge code: 1 week for orphans, 2 years for content
+Report output?
