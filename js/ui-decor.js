@@ -98,6 +98,7 @@ function moveFocusForward (node) {
 
 function getContainer(node) {
     var containerID = node.id.split('-')[0];
+    console.log("XXX --> "+containerID);
     return document.getElementById(containerID);
 };
 
@@ -157,9 +158,13 @@ function addAttachment (documentID, documentTitle) {
     var attachmentContainer = document.getElementById('attachment-container');
     for (var i=0,ilen=attachmentContainer.childNodes.length;i<ilen;i+=1) {
         var node = attachmentContainer.childNodes[i];
-        var id = node.getElementsByClassName('document-id')[0].value;
-        var title = node.getElementsByClassName('document-title')[0].value;
-        status.attachments[id] = title;
+        var titleNode = node.getElementsByClassName('document-title')[0];
+        var m = titleNode.id.match(/^document([0-9+]).*/);
+        var id = 0;
+        if (m) {
+            id = m[1];
+        }
+        status.attachments[id] = titleNode.value;
     }
     
     console.log("(2)");
@@ -207,8 +212,7 @@ var attachmentHtmlTemplate = '<tr>'
     + '  <td>Title:</td>'
     +'   <td class="document">'
     + '    <div>'
-    + '      <input class="document-id" type="text" style="display:none;" value="@@DOCUMENT_ID@@"/>'
-    + '      <input class="document-title field-closed" type="text" size="50" value="@@DOCUMENT_TITLE@@" onkeyup="updateAttachmentTitle(event)"/>'
+    + '      <input id="document@@DOCUMENT_ID@@-attachment" class="document-title field field-closed" type="text" size="50" value="@@DOCUMENT_TITLE@@" onblur="soloFieldBlur(event);" onfocus="soloFieldFocus(event);" onkeydown="attachmentTitleKeydown(event);" onkeyup="attachmentTitleKeyup(event);"/>'
     + '    </div>'
     + '  </td>'
     + '  <td rowspan="2">'
@@ -228,7 +232,7 @@ function appendAttachmentNode(documentID,documentTitle) {
     console.log("(1)");
     var attachmentNode = document.createElement('table');
     console.log("(2)");
-    attachmentNode.setAttribute('id', 'document-' + documentID);
+    attachmentNode.setAttribute('id', 'document' + documentID);
     attachmentNode.classList.add('wrapper')
     console.log("(3)");
     attachmentNode.classList.add('ephemeral');
@@ -240,6 +244,6 @@ function appendAttachmentNode(documentID,documentTitle) {
 };
 
 function deleteAttachment(documentID) {
-    var attachmentNode = document.getElementById('document-' + documentID);
+    var attachmentNode = document.getElementById('document' + documentID);
     attachmentNode.parentNode.removeChild(attachmentNode);
 };

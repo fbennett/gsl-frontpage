@@ -242,3 +242,46 @@ function attachmentSet(event) {
     }
     moveFocusForward(event.target);
 };
+
+function attachmentTitleKeyup(event,fromKeyDown) {
+    if (fromKeyDown) {
+        event.preventDefault();
+    }
+    if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+        console.log("DO-ing");
+        event.preventDefault();
+        var adminID = getParameterByName('admin');
+        var pageName = getParameterByName('page');
+        var documentID = 0;
+        var m = event.target.id.match(/^document([0-9]+).*/);
+        if (m) {
+            documentID = parseInt(m[1],10);
+        }
+        var title = event.target.value;
+
+        var ret = apiRequest(
+            '/?admin='
+                + adminID
+                + '&page=top'
+                + '&cmd=updateattachmenttitle'
+            , {
+                documentid:documentID,
+                title:title
+            }
+        );
+        if (false === ret) return;
+        var node = event.target;
+        cache[node.id] = node.value;
+        node.classList.add('change-succeeded');
+        node.classList.remove('change-succeeded');
+        node.classList.add('field-closed');
+        moveFocusForward(node);
+    }
+};
+
+function attachmentTitleKeydown(event) {
+    if (['Tab','Esc'].indexOf(event.key) > -1) {
+        event.preventDefault();
+        attachmentTitleKeyup(event, event.key);
+    }
+};

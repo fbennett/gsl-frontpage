@@ -1,3 +1,9 @@
+function soloFieldBlur(event) {
+    event.target.classList.remove('field-closed');
+    event.target.classList.add('field-closed');
+    event.target.value = cache[event.target.id];
+};
+
 function blockBlurRestore (event) {
     if (sameContainer(event.target,lastFocusedElement)) {
         forField(event.target,function(field){

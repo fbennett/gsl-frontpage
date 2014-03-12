@@ -1,3 +1,9 @@
+function soloFieldFocus(event) {
+    event.target.classList.remove('field-closed');
+    cache[event.target.id] = event.target.value;
+    rememberFocus(event);
+};
+
 function focusSearchDropdown (event) {
     if (!event.target.value) {
         var dropper = getDropper(event.target);
