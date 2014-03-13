@@ -34,7 +34,7 @@ function blurSearchDropdown (event) {
         var id = node.id;
         var dropdown = document.getElementById(id + '-dropdown');
         dropdown.style.display = 'none';
-    },100);
+    },200);
 };
 
 //function getBlurDropdown(fieldID) {

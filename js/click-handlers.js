@@ -12,7 +12,7 @@ function getClickDropdown (fieldID) {
     } else if (fieldID.split('-')[1] === 'attachment') {
         console.log("Setting attachment click handler, I guess");
         return function (event) {
-            console.log("WHOA! "+event.target.value);
+            console.log("attachment dropdown: click event");
             attachmentPull(fieldNode,event.target.value);
         }
     } else if (fieldID.split('-')[1] === 'place') {

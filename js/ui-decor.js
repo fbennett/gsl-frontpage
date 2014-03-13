@@ -266,9 +266,20 @@ function getSessionFieldValues (node) {
     return fields;
 };
 
+function clearSessionFieldValues (node) {
+    var fields = {};
+    var container = getContainer(node);
+    var fieldNodes = container.getElementsByClassName('field');
+    for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
+        var fieldNode = fieldNodes[i];
+        fieldNode.value = "";
+    }
+    cache = {};
+};
+
 var sessionHtmlTemplate = '<tr>'
-    + '  <td colspan="2">'
-    + '    <input id="session@@SESSION_ID@@-title" class="field-closed" disabled="true" type="text" size="50"/>'
+    + '  <td colspan="2" style="text-align:left;">'
+    + '    <input id="session@@SESSION_ID@@-title" value="@@TITLE@@" class="has-content" disabled="true" type="text" size="50"/>'
     + '  </td>'
     + '  <td rowspan="2">'
     + '    <input id="session@@SESSION_ID@@-delete-button" type="button" value="Delete"/>'
@@ -276,13 +287,14 @@ var sessionHtmlTemplate = '<tr>'
     + '</tr>'
     + '<tr>'
     + '  <td style="text-align:left;">'
-    + '    <input id="session@@SESSION_ID@@-place" class="field-closed" disabled="true" type="text" size="10"/>'
+    + '    <input id="session@@SESSION_ID@@-place" value="@@PLACE@@" class="has-content" disabled="true" type="text" size="10"/>'
     + '  </td>'
     + '  <td>'
-    + '    <input id="session@@SESSION_ID@@-date" class="field-closed" size="10" type="text"/>'
-    + '    <input id="session@@SESSION_ID@@-hour-start" class="field-closed"/>'
+    + '    <span class="day-of-week">@@DOW@@</span>'
+    + '    <input id="session@@SESSION_ID@@-date" value="@@DATE@@" class="has-content" size="10" disabled="true" type="text"/>'
+    + '    <input id="session@@SESSION_ID@@-hour-start" value="@@START@@" class="has-content" disabled="true" size="5"/>'
     + '〜'
-    + '<input id="session@@SESSION_ID@@-hour-end" class="field-closed"/>'
+    + '<input id="session@@SESSION_ID@@-hour-end" value="@@END@@" class="has-content" disabled="true" size="5"/>'
     + '  </td>'
     + '</tr>'
 
@@ -300,6 +312,9 @@ function appendSessionNode(node) {
     var dateTime = new Date(year=date.year,month=date.month,day=date.day,hour=time.hour,minute=time.minute);
     var sessionID = dateTime.getTime();
 
+    var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    var dow = days[dateTime.getDay()];
+
     console.log("sessionID="+sessionID);
 
     var sessionContainer = document.getElementById('session-container');
@@ -307,8 +322,17 @@ function appendSessionNode(node) {
     sessionNode.setAttribute('id', 'session' + sessionID);
     sessionNode.classList.add('wrapper')
     sessionNode.classList.add('ephemeral');
-    sessionNode.innerHTML = sessionHtmlTemplate.replace(/@@SESSION_ID@@/g,sessionID).replace(/@@SESSION_TITLE@@/,fields.title);
+    sessionNode.innerHTML = sessionHtmlTemplate
+        .replace(/@@SESSION_ID@@/g,sessionID)
+        .replace(/@@TITLE@@/g,fields.title)
+        .replace(/@@PLACE@@/g,fields.place)
+        .replace(/@@DATE@@/g,fields.date)
+        .replace(/@@START@@/g,fields.start)
+        .replace(/@@END@@/g,fields.end)
+        .replace(/@@DOW@@/g,dow)
     sessionContainer.appendChild(sessionNode);
+
+    clearSessionFieldValues(node);
 };
 
 function deleteSession(sessionID) {

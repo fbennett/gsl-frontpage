@@ -1,3 +1,9 @@
+.day-of-week {
+    border:1px solid black;
+    border-radius:1em;
+    padding:0.5em;
+}
+
 form#uploader {
     white-space:nowrap;
     background:#eeeeee;

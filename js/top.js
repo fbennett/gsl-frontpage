@@ -65,7 +65,7 @@ function setupSearchListHandlers () {
             {
                 event:'click',
                 handler:getClickDropdown(field.id),
-                capture:true
+                capture:false
             },
             {
                 event:'keydown',
