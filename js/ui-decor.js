@@ -80,7 +80,7 @@ function disableClearButton(node) {
     clearButton.disabled = true;
 };
 
-function moveFocusForward (node) {
+function moveFocusForward (node,action) {
     var start = false;
     var inputs = document.getElementsByClassName('field');
     for (var i=0,ilen=inputs.length;i<ilen;i+=1) {
@@ -225,6 +225,27 @@ var attachmentHtmlTemplate = '<tr>'
     + '<div class="document-link"><a href="/attachments/@@DOCUMENT_ID@@">attachments/@@DOCUMENT_ID@@</a></div>'
     + '  </td>'
     + '</tr>';
+
+var sessionHtmlTemplate = '<tr>'
+    + '  <td colspan="2">'
+    + '    <input id="session@@SESSION_ID@@-title" class="field-closed" disabled="true" type="text" size="50"/>'
+    + '  </td>'
+    + '  <td rowspan="2">'
+    + '    <input id="session@@SESSION_ID@@-delete-button" type="button" value="Delete"/>'
+    + '  </td>'
+    + '</tr>'
+    + '<tr>'
+    + '  <td style="text-align:left;">'
+    + '    <input id="session@@SESSION_ID@@-place" class="field-closed" disabled="true" type="text" size="10"/>'
+    + '  </td>'
+    + '  <td>'
+    + '    <input id="session@@SESSION_ID@@-date" class="field-closed" size="10" type="text"/>'
+    + '    <input id="session@@SESSION_ID@@-hour-start" class="field-closed"/>'
+    + '〜'
+    + '<input id="session@@SESSION_ID@@-hour-end" class="field-closed"/>'
+    + '  </td>'
+    + '</tr>'
+
 
 function appendAttachmentNode(documentID,documentTitle) {
     var attachmentContainer = document.getElementById('attachment-container');

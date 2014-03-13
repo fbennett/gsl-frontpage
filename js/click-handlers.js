@@ -35,7 +35,7 @@ function getClickDropdown (fieldID) {
     }
 };
 
-function setAddButtonState (node) {
+function setAddButtonState (node,action) {
     var addButton = document.getElementById('session-add-button');
     if (checkSessionFieldValues(node)) {
         console.log("ENABLING");
@@ -43,7 +43,7 @@ function setAddButtonState (node) {
         addButton.focus();
     } else {
         console.log("DISABLING");
-        moveFocusForward(node);
+        moveFocusForward(node,action);
         addButton.disabled = true;
     }
 };

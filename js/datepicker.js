@@ -9,6 +9,7 @@ if (datefield.type!="date"){ //if browser doesn't support input type="date", loa
 function fixDateField (node) {
     if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
         jQuery(function($){ //on document.ready
+            $.datepicker.setDefaults( {dateFormat:'yy-mm-dd'} )
             $('#' + node.id).datepicker();
         })
     }

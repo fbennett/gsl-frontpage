@@ -133,6 +133,8 @@ function setKeyboardHandlers() {
     var node = document.getElementById('session-title');
     node.addEventListener('keyup',sessionTitleKeyup);
     node.addEventListener('keydown',sessionTitleKeydown);
+    node.addEventListener('blur',blurRestoreFromCache);
+    node.addEventListener('focus',blockBlurRestore);
 
     var node = document.getElementById('uploader-attachment');
     attachmentKeyupHandler = getSearchableKeyupHandler('attachment')
