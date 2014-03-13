@@ -191,6 +191,7 @@ function addAttachment (documentID, documentTitle) {
     for (var i=0,ilen=attachmentContainer.childNodes.length;i<ilen;i+=1) {
         attachmentContainer.removeChild(attachmentContainer.childNodes[0]);
     }
+
     console.log("(4)");
     
     // Add the updated nodes
@@ -226,27 +227,6 @@ var attachmentHtmlTemplate = '<tr>'
     + '  </td>'
     + '</tr>';
 
-var sessionHtmlTemplate = '<tr>'
-    + '  <td colspan="2">'
-    + '    <input id="session@@SESSION_ID@@-title" class="field-closed" disabled="true" type="text" size="50"/>'
-    + '  </td>'
-    + '  <td rowspan="2">'
-    + '    <input id="session@@SESSION_ID@@-delete-button" type="button" value="Delete"/>'
-    + '  </td>'
-    + '</tr>'
-    + '<tr>'
-    + '  <td style="text-align:left;">'
-    + '    <input id="session@@SESSION_ID@@-place" class="field-closed" disabled="true" type="text" size="10"/>'
-    + '  </td>'
-    + '  <td>'
-    + '    <input id="session@@SESSION_ID@@-date" class="field-closed" size="10" type="text"/>'
-    + '    <input id="session@@SESSION_ID@@-hour-start" class="field-closed"/>'
-    + '〜'
-    + '<input id="session@@SESSION_ID@@-hour-end" class="field-closed"/>'
-    + '  </td>'
-    + '</tr>'
-
-
 function appendAttachmentNode(documentID,documentTitle) {
     var attachmentContainer = document.getElementById('attachment-container');
     var attachmentNode = document.createElement('table');
@@ -281,16 +261,74 @@ function getSessionFieldValues (node) {
     var fieldNodes = container.getElementsByClassName('field');
     for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
         var fieldNode = fieldNodes[i];
-        fields[fieldNode.id] = fieldNode.value;
+        fields[fieldNode.id.split('-')[1]] = fieldNode.value;
     }
     return fields;
 };
 
-var attachmentHtmlTemplate = '<tr>'
+var sessionHtmlTemplate = '<tr>'
+    + '  <td colspan="2">'
+    + '    <input id="session@@SESSION_ID@@-title" class="field-closed" disabled="true" type="text" size="50"/>'
+    + '  </td>'
+    + '  <td rowspan="2">'
+    + '    <input id="session@@SESSION_ID@@-delete-button" type="button" value="Delete"/>'
+    + '  </td>'
+    + '</tr>'
+    + '<tr>'
+    + '  <td style="text-align:left;">'
+    + '    <input id="session@@SESSION_ID@@-place" class="field-closed" disabled="true" type="text" size="10"/>'
+    + '  </td>'
+    + '  <td>'
+    + '    <input id="session@@SESSION_ID@@-date" class="field-closed" size="10" type="text"/>'
+    + '    <input id="session@@SESSION_ID@@-hour-start" class="field-closed"/>'
+    + '〜'
+    + '<input id="session@@SESSION_ID@@-hour-end" class="field-closed"/>'
+    + '  </td>'
+    + '</tr>'
 
+function appendSessionNode(node) {
 
-function appendSessionNode (title, place, date, startTime, endTime) {
+    console.log("Append session n0de ...");
+
+    // XXX Cannot save before form as a whole is saved, because we need the event ID
+    // XXX Use the start time as the ID
+    // XXX Harvest nodes from the UI, extract content, and sort by start time on each append
+    var titleNode = document.getElementById('session-title');
+    var fields = getSessionFieldValues(titleNode);
+    var date = extractDate(fields.date);
+    var time = extractTime(fields.start);
+    var dateTime = new Date(year=date.year,month=date.month,day=date.day,hour=time.hour,minute=time.minute);
+    var sessionID = dateTime.getTime();
+
+    console.log("sessionID="+sessionID);
+
     var sessionContainer = document.getElementById('session-container');
     var sessionNode = document.createElement('table');
+    sessionNode.setAttribute('id', 'session' + sessionID);
+    sessionNode.classList.add('wrapper')
+    sessionNode.classList.add('ephemeral');
+    sessionNode.innerHTML = sessionHtmlTemplate.replace(/@@SESSION_ID@@/g,sessionID).replace(/@@SESSION_TITLE@@/,fields.title);
+    sessionContainer.appendChild(sessionNode);
 };
 
+function deleteSession(sessionID) {
+    var sessionNode = document.getElementById('document' + sessionID);
+    sessionNode.parentNode.removeChild(sessionNode);
+};
+
+function extractDate(str) {
+    var ret = {};
+    var m = str.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/);
+    ret.year = m[1];
+    ret.month = m[2];
+    ret.day = m[3];
+    return ret;
+};
+
+function extractTime(str) {
+    var ret = {};
+    var m = str.match(/^([0-9]+):([0-9]+)$/);
+    ret.hour = m[1];
+    ret.minute = m[2];
+    return ret;
+};

@@ -10,13 +10,13 @@ function getClickDropdown (fieldID) {
             dropdown.style.display = 'none';
         };
     } else if (fieldID.split('-')[1] === 'attachment') {
+        console.log("Setting attachment click handler, I guess");
         return function (event) {
-            console.log('Do attachment dropdown handler stuff');
+            console.log("WHOA! "+event.target.value);
             attachmentPull(fieldNode,event.target.value);
         }
     } else if (fieldID.split('-')[1] === 'place') {
         return function (event) {
-            console.log('Do place dropdown handler stuff: '+event.target.tagName);
             placePull(fieldNode,event.target.textContent);
         }
     } else {

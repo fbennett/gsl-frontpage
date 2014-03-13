@@ -227,7 +227,7 @@
                 <input id="session-title" class="session field nosearch" placeholder="Required" type="text" size="50"/>
               </td>
               <td rowspan="2">
-                <input id="session-add-button" type="button" value="Add" class="add-button" disabled="true"/>
+                <input id="session-add-button" onclick="appendSessionNode(this);" type="button" value="Add" class="add-button" disabled="true"/>
               </td>
             </tr>
             <tr>
@@ -242,9 +242,9 @@
               </td>
               <td>
                 <input id="session-date" class="session field date-field" onchange="setAddButtonState(this,'click');" placeholder="Date" size="10" type="date"/>
-                <select id="session-hour-start" class="session field" onchange="setAddButtonState(this,'click');"></select>
+                <select id="session-start" class="session field" onchange="setAddButtonState(this,'click');"></select>
                 〜
-                <select id="session-hour-end" class="session field" onchange="setAddButtonState(this);"></select>
+                <select id="session-end" class="session field" onchange="setAddButtonState(this);"></select>
               </td>
             </tr>
           </table>

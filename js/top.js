@@ -43,9 +43,9 @@ function initializePage () {
 
     var hiddenIframe = document.getElementById('hidden-iframe-id');
     hiddenIframe.addEventListener('load',completedUpload);
-    var sessionHourStart = document.getElementById('session-hour-start');
+    var sessionHourStart = document.getElementById('session-start');
     buildTimes(sessionHourStart,'Start');
-    var sessionHourEnd = document.getElementById('session-hour-end');
+    var sessionHourEnd = document.getElementById('session-end');
     buildTimes(sessionHourEnd,'End');
     setKeyboardHandlers();
     setSearchableBlurHandlers();
