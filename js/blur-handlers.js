@@ -75,8 +75,10 @@ function blurRestoreFromCache (event) {
             // XXX If complete in cache, just restore field content and close
             forField(event.target,function(field){
                 field.value = cache[field.id];
-                field.classList.remove('has-content');
-                field.classList.add('has-content');
+                if (!event.target.classList.contains('session')) {
+                    field.classList.remove('has-content');
+                    field.classList.add('has-content');
+                }
             });
             if (masterServant) {
                 disablePersonServants(event.target);

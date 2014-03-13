@@ -62,11 +62,12 @@ function placePull(node,place) {
     node.value = place;
     cache[node.id] = place;
 
+    var sessionAddButton = document.getElementById('session-add-button');
     if (checkSessionFieldValues(node)) {
-        var sessionAddButton = document.getElementById('session-add-button');
         sessionAddButton.disabled = false;
         sessionAddButton.focus();
     } else {
+        sessionAddButton.disabled = true;
         moveFocusForward(node);
     }
     

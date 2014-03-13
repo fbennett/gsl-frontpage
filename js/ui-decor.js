@@ -246,7 +246,7 @@ function checkSessionFieldValues (node) {
     var complete = true;
     var fields = getSessionFieldValues(node);
     for (var fieldKey in fields) {
-        if (!fields[fieldKey].value) {
+        if (!fields[fieldKey]) {
             complete = false;
             break
         }
@@ -260,7 +260,7 @@ function getSessionFieldValues (node) {
     var fieldNodes = container.getElementsByClassName('field');
     for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
         var fieldNode = fieldNodes[i];
-        fields[fieldNode.id.split('-')[1]] = fieldNode.value;
+        fields[fieldNode.id] = fieldNode.value;
     }
     return fields;
 };

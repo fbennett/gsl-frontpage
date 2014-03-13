@@ -38,8 +38,12 @@ function getClickDropdown (fieldID) {
 function setAddButtonState (node) {
     var addButton = document.getElementById('session-add-button');
     if (checkSessionFieldValues(node)) {
+        console.log("ENABLING");
         addButton.disabled = false;
+        addButton.focus();
     } else {
+        console.log("DISABLING");
+        moveFocusForward(node);
         addButton.disabled = true;
     }
 };
