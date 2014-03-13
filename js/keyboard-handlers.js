@@ -97,7 +97,6 @@ function getSearchableKeydownHandler (fieldName) {
 
 function getSearchableKeyupHandler (fieldName) {
     return function (event, fromKeyDown) {
-        console.log("RUN key down handler: ("+event.key+") ("+fromKeyDown+")");
         if (fromKeyDown) {
             event.preventDefault();
         }
@@ -180,11 +179,13 @@ function getKeyDropdown(fieldID) {
                     window[fieldName + 'Pull'](event.target,event.target.options[event.target.selectedIndex].value);
                 } else if (fieldName === 'attachment') {
                     attachmentPull(event.target,event.target.options[event.target.selectedIndex].value);
+                } else if (fieldName === 'place') {
+                    placePull(fieldNode,event.target.options[event.target.selectedIndex].value);
                 } else {
                     fieldNode.value = event.target.options[event.target.selectedIndex].textContent;
                     setServantFields(fieldNode);
                 }
-                if (fieldName !== 'attachment') {
+                if (fieldName !== 'attachment' && fieldName !== 'place') {
                     enableClearButton(event.target);
                 }
                 var dropdown = document.getElementById(fieldID + '-dropdown');
@@ -278,26 +279,52 @@ function attachmentTitleKeydown(event) {
     }
 };
 
-function sessionSet(node) {
-    // If we're full, case a fresh session node
-    var fields = getSessionFieldValues(node);
-    console.log("JSON: "+JSON.stringify(fields));
-};
-
 function sessionTitleKeyup (event,fromKeyDown) {
-    // Wow
-   if (fromKeyDown) {
+    if (fromKeyDown) {
         event.preventDefault();
     }
     if (event.key === 'Enter' || fromKeyDown === 'Tab') {
         event.preventDefault();
-        sessionSet(event.target);
+        if (checkSessionFieldValues(event.target)) {
+            var sessionAddButton = document.getElementById('session-add-button');
+            sessionAddButton.disabled = false;
+            sessionAddButton.focus();
+        } else {
+            moveFocusForward(event.target);
+        }
     }
 };
 
 function sessionTitleKeydown (event) {
     if (['Tab','Esc'].indexOf(event.key) > -1) {
         event.preventDefault();
-        sessionplaceKeyup(event, event.key);
+        sessionTitleKeyup(event, event.key);
+    }
+};
+
+function placeSet(event) {
+    if (event.target.value) {
+        // Save to DB
+        var adminID = getParameterByName('admin');
+        var pageName = getParameterByName('page');
+        var ret = apiRequest(
+            '/?admin='
+                + adminID
+                + '&page=top'
+                + '&cmd=saveplace'
+            , {
+                place:event.target.value
+            }
+        );
+        if (false === ret) return;
+        
+        // Check for completion
+        if (checkSessionFieldValues(event.target)) {
+            var sessionAddButton = document.getElementById('session-add-button');
+            sessionAddButton.disabled = false;
+            sessionAddButton.focus();
+        } else {
+            moveFocusForward(event.target);
+        }
     }
 };

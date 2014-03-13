@@ -28,6 +28,7 @@ function blurSearchDropdown (event) {
         event.target.classList.remove('block-dropper-blur');
         return;
     }
+    console.log("OH, FUCK!");
     setTimeout(function(){
         console.log("blurSearchDropdown()");
         var node = event.target;
@@ -89,6 +90,7 @@ function blurRestoreFromCache (event) {
             // XXX If incomplete in cache, clear the person and set to initial mode
             forField(event.target,function(field){
                 field.value = '';
+                cache[field.id] = '';
             });
             
             // 

@@ -105,19 +105,19 @@
             <tr>
               <td>Short Title:</td>
               <td>
-                <input size="50" id="title" class="field solo-field require" placeholder="Required" type="text"/>
+                <input size="50" id="title" class="field nosearch require" placeholder="Required" type="text"/>
               </td>
             </tr>
             <tr>
               <td>Description:</td>
               <td>
-                <textarea cols="60" id="description" class="field require solo-field" placeholder="Required" type="text"></textarea>
+                <textarea cols="60" id="description" class="field nosearch require" placeholder="Required" type="text"></textarea>
               </td>
             </tr>
             <tr>
               <td>Note:</td>
               <td>
-                <textarea cols="60" id="note" class="field solo-field" placeholder="Optional" type="text"></textarea>
+                <textarea cols="60" id="note" class="field nosearch" placeholder="Optional" type="text"></textarea>
               </td>
             </tr>
           </table>
@@ -224,10 +224,10 @@
             <tr>
               <td>Session title:</td>
               <td colspan="2">
-                <input id="session-title" class="session field" placeholder="Required" onkeyup="sessionTitleKeyup(event);" onkeydown="sessionTitleKeydown(event);" type="text" size="50"/>
+                <input id="session-title" class="session field nosearch" placeholder="Required" type="text" size="50"/>
               </td>
               <td rowspan="2">
-                <input type="button" value="Add" class="add-button" disabled="true"/>
+                <input id="session-add-button" type="button" value="Add" class="add-button" disabled="true"/>
               </td>
             </tr>
             <tr>
@@ -241,10 +241,10 @@
                 </div>
               </td>
               <td>
-                <input id="session-date" class="session field date-field" onchange="setFieldState(this,'view');setAddButtonState(this);" placeholder="Date" size="10" type="date"/>
-                <select id="session-hour-start" class="session field time-field" onchange="setAddButtonState(this);"></select>
+                <input id="session-date" class="session field date-field" onchange="setAddButtonState(this);" placeholder="Date" size="10" type="date"/>
+                <select id="session-hour-start" class="session field" onchange="setAddButtonState(this);"></select>
                 〜
-                <select id="session-hour-end" class="session field time-field" onchange="setAddButtonState(this);"></select>
+                <select id="session-hour-end" class="session field" onchange="setAddButtonState(this);"></select>
               </td>
             </tr>
           </table>

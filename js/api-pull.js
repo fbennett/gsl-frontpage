@@ -52,3 +52,25 @@ function attachmentPull(node,documentID) {
     console.log("PROCEED");
     addAttachment(row.documentID,row.title);
 };
+
+function placePull(node,place) {
+    console.log("PLACE PULL DAMMIT");
+    node.classList.add('block-blur-restore');
+    var dropdown = document.getElementById(node.id + '-dropdown');
+    dropdown.classList.add('block-dropper-blur');
+    var select = document.getElementById(node.id + '-dropdown-select');
+    
+    node.value = place;
+    cache[node.id] = place;
+
+    if (checkSessionFieldValues(node)) {
+        var sessionAddButton = document.getElementById('session-add-button');
+        sessionAddButton.disabled = false;
+        sessionAddButton.focus();
+    } else {
+        moveFocusForward(node);
+    }
+    
+    dropdown.classList.remove('block-dropper-blur');
+    dropdown.style.display = 'none';
+};

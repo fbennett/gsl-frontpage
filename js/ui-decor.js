@@ -241,17 +241,26 @@ function deleteAttachment(documentID) {
     attachmentNode.parentNode.removeChild(attachmentNode);
 };
 
+function checkSessionFieldValues (node) {
+    cache[node.id] = node.value;
+    var complete = true;
+    var fields = getSessionFieldValues(node);
+    for (var fieldKey in fields) {
+        if (!fields[fieldKey].value) {
+            complete = false;
+            break
+        }
+    }
+    return complete;
+};
+
 function getSessionFieldValues (node) {
     var fields = {};
-    fields.complete = true;
     var container = getContainer(node);
     var fieldNodes = container.getElementsByClassName('field');
     for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
         var fieldNode = fieldNodes[i];
         fields[fieldNode.id.split('-')[1]] = fieldNode.value;
-        if (!fieldNode.value) {
-            fields.complete = false;
-        }
     }
     return fields;
 };
@@ -263,3 +272,4 @@ function appendSessionNode (title, place, date, startTime, endTime) {
     var sessionContainer = document.getElementById('session-container');
     var sessionNode = document.createElement('table');
 };
+
