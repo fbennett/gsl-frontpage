@@ -54,7 +54,6 @@ function attachmentPull(node,documentID) {
 };
 
 function placePull(node,place) {
-    console.log("PLACE PULL DAMMIT");
     node.classList.add('block-blur-restore');
     var dropdown = document.getElementById(node.id + '-dropdown');
     dropdown.classList.add('block-dropper-blur');

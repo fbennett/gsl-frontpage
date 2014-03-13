@@ -28,7 +28,6 @@ function blurSearchDropdown (event) {
         event.target.classList.remove('block-dropper-blur');
         return;
     }
-    console.log("OH, FUCK!");
     setTimeout(function(){
         console.log("blurSearchDropdown()");
         var node = event.target;
