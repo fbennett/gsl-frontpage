@@ -349,3 +349,23 @@ function eventTitleKeydown(event) {
     }
 };
 
+function eventTextareaKeyup (event,fromKeyDown) {
+    if (fromKeyDown) {
+        event.preventDefault();
+    }
+    if (fromKeyDown === 'Tab') {
+        event.preventDefault();
+        if (event.target.value) {
+            cache[event.target.id] = event.target.value;
+            moveFocusForward(event.target);
+        }
+    }
+};
+
+function eventTextareaKeydown(event) {
+    if (['Tab','Esc'].indexOf(event.key) > -1) {
+        event.preventDefault();
+        eventTextareaKeyup(event, event.key);
+    }
+};
+

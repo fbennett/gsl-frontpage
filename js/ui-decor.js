@@ -302,8 +302,8 @@ function clearSessionFieldValues (node) {
     for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
         var fieldNode = fieldNodes[i];
         fieldNode.value = "";
+        delete cache[fieldNode.id];
     }
-    cache = {};
 };
 
 var sessionHtmlTemplate = '<tr>'

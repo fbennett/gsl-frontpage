@@ -17,3 +17,7 @@ function focusSearchDropdown (event) {
 function rememberFocus (event) {
     lastFocusedElement = event.target;
 };
+
+function eventFieldFocus (event) {
+    event.target.classList.remove('has-content');
+};

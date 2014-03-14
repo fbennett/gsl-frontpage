@@ -48,6 +48,3 @@ function setAddButtonState (node,action) {
     }
 };
 
-function eventTitleClick (event) {
-    event.target.classList.remove('has-content');
-};

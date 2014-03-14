@@ -50,6 +50,17 @@ function blurEventFieldRestoreFromCache (event) {
     },100);
 };
 
+function blurEventFieldOptional (event) {
+    setTimeout(function(){
+        if (event.target.value) {
+            event.target.classList.remove('has-content');
+            event.target.classList.add('has-content');
+        } else {
+            event.target.classList.remove('has-content');
+        }
+    },100);
+};
+
 function blurRestoreFromCache (event) {
     setTimeout(function(){
         if (event.target.classList.contains('block-blur-restore')) {
@@ -93,7 +104,7 @@ function blurRestoreFromCache (event) {
             // XXX If incomplete in cache, clear the person and set to initial mode
             forField(event.target,function(field){
                 field.value = '';
-                cache = {};
+                delete cache[field.id];
             });
             
             // 

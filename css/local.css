@@ -43,7 +43,7 @@ input#uploader-attachment-button {
     background:#eeeeee;
 }
 
-input.has-content {
+input.has-content, textarea.has-content {
     background:#eeeeee;
     font-weight: bold;
     color: black;

@@ -45,7 +45,19 @@ function initializePage () {
     titleNode.addEventListener('keyup',eventTitleKeyup);
     titleNode.addEventListener('keydown',eventTitleKeydown);
     titleNode.addEventListener('blur',blurEventFieldRestoreFromCache);
-    titleNode.addEventListener('click',eventTitleClick);
+    titleNode.addEventListener('focus',eventFieldFocus);
+
+    var descriptionNode = document.getElementById('description');
+    descriptionNode.addEventListener('keyup',eventTextareaKeyup);
+    descriptionNode.addEventListener('keydown',eventTextareaKeydown);
+    descriptionNode.addEventListener('blur',blurEventFieldRestoreFromCache);
+    descriptionNode.addEventListener('focus',eventFieldFocus);
+
+    var noteNode = document.getElementById('note');
+    noteNode.addEventListener('keyup',eventTextareaKeyup);
+    noteNode.addEventListener('keydown',eventTextareaKeydown);
+    noteNode.addEventListener('blur',blurEventFieldOptional);
+    noteNode.addEventListener('focus',eventFieldFocus);
 
     var hiddenIframe = document.getElementById('hidden-iframe-id');
     hiddenIframe.addEventListener('load',completedUpload);
