@@ -37,17 +37,6 @@ function blurSearchDropdown (event) {
     },200);
 };
 
-//function getBlurDropdown(fieldID) {
-//    return function (event) {
-//        if (event.target.id === fieldID) {
-//            var id = event.target.id.split('-').slice(0,-2).join('-');
-//            var field = document.getElementById(id);
-//            event.target.selectedIndex = -1;
-//            field.focus();
-//        }
-//    }
-//};
-
 function blurRestoreFromCache (event) {
     setTimeout(function(){
         if (event.target.classList.contains('block-blur-restore')) {
