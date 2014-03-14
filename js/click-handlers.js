@@ -47,3 +47,7 @@ function setAddButtonState (node,action) {
         addButton.disabled = true;
     }
 };
+
+function eventTitleClick (event) {
+    event.target.classList.remove('has-content');
+};

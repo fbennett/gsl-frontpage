@@ -41,6 +41,12 @@ function initializePage () {
     descriptionNode.style.width = (titleNode.offsetWidth + 'px');
     noteNode.style.width = (titleNode.offsetWidth + 'px');
 
+    var titleNode = document.getElementById('title');
+    titleNode.addEventListener('keyup',eventTitleKeyup);
+    titleNode.addEventListener('keydown',eventTitleKeydown);
+    titleNode.addEventListener('blur',blurEventFieldRestoreFromCache);
+    titleNode.addEventListener('click',eventTitleClick);
+
     var hiddenIframe = document.getElementById('hidden-iframe-id');
     hiddenIframe.addEventListener('load',completedUpload);
     var sessionHourStart = document.getElementById('session-start');

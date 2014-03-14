@@ -80,6 +80,34 @@ function disableClearButton(node) {
     clearButton.disabled = true;
 };
 
+function checkFormComplete () {
+    var ok = true;
+    var formRequired = document.getElementsByClassName('form-required');
+    for (var i=0,ilen=formRequired.length;i<ilen;i+=1) {
+        if (!formRequired[i].value) {
+            ok = false;
+            console.log("ID="+formRequired[i].id);
+            break;
+        }
+    }
+
+    var presenterRequired = document.getElementById('presenter-name-id');
+    var sessionRequired = document.getElementsByClassName('session-required');
+    sessionRequired = sessionRequired ? sessionRequired : [];
+    if ((presenterRequired.value && !sessionRequired.length)
+        || (!presenterRequired.value && sessionRequired.length)) {
+        
+        ok = false;
+    }
+    var previewButton = document.getElementById('preview-button');
+    if (ok) {
+        previewButton.disabled = false;
+    } else {
+        previewButton.disabled = true;
+    }
+};
+
+
 function moveFocusForward (node,action) {
     var start = false;
     var inputs = document.getElementsByClassName('field');
@@ -94,6 +122,7 @@ function moveFocusForward (node,action) {
             break;
         }
     }
+    checkFormComplete();
 };
 
 function getContainer(node) {
@@ -310,7 +339,9 @@ function appendSessionNode(node) {
     var date = extractDate(fields.date);
     var time = extractTime(fields.start);
     var dateTime = new Date(year=date.year,month=date.month,day=date.day,hour=time.hour,minute=time.minute);
-    var sessionID = dateTime.getTime();
+    var sessionID = dateTime.getTime()
+
+    console.log("WHAT IS THE DATE? "+dateTime);;
 
     var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
     var dow = days[dateTime.getDay()];
@@ -343,9 +374,9 @@ function deleteSession(sessionID) {
 function extractDate(str) {
     var ret = {};
     var m = str.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/);
-    ret.year = m[1];
-    ret.month = m[2];
-    ret.day = m[3];
+    ret.year = parseInt(m[1],10);
+    ret.month = (parseInt(m[2],10)-1);
+    ret.day = parseInt(m[3],10);
     return ret;
 };
 

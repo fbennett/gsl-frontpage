@@ -37,6 +37,19 @@ function blurSearchDropdown (event) {
     },200);
 };
 
+function blurEventFieldRestoreFromCache (event) {
+    setTimeout(function(){
+        if (cache[event.target.id]) {
+            event.target.value = cache[event.target.id];
+            event.target.classList.remove('has-content');
+            event.target.classList.add('has-content');
+        } else {
+            event.target.value = "";
+            event.target.classList.remove('has-content');
+        }
+    },100);
+};
+
 function blurRestoreFromCache (event) {
     setTimeout(function(){
         if (event.target.classList.contains('block-blur-restore')) {
@@ -91,5 +104,7 @@ function blurRestoreFromCache (event) {
                 disableClearButton(event.target);
             }
         }
+        checkFormComplete();
     },100);
 };
+

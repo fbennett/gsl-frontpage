@@ -237,10 +237,8 @@ function attachmentSet(event) {
 };
 
 function attachmentTitleKeyup(event,fromKeyDown) {
-    if (fromKeyDown) {
-        event.preventDefault();
-    }
-    if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+    if (fromKeyDown) { event.preventDefault(); } if (event.key ===
+        'Enter' || fromKeyDown === 'Tab') {
         console.log("DO-ing");
         event.preventDefault();
         var adminID = getParameterByName('admin');
@@ -330,3 +328,24 @@ function placeSet(event) {
         }
     }
 };
+
+function eventTitleKeyup (event,fromKeyDown) {
+    if (fromKeyDown) {
+        event.preventDefault();
+    }
+    if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+        event.preventDefault();
+        if (event.target.value) {
+            cache[event.target.id] = event.target.value;
+            moveFocusForward(event.target);
+        }
+    }
+};
+
+function eventTitleKeydown(event) {
+    if (['Tab','Esc'].indexOf(event.key) > -1) {
+        event.preventDefault();
+        eventTitleKeyup(event, event.key);
+    }
+};
+
