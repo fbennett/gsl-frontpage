@@ -40,6 +40,7 @@ CREATE TABLE events (
        pageDate INTEGER NOT NULL,
        presenterID INTEGER,
        noteID INTEGER,
+       published BOOLEAN,
        FOREIGN KEY (convenorID) REFERENCES persons(personID),
        FOREIGN KEY (presenterID) REFERENCES persons(personID),
        FOREIGN KEY (titleID) REFERENCES titles(titleID),
