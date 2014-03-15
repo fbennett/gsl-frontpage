@@ -108,6 +108,10 @@ div.field-dropdown {
     border-radius:2em;
 }
 
+.wrapper.agent {
+    border:3px solid #f96b00;
+}
+
 .wrapper.ephemeral {
     margin:1em 0 0 2em;
     border:3px solid #666666;
