@@ -35,11 +35,8 @@ function previewForm () {
     var hasPresenter = false;
     var presenter = document.getElementsByClassName('presenter-required');
     for (var i=0,ilen=presenter.length;i<ilen;i+=1) {
-            console.log("HEY! "+presenter[i].id+" is ... "+presenter[i].value);
         if (presenter[i].value) {
             hasPresenter = true;
-            console.log("OY! "+presenter[i].id);
-            console.log("OY AGAIN! "+presenter[i].value);
             mapField(ret,presenter[i].id,presenter[i].value);
         }
     }
@@ -55,6 +52,7 @@ function previewForm () {
             }
             ret.sessions[smartId.num][smartId.id] = sessionNode.value;
         }
+        var minStartDate = 0;
         // Reprocess sessions to consolidate  date+start and date+end in two dateTime fields
         for (var sessionKey in ret.sessions) {
             var session = ret.sessions[sessionKey];
@@ -66,15 +64,21 @@ function previewForm () {
             var end = extractTime(session['session-hour-end']);
             // Compose ...
             var startDateTime = new Date(year=date.year,month=date.month,day=date.day,hour=start.hour,minute=start.minute);
-            console.log("startDateTime (js): "+startDateTime);
             session.startDateTime = startDateTime.getTime();
-            console.log("session.startDateTime (epoch): "+session.startDateTime);
+            // Track minStartDate
+            if (!minStartDate || session.startDateTime < minStartDate) {
+                minStartDate = session.startDateTime;
+            }
             var endDateTime = new Date(year=date.year,month=date.month,day=date.day,hour=end.hour,minute=end.minute);
             session.endDateTime = endDateTime.getTime();
             // Deletes ...
             delete session['session-date'];
             delete session['session-hour-start'];
             delete session['session-hour-end'];
+        }
+        // If we have a minStartDate value, use it for pageDate
+        if (minStartDate) {
+            ret.pageDate = minStartDate;
         }
     }
     // If hasAttachment ...
@@ -86,10 +90,17 @@ function previewForm () {
         if (attachments[i].value) {
             var smartId = new SmartId(attachments[i].id);
             ret.attachments.push(smartId.num);
-            console.log("Push documentID to ret.attachments: "+smartId.num);
         }
     }
-    console.log(JSON.stringify(ret));
+    console.log("FORM DATA TO SAVE: "+JSON.stringify(ret,null,2));
+    // API save call
+    // Receive eventID and set in form
+    // API read call (for event/announcement pulldown lists)
+    // Update event/announcement pulldown lists in form
+    // API read call (for preview)
+    // Compose preview popup and display
+
+    // Once this is all working, only template output, mail, and uploads remain!
 };
 
 function SmartId (str) {
