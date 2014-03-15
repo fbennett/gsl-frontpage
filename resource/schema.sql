@@ -35,9 +35,10 @@ CREATE TABLE persons (
 CREATE TABLE events (
        eventID INTEGER PRIMARY KEY,
        convenorID INTEGER NOT NULL,
-       presenterID INTEGER NOT NULL,
        titleID INTEGER NOT NULL,
        descriptionID INTEGER NOT NULL,
+       pageDate INTEGER NOT NULL,
+       presenterID INTEGER,
        noteID INTEGER,
        FOREIGN KEY (convenorID) REFERENCES persons(personID),
        FOREIGN KEY (presenterID) REFERENCES persons(personID),
@@ -52,7 +53,8 @@ CREATE TABLE sessions (
        adminID INTEGER NOT NULL,
        titleID INTEGER NOT NULL,
        placeID INTEGER NOT NULL,
-       dateTime INTEGER NOT NULL,
+       startDateTime INTEGER NOT NULL,
+       endDateTime INTEGER NOT NULL,
        FOREIGN KEY (eventID) REFERENCES events(eventID),
        FOREIGN KEY (titleID) REFERENCES titles(titleID),
        FOREIGN KEY (placeID) REFERENCES places(placeID)
