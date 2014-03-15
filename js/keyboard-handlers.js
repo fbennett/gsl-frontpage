@@ -283,14 +283,7 @@ function sessionTitleKeyup (event,fromKeyDown) {
     }
     if (event.key === 'Enter' || fromKeyDown === 'Tab') {
         event.preventDefault();
-        var sessionAddButton = document.getElementById('session-add-button');
-        if (checkSessionFieldValues(event.target)) {
-            sessionAddButton.disabled = false;
-            sessionAddButton.focus();
-        } else {
-            sessionAddButton.disabled = true;
-            moveFocusForward(event.target);
-        }
+        updateSessionAddButton(event.target);
     }
 };
 
@@ -318,14 +311,7 @@ function placeSet(event) {
         if (false === ret) return;
         
         // Check for completion
-        var sessionAddButton = document.getElementById('session-add-button');
-        if (checkSessionFieldValues(event.target)) {
-            sessionAddButton.disabled = false;
-            sessionAddButton.focus();
-        } else {
-            sessionAddButton.disabled = true;
-            moveFocusForward(event.target);
-        }
+        updateSessionAddButton(event.target);
     }
 };
 

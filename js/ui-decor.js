@@ -271,6 +271,17 @@ function deleteAttachment(documentID) {
     attachmentNode.parentNode.removeChild(attachmentNode);
 };
 
+function updateSessionAddButton (node) {
+    var sessionAddButton = document.getElementById('session-add-button');
+    if (checkSessionFieldValues(node)) {
+        sessionAddButton.disabled = false;
+        sessionAddButton.focus();
+    } else {
+        sessionAddButton.disabled = true;
+        moveFocusForward(node);
+    }
+}
+
 function checkSessionFieldValues (node) {
     cache[node.id] = node.value;
     var complete = true;
@@ -364,6 +375,7 @@ function appendSessionNode(node) {
     sessionContainer.appendChild(sessionNode);
 
     clearSessionFieldValues(node);
+    checkFormComplete();
 };
 
 function deleteSession(sessionID) {
