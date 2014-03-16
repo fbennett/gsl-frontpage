@@ -1,0 +1,48 @@
+{
+  "name": "gsl-frontpage",
+  "version": "0.0.1",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "description": "GLS Frontpage is a generic tool for maintining top page news and announcements in a university environment",
+  "keywords": [
+    "collaboration",
+    "university",
+    "education",
+    "news",
+    "top page",
+    "landing page",
+    "announcements",
+    "events"
+  ],
+  "homepage": "http://fbennett.github.io/gsl-frontpage/",
+  "bugs": {
+    "url": "https://github.com/fbennett/gsl-frontpage/issues"
+  },
+  "license": "AGPL-3.0",
+  "author": {
+    "name": "Frank Bennett",
+    "email": "bennett@law.nagoya-u.ac.jp",
+    "url": "http://citationstylist.org/"
+  },
+  "files": [
+    "api/",
+    "css/",
+    "js/",
+    "lib/",
+    "gslfrontpage.js",
+    "resource/"
+  ],
+  "main": "gslfrontpage.js",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/fbennett/gsl-frontpage.git"
+  },
+  "dependencies": {
+    "argparse": ">=0.1.15",
+    "nodemailer": ">=0.6.0",
+    "marked": ">=0.2.10",
+    "multiparty": ">=3.1.1",
+    "sqlite3": ">=2.1.19"
+  }
+}
