@@ -30,7 +30,8 @@ function savePersonFields (node) {
             + '&cmd=savetopersons'
         , {
             data:data,
-            personid:personID
+            personid:personID,
+            touchdate:pageDate
         }
     );
     if (false === row) return;

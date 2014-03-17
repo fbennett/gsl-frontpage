@@ -6,7 +6,7 @@
         var fields = ['name','contact','affiliation','position'];
         var data = params.data;
         var personID = params.personid;
-        var adminID = sys.admin[params.admin].id;
+        var touchDate = params.touchdate;
 
         console.log("PERSON ID: ("+personID+")");
 
@@ -51,9 +51,7 @@
 
         function updatePerson () {
             var sql = 'INSERT OR REPLACE INTO persons VALUES (?,?,?,?,?,?);';
-            console.log("XX "+personID);
-            console.log("XX "+JSON.stringify(data,null,2));
-            sys.db.run(sql,[personID,data.nameID,data.contactID,data.affiliationID,data.positionID,adminID],function(err){
+            sys.db.run(sql,[personID,data.nameID,data.contactID,data.affiliationID,data.positionID,touchDate],function(err){
                 if (err) {return oops(response,err,'event/savetopersons(5)')};
                 endTransaction(personID);
             });
@@ -61,7 +59,7 @@
 
         function addPerson () {
             var sql = 'INSERT INTO persons VALUES(NULL,?,?,?,?,?);';
-            sys.db.run(sql,[data.nameID,data.contactID,data.affiliationID,data.positionID,adminID],function(err){
+            sys.db.run(sql,[data.nameID,data.contactID,data.affiliationID,data.positionID,touchDate],function(err){
                 if (err) {return oops(response,err,'event/savetopersons(6)')};
                 endTransaction(this.lastID);
             });

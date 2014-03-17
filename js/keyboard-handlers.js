@@ -305,7 +305,8 @@ function placeSet(event) {
                 + '&page=top'
                 + '&cmd=saveplace'
             , {
-                place:event.target.value
+                place:event.target.value,
+                touchdate:pageDate
             }
         );
         if (false === ret) return;

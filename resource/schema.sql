@@ -23,7 +23,7 @@ CREATE TABLE persons (
        contactID INTEGER NOT NULL,
        affiliationID INTEGER NOT NULL,
        positionID INTEGER NOT NULL,
-       adminID INTEGER NOT NULL,
+       touchDate INTEGER NOT NULL,
        UNIQUE(nameID),
        FOREIGN KEY (contactID) REFERENCES contacts(contactID),
        FOREIGN KEY (affiliationID) REFERENCES affiliations(affiliationID),
@@ -77,6 +77,7 @@ CREATE TABLE documents (
        titleID INTEGER NOT NULL,
        mimeType TEXT NOT NULL,
        filenameExtension TEXT NOT NULL,
+       touchDate INTEGER NOT NULL,
        uploadDate INTEGER,
        UNIQUE(titleID,filenameExtension,uploadDate),
        FOREIGN KEY (titleID) REFERENCES titles(titleID)
@@ -90,35 +91,43 @@ CREATE TABLE titles (
 
 CREATE TABLE contacts (
        contactID INTEGER PRIMARY KEY,
-       contact TEXT NOT NULL
+       contact TEXT NOT NULL,
+       UNIQUE(contact)
 );
 
 CREATE TABLE affiliations (
        affiliationID INTEGER PRIMARY KEY,
-       affiliation TEXT NOT NULL
+       affiliation TEXT NOT NULL,
+       UNIQUE(affiliation)
 );
 
 CREATE TABLE positions (
        positionID INTEGER PRIMARY KEY,
-       position TEXT NOT NULL
+       position TEXT NOT NULL,
+       UNIQUE(position)
 );
 
 CREATE TABLE names (
        nameID INTEGER PRIMARY KEY,
-       name TEXT NOT NULL
+       name TEXT NOT NULL,
+       UNIQUE(name)
 );
 
 CREATE TABLE descriptions (
        descriptionID INTEGER PRIMARY KEY,
-       description TEXT NOT NULL
+       description TEXT NOT NULL,
+       UNIQUE(description)
 );
 
 CREATE TABLE notes (
        noteID INTEGER PRIMARY KEY,
-       note TEXT NOT NULL
+       note TEXT NOT NULL,
+       UNIQUE(note)
 );
 
 CREATE TABLE places (
        placeID INTEGER PRIMARY KEY,
-       place TEXT NOT NULL
+       place TEXT NOT NULL,
+       touchDate INTEGER NOT NULL,
+       UNIQUE(place)
 );

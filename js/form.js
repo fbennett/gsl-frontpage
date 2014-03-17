@@ -94,6 +94,21 @@ function previewForm () {
     }
     console.log("FORM DATA TO SAVE: "+JSON.stringify(ret,null,2));
     // API save call
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    if (!pageName) {
+        pageName = 'top';
+    }
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=saveevent'
+        , {
+            data:data
+        }
+    );
+    if (false === row) return;
     // Receive eventID and set in form
     // API read call (for event/announcement pulldown lists)
     // Update event/announcement pulldown lists in form

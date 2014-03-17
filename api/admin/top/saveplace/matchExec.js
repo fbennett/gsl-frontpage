@@ -4,6 +4,7 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
         var place = params.place;
+        var touchDate = params.touchdate;
         checkPlace();
         
         function checkPlace () {
@@ -19,8 +20,8 @@
         };
 
         function addPlace () {
-            var sql = 'INSERT INTO places VALUES (NULL,?);';
-            sys.db.run(sql,[place],function(err){
+            var sql = 'INSERT INTO places VALUES (NULL,?,?);';
+            sys.db.run(sql,[place,touchDate],function(err){
                 if (err) {return oops(response,err,'saveplace(2)');};
                 finishTransaction();
             });
