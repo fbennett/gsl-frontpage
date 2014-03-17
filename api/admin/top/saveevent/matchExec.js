@@ -73,6 +73,25 @@
         };
 
         // Add or update event
+        function checkEvent () {
+            if (data.eventID) {
+                updateEvent();
+            } else {
+                addEvent();
+            }
+        };
+        function updateEvent () {
+            // XXX Plus convenorID, presenterID, pageDate
+            var presenterID = data.presenterID;
+            if (!data.presenterID) {
+                presenterID = null;
+            }
+            var sql = 'UPDATE events SET title=?, description=?, note=?, convenorID=?, presenterID=?, pageDate=? WHERE eventID=?;';
+            
+        };
+        function addEvent () {
+
+        };
         
         // Clear sessions
         // Add sessions
