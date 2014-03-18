@@ -9,6 +9,55 @@ var lastFocusNode = null;
 
 var keyboardSearchTimeout = null;
 
+function updateMenuList(type,selectedId) {
+    var selectedId = document.getElementById('event-id').value;
+    if (selectedId) {
+        selectedId = parseInt(selectedId,10);
+    } else {
+        selectedId = 0;
+    }
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    if (!pageName) {
+        pageName = 'top';
+    }
+    var rows = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=get' + type + 'list'
+    );
+    if (false === rows) return;
+    var node = document.getElementById(type + '-list');
+    node.removeEventListener('change',getPageContent);
+    for (var i=1,ilen=node.childNodes.length;i<ilen;i+=1) {
+        node.removeChild(node.childNodes[1]);
+    };
+    var selectedIndex = 0;
+    for (var i=0,ilen=rows.length;i<ilen;i+=1) {
+        var row = rows[i];
+        var option = document.createElement('option');
+        option.value = row.eventID;
+        var presenter = ' | ';
+        if (row.presenter) {
+            presenter = ' | ' + row.presenter + ' | ';
+        }
+        option.innerHTML = row.date + presenter + row.title;
+        node.appendChild(option);
+        if (option.value == selectedId) {
+            selectedIndex = (i+1);
+        }
+    };
+    node.selectedIndex = selectedIndex;
+    node.addEventListener('change',getPageContent);
+};
+
+function SmartId (str) {
+    var m = str.match(/^([-a-z]+)([0-9]+)(.*)$/);
+    this.num = m[2];
+    this.id = m[1] + m[3];
+};
+
 function keyboardSearchThrottle (delay,callback) {
     return function (event) {
         if (keyboardSearchTimeout) {

@@ -29,9 +29,18 @@ function buildTimes (node,placeholder) {
 };
 
 function initializePage () {
+    updateMenuList('event');
+    updateMenuList('announcement');
+    
     pageDate = new Date().getTime();
     lastFocusedElement = document.getElementsByClassName('field')[0];
-
+    
+    var eventList = document.getElementById('event-list');
+    eventList.addEventListener('change',getPageContent);
+    
+    var announcementList = document.getElementById('announcement-list');
+    announcementList.addEventListener('change',getPageContent);
+    
     var uploaderNodeWidth = document.getElementById('uploader-attachment').offsetWidth;
     document.getElementById('uploader-attachment-filename').style.width = (uploaderNodeWidth + 'px');
 

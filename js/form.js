@@ -9,7 +9,8 @@ var fieldMap = {
     "session-place":"place",
     "session-date":"session-date",
     "session-hour-start":"session-hour-start",
-    "session-hour-end":"session-hour-end"
+    "session-hour-end":"session-hour-end",
+    "event-id":"eventID"
 };
 
 function mapField (ret,id,value) {
@@ -23,25 +24,21 @@ function previewForm () {
         pageDate:pageDate,
         touchDate:pageDate
     };
-    var required = document.getElementsByClassName('form-required');
-    for (var i=0,ilen=required.length;i<ilen;i+=1) {
-        mapField(data,required[i].id,required[i].value);
+
+    var formNodes = getFormNodes();
+
+    for (var i=0,ilen=formNodes.required.length;i<ilen;i+=1) {
+        mapField(data,formNodes.required[i].id,formNodes.required[i].value);
     }
-    var optional = document.getElementsByClassName('form-optional');
-    for (var i=0,ilen=optional.length;i<ilen;i+=1) {
-        if (optional[i].value) {
-            mapField(data,optional[i].id,optional[i].value);
+
+    for (var i=0,ilen=formNodes.optional.length;i<ilen;i+=1) {
+        if (formNodes.optional[i].value) {
+            mapField(data,formNodes.optional[i].id,formNodes.optional[i].value);
         }
     }
-    var hasPresenter = false;
-    var presenter = document.getElementsByClassName('presenter-required');
-    for (var i=0,ilen=presenter.length;i<ilen;i+=1) {
-        if (presenter[i].value) {
-            hasPresenter = true;
-            mapField(data,presenter[i].id,presenter[i].value);
-        }
-    }
-    if (hasPresenter) {
+
+    if (formNodes.presenter.value) {
+        mapField(data,formNodes.presenter.id,formNodes.presenter.value);
         data.sessions = {};
         // Grab everything. Total free-for-all scramble from UI chaos to API order.
         var sessionNodes = document.getElementsByClassName('session-required');
@@ -114,10 +111,12 @@ function previewForm () {
 
     // Receive eventID and set in form
     console.log("RESULTING EVENT ID: "+row.eventID);
+    eventIdNode.value = row.eventID;
 
+    // API read calls and updates (for event & announcement pulldown lists)
+    updateMenuList('event');
+    updateMenuList('announcement');
 
-    // API read call (for event/announcement pulldown lists)
-    // Update event/announcement pulldown lists in form
     // API read call (for preview)
     // Compose preview popup and display
 
@@ -141,8 +140,96 @@ function convertSessionsObjectToSortedList(sessions) {
     return lst;
 };
 
-function SmartId (str) {
-    var m = str.match(/^([-a-z]+)([0-9]+)(.*)$/);
-    this.num = m[2];
-    this.id = m[1] + m[3];
+function getPageContent (event) {
+    console.log("EVENT ID: "+event.target.value);
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    if (!pageName) {
+        pageName = 'top';
+    }
+    var eventID = event.target.value;
+    if (eventID) {
+        eventID = parseInt(eventID,10);
+    }
+    var data = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=readevent'
+        , {
+            eventid:eventID
+        }
+    );
+    if (false === data) return;
+    // Clear form
+    clearForm();
+    // Populate form
+    populateForm(eventID,data);
+    // Show current form in pulldown menus
+    updateMenuList('event');
+    updateMenuList('announcement');
+};
+
+function getFormNodes() {
+    var ret = {};
+    ret.required = document.getElementsByClassName('form-required');
+    ret.optional = document.getElementsByClassName('form-optional');
+    ret.master = document.getElementsByClassName('person-master');
+    ret.servant = document.getElementsByClassName('person-servant');
+    ret.presenter = document.getElementById('presenter-name-id');
+    ret.session = document.getElementById('session-container');
+    ret.attachment = document.getElementById('attachment-container');
+    ret.disable = document.getElementsByClassName('default-disable');
+    ret.nodisplay = document.getElementsByClassName('default-nodisplay');
+    ret.search = document.getElementById('uploader-attachment-searchable');
+    return ret;
+};
+
+function populateForm (eventID,data) {
+    var formNodes = getFormNodes();
+    document.getElementById('event-id').value = eventID;
+
+    console.log("JSON: "+JSON.stringify(data,null,2));
+};
+
+function clearForm () {
+    var formNodes = getFormNodes();
+    // Clear required
+    for (var i=0,ilen=formNodes.required.length;i<ilen;i+=1) {
+        formNodes.required[i].value = "";
+        formNodes.required[i].classList.remove('has-content');
+    }
+    // Clear optional
+    for (var i=0,ilen=formNodes.optional.length;i<ilen;i+=1) {
+        formNodes.optional[i].value = "";
+        formNodes.optional[i].classList.remove('has-content');
+    }
+    // Clear person master
+    for (var i=0,ilen=formNodes.master.length;i<ilen;i+=1) {
+        formNodes.master[i].value = "";
+        formNodes.master[i].classList.remove('has-content');
+    }
+    // Clear person servant
+    for (var i=0,ilen=formNodes.servant.length;i<ilen;i+=1) {
+        formNodes.servant[i].value = "";
+        formNodes.servant[i].classList.remove('has-content');
+    }
+    // Clear attachments
+    for (var i=1,ilen=formNodes.attachment.childNodes.length;i<ilen;i+=1) {
+        formNodes.attachment.removeChild(formNodes.attachment.childNode[1]);
+    }
+    // Clear sessions
+    for (var i=1,ilen=formNodes.session.childNodes.length;i<ilen;i+=1) {
+        formNodes.session.removeChild(formNodes.session.childNode[1]);
+    }
+    // Disable buttons
+    for (var i=0,ilen=formNodes.disable.length;i<ilen;i+=1) {
+        formNodes.disable[i].disabled = true;
+    }
+    // Hide buttons
+    for (var i=0,ilen=formNodes.nodisplay.length;i<ilen;i+=1) {
+        formNodes.nodisplay[i].style.display = 'none';
+    }
+    // Clear search toggle
+    formNodes.search.checked = false;
 };

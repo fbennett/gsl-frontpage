@@ -19,6 +19,7 @@
   </head>
   <body onload="initDateFields();initializePage();buildTimes();">
     <iframe name="hidden-iframe" id="hidden-iframe-id" style="display: none;"></iframe>
+    <input id="event-id" value="" class="form-required" style="display:none;"/>
     <div class="grid">  
       <div class="col-1-1">
         <div style="position:relative;">
@@ -29,7 +30,7 @@
                 Announcements:
               </td>
               <td style="text-align:left;">
-                <select id="announcements"><option value="">Select an announcement</select>
+                <select id="announcement-list"><option value="">Select an announcement</select>
               </td>
             </tr>
             <tr>
@@ -37,7 +38,7 @@
                 Events:
               </td>
               <td style="text-align:left;">
-                <select id="events"><option value="">Select an event</select>
+                <select id="event-list"><option value="">Select an event</select>
               </td>
             </tr>
           </table>
@@ -45,8 +46,8 @@
         <div id="content">
           <h2>
             Staffer
-            <input id="convenor-clear" type="button" value="Clear" class="clear-person" disabled="true"/>
-            <input id="convenor-edit" type="button" value="Edit" class="edit-person" style="display:none;"/>
+            <input id="convenor-clear" type="button" value="Clear" class="clear-person default-disable" disabled="true"/>
+            <input id="convenor-edit" type="button" value="Edit" class="edit-person default-nodisplay" style="display:none;"/>
           </h2>
           <table id="convenor" class="wrapper">
             <tr>
@@ -151,7 +152,7 @@
                   <input type="text" id="uploader-attachment-mimetype" name="mimeType" style="display:none;" value=""/>
                   <input type="text" id="uploader-attachment-extension" name="filenameExtension" style="display:none;" value=""/>
                   <input type="file" id="uploader-attachment-filename" class="field" onchange="setFileExtension(this);" name="attachmentDocument"/>
-                  <input type="submit" value="Upload" id="uploader-attachment-button" disabled="true"/>
+                  <input type="submit" value="Upload" id="uploader-attachment-button" class="default-disable" disabled="true"/>
                 </form>
               </td>
               <td>
@@ -166,8 +167,8 @@
           <hr/>
           <h2>
             Presenter
-            <input id="presenter-clear" type="button" value="Clear" class="clear-person" disabled="true"/>
-            <input id="presenter-edit" type="button" value="Edit" class="edit-person" style="display:none;"/>
+            <input id="presenter-clear" type="button" value="Clear" class="clear-person default-disable" disabled="true"/>
+            <input id="presenter-edit" type="button" value="Edit" class="edit-person default-nodisplay" style="display:none;"/>
           </h2>
           <table id="presenter" class="wrapper">
             <tr>
@@ -228,7 +229,7 @@
                 <input id="session-title" class="session field nosearch" placeholder="Required" type="text" size="50"/>
               </td>
               <td rowspan="2">
-                <input id="session-add-button" onclick="appendSessionNode(this);" type="button" value="Add" class="add-button" disabled="true"/>
+                <input id="session-add-button" onclick="appendSessionNode(this);" type="button" value="Add" class="add-button default-disable" disabled="true"/>
               </td>
             </tr>
             <tr>
