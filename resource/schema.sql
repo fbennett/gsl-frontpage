@@ -28,8 +28,7 @@ CREATE TABLE persons (
        FOREIGN KEY (contactID) REFERENCES contacts(contactID),
        FOREIGN KEY (affiliationID) REFERENCES affiliations(affiliationID),
        FOREIGN KEY (positionID) REFERENCES positions(positionID),
-       FOREIGN KEY (nameID) REFERENCES names(nameID),
-       FOREIGN KEY (adminID) REFERENCES admin(adminID)
+       FOREIGN KEY (nameID) REFERENCES names(nameID)
 );
 
 CREATE TABLE events (
@@ -51,7 +50,6 @@ CREATE TABLE events (
 CREATE TABLE sessions (
        sessionID INTEGER PRIMARY KEY,
        eventID INTEGER NOT NULL,
-       adminID INTEGER NOT NULL,
        titleID INTEGER NOT NULL,
        placeID INTEGER NOT NULL,
        startDateTime INTEGER NOT NULL,
@@ -64,11 +62,9 @@ CREATE TABLE sessions (
 CREATE TABLE attachments (
        attachmentID INTEGER PRIMARY KEY,
        eventID INTEGER NOT NULL,
-       adminID TEXT NOT NULL,
        documentID INTEGER NOT NULL,
        UNIQUE (eventID,documentID),
        FOREIGN KEY (eventID) REFERENCES events(eventID),
-       FOREIGN KEY (adminID) REFERENCES admin(adminID),
        FOREIGN KEY (documentID) REFERENCES documents(documentID)
 );
 

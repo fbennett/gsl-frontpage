@@ -19,17 +19,18 @@ function mapField (ret,id,value) {
 };
 
 function previewForm () {
-    var ret = {
-        pageDate:pageDate
+    var data = {
+        pageDate:pageDate,
+        touchDate:pageDate
     };
     var required = document.getElementsByClassName('form-required');
     for (var i=0,ilen=required.length;i<ilen;i+=1) {
-        mapField(ret,required[i].id,required[i].value);
+        mapField(data,required[i].id,required[i].value);
     }
     var optional = document.getElementsByClassName('form-optional');
     for (var i=0,ilen=optional.length;i<ilen;i+=1) {
         if (optional[i].value) {
-            mapField(ret,optional[i].id,optional[i].value);
+            mapField(data,optional[i].id,optional[i].value);
         }
     }
     var hasPresenter = false;
@@ -37,25 +38,25 @@ function previewForm () {
     for (var i=0,ilen=presenter.length;i<ilen;i+=1) {
         if (presenter[i].value) {
             hasPresenter = true;
-            mapField(ret,presenter[i].id,presenter[i].value);
+            mapField(data,presenter[i].id,presenter[i].value);
         }
     }
     if (hasPresenter) {
-        ret.sessions = {};
+        data.sessions = {};
         // Grab everything. Total free-for-all scramble from UI chaos to API order.
         var sessionNodes = document.getElementsByClassName('session-required');
         for (var i=0,ilen=sessionNodes.length;i<ilen;i+=1) {
             var sessionNode = sessionNodes[i];
             var smartId = new SmartId(sessionNode.id);
-            if (!ret.sessions[smartId.num]) {
-                ret.sessions[smartId.num] = {};
+            if (!data.sessions[smartId.num]) {
+                data.sessions[smartId.num] = {};
             }
-            ret.sessions[smartId.num][smartId.id] = sessionNode.value;
+            mapField(data.sessions[smartId.num],smartId.id,sessionNode.value);
         }
         var minStartDate = 0;
         // Reprocess sessions to consolidate  date+start and date+end in two dateTime fields
-        for (var sessionKey in ret.sessions) {
-            var session = ret.sessions[sessionKey];
+        for (var sessionKey in data.sessions) {
+            var session = data.sessions[sessionKey];
             // Extract from date
             var date = extractDate(session['session-date']);
             // Extract from start
@@ -78,21 +79,22 @@ function previewForm () {
         }
         // If we have a minStartDate value, use it for pageDate
         if (minStartDate) {
-            ret.pageDate = minStartDate;
+            data.pageDate = minStartDate;
         }
+        data.sessions = convertSessionsObjectToSortedList(data.sessions);
     }
     // If hasAttachment ...
     var attachments = document.getElementsByClassName('attachment-required');
     for (var i=0,ilen=attachments.length;i<ilen;i+=1) {
-        if (!ret.attachments) {
-            ret.attachments = [];
+        if (!data.attachments) {
+            data.attachments = [];
         }
         if (attachments[i].value) {
             var smartId = new SmartId(attachments[i].id);
-            ret.attachments.push(smartId.num);
+            data.attachments.push(smartId.num);
         }
     }
-    console.log("FORM DATA TO SAVE: "+JSON.stringify(ret,null,2));
+    console.log("FORM DATA TO SAVE: "+JSON.stringify(data,null,2));
     // API save call
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
@@ -109,13 +111,34 @@ function previewForm () {
         }
     );
     if (false === row) return;
+
     // Receive eventID and set in form
+    console.log("RESULTING EVENT ID: "+row.eventID);
+
+
     // API read call (for event/announcement pulldown lists)
     // Update event/announcement pulldown lists in form
     // API read call (for preview)
     // Compose preview popup and display
 
     // Once this is all working, only template output, mail, and uploads remain!
+};
+
+function convertSessionsObjectToSortedList(sessions) {
+    var lst = [];
+    for (var sessionKey in sessions) {
+        lst.push(sessions[sessionKey]);
+    };
+    lst.sort(function(a,b){
+        if (a.startDateTime > b.startDateTime) {
+            return 1;
+        } else if (a.startDateTime < b.startDateTime) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+    return lst;
 };
 
 function SmartId (str) {
