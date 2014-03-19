@@ -305,11 +305,13 @@ function clearForm () {
     for (var i=0,ilen=formNodes.master.length;i<ilen;i+=1) {
         formNodes.master[i].value = "";
         formNodes.master[i].classList.remove('has-content');
+        formNodes.master[i].disabled = false;
     }
     // Clear person servant
     for (var i=0,ilen=formNodes.servant.length;i<ilen;i+=1) {
         formNodes.servant[i].value = "";
         formNodes.servant[i].classList.remove('has-content');
+        formNodes.servant[i].disabled = true;
     }
     // Clear attachments
     for (var i=0,ilen=formNodes.attachment.childNodes.length;i<ilen;i+=1) {
