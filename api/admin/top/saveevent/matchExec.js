@@ -44,7 +44,11 @@
                 if (err) {return oops(response,err,'saveevent(3)')};
                 if (row && row.descriptionID) {
                     data.description = row.descriptionID;
-                    checkNote();
+                    if (data.note) {
+                        checkNote();
+                    } else {
+                        checkEvent();
+                    }
                 } else {
                     addDescription();
                 }
@@ -56,7 +60,6 @@
                 if (err) {return oops(response,err,'saveevent(4)')};
                 data.description = this.lastID;
                 if (data.note) {
-                    console.log("WTF? data.note has a value??? "+data.note);
                     checkNote();
                 } else {
                     checkEvent();
@@ -73,7 +76,6 @@
                     data.note = row.noteID;
                     checkEvent();
                 } else {
-                    console.log("No noteID, which is what we expected");
                     addNote();
                 }
             });
