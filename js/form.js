@@ -109,6 +109,7 @@ function previewForm () {
     if (false === row) return;
 
     // Receive eventID and set in form
+    var eventIdNode = document.getElementById('event-id');
     eventIdNode.value = row.eventID;
 
     // API read calls and updates (for event & announcement pulldown lists)
