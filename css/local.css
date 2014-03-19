@@ -1,3 +1,9 @@
+span.buttonish {
+    padding:0.5em;
+    border:1px solid black;
+    border-radius:1em;
+}
+
 .day-of-week {
     border:1px solid black;
     border-radius:1em;
