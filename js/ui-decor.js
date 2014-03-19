@@ -242,7 +242,7 @@ var attachmentHtmlTemplate = '<tr>'
     + '<tr>'
     + '  <td></td>'
     + '  <td>'
-    + '<div class="document-link"><a href="/attachments/@@DOCUMENT_ID@@">attachments/@@DOCUMENT_ID@@</a></div>'
+    + '<div class="document-link"><a href="attachments/@@DOCUMENT_ID@@">attachments/@@DOCUMENT_ID@@</a></div>'
     + '  </td>'
     + '</tr>';
 
