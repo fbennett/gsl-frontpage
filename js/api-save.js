@@ -42,7 +42,11 @@ function startingUpload (ev) {
     var uploadButton = document.getElementById('uploader-attachment-button');
     var form = document.getElementById('uploader');
     // XXX How to acquire the adminID?
-    form.action = '?admin=iw9acthc&cmd=upload';
+    var admin = '';
+    if (getParameterByName('admin')) {
+        admin = 'admin=' + getParameterByName('admin') + '&';
+    }
+    form.action = '?' + admin + 'cmd=upload';
     var uploadPagedate = document.getElementById('uploader-attachment-pagedate');
     uploadPagedate.value = pageDate;
     var uploadExtension = document.getElementById('uploader-attachment-extension');
