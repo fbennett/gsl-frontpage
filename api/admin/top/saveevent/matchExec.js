@@ -101,7 +101,7 @@
             if (!data.presenterID) {
                 presenterID = null;
             }
-            var sql = 'UPDATE events SET title=?, description=?, note=?, convenorID=?, presenterID=?, pageDate=? WHERE eventID=?;';
+            var sql = 'UPDATE events SET titleID=?, descriptionID=?, noteID=?, convenorID=?, presenterID=?, pageDate=? WHERE eventID=?;';
             sys.db.run(sql,[data.title,data.description,data.note,data.convenorID,presenterID,data.pageDate,data.eventID],function(err){
                 if (err) {return oops(response,err,'saveevent(7)')};
                 clearSessions();

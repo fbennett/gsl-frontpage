@@ -95,7 +95,7 @@ function checkFormComplete () {
     sessionRequired = sessionRequired ? sessionRequired : [];
     if ((presenterRequired.value && !sessionRequired.length)
         || (!presenterRequired.value && sessionRequired.length)) {
-        
+
         ok = false;
     }
     var previewButton = document.getElementById('preview-button');

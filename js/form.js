@@ -222,6 +222,8 @@ function populateForm (eventID,data) {
                 hasPerson = true;
                 node.value = data[key];
                 node.classList.add('has-content');
+                node.disabled = true;
+                cache[populateMap[person][key]] = data[key];
             }
         }
         if (hasPerson) {
@@ -236,6 +238,7 @@ function populateForm (eventID,data) {
             hasPerson = true;
             node.value = data[key];
             node.classList.add('has-content');
+            cache[populateMap.details[key]] = data[key];
         }
     }
 
@@ -286,6 +289,8 @@ function prepareFields (session) {
 
 function clearForm () {
     var formNodes = getFormNodes();
+    // Clear cache
+    cache = {};
     // Clear required
     for (var i=0,ilen=formNodes.required.length;i<ilen;i+=1) {
         formNodes.required[i].value = "";
