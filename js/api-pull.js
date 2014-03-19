@@ -32,7 +32,6 @@ function namePull (node,personID) {
 };
 
 function attachmentPull(node,documentID) {
-    console.log("Update from documentID: "+documentID);
     var container = getContainer(node);
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
@@ -49,7 +48,6 @@ function attachmentPull(node,documentID) {
         }
     );
     if (false === row) return;
-    console.log("PROCEED");
     addAttachment(row.documentID,row.title);
 };
 

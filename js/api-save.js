@@ -15,8 +15,6 @@ function savePersonFields (node) {
         data[colname] = field.value;
     });
 
-    // console.log(JSON.stringify(row,null,2));
-
     // API call
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
@@ -67,7 +65,6 @@ function completedUpload (ev) {
     var innerDocument = iframe.contentDocument || iframe.contentWindow.document;
     var body = innerDocument.getElementsByTagName('BODY')[0];
     var ret = JSON.parse(body.textContent)
-    console.log("IN completedUpload(): "+ret.documentID+" "+ret.documentTitle);
     addAttachment(ret.documentID,ret.documentTitle);
     status.uploadID = null;
     var uploadButton = document.getElementById('uploader-attachment-button');

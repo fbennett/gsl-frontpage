@@ -91,7 +91,6 @@ function previewForm () {
             data.attachments.push(smartId.num);
         }
     }
-    console.log("FORM DATA TO SAVE: "+JSON.stringify(data,null,2));
     // API save call
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
@@ -110,7 +109,6 @@ function previewForm () {
     if (false === row) return;
 
     // Receive eventID and set in form
-    console.log("RESULTING EVENT ID: "+row.eventID);
     eventIdNode.value = row.eventID;
 
     // API read calls and updates (for event & announcement pulldown lists)
@@ -141,7 +139,6 @@ function convertSessionsObjectToSortedList(sessions) {
 };
 
 function getPageContent (event) {
-    console.log("EVENT ID: "+event.target.value);
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
     if (!pageName) {
@@ -252,7 +249,6 @@ function populateForm (eventID,data) {
         var fields = prepareFields(session);
         appendSessionNode(fields);
     }
-    console.log("JSON: "+JSON.stringify(data,null,2));
 };
 
 function padNumber (num,padlen) {

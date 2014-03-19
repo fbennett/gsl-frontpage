@@ -89,7 +89,6 @@ function getSearchableKeydownHandler (fieldName) {
     return function (event) {
         if (['Tab','Down','Esc'].indexOf(event.key) > -1) {
             event.preventDefault();
-            console.log("cc "+fieldName+" "+event.key);
             window[fieldName + 'KeyupHandler'](event, event.key);
         }
     };
@@ -101,7 +100,6 @@ function getSearchableKeyupHandler (fieldName) {
             event.preventDefault();
         }
         if (event.target.classList.contains('block-sayt')) {
-            console.log("block-sayt");
             event.target.classList.remove('block-sayt');
             return;
         }
@@ -111,7 +109,6 @@ function getSearchableKeyupHandler (fieldName) {
             window[fieldName + 'Set'](event);
             event.target.addEventListener('blur',blurRestoreFromCache);
         } else if (fromKeyDown === 'Down') {
-            console.log("DOWN");
             var dropper = getDropper(event.target);
             if (dropper.childNodes.length) {
                 event.target.classList.remove('block-sayt');
@@ -237,9 +234,7 @@ function attachmentSet(event) {
 };
 
 function attachmentTitleKeyup(event,fromKeyDown) {
-    if (fromKeyDown) { event.preventDefault(); } if (event.key ===
-        'Enter' || fromKeyDown === 'Tab') {
-        console.log("DO-ing");
+    if (fromKeyDown) { event.preventDefault(); } if (event.key === 'Enter' || fromKeyDown === 'Tab') {
         event.preventDefault();
         var adminID = getParameterByName('admin');
         var pageName = getParameterByName('page');

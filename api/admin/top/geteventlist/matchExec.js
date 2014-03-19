@@ -13,7 +13,6 @@
 
         sys.db.all(sql,function(err,rows){
             if (err||!rows) {return oops(response,err,'geteventlist(1)')};
-            console.log("EVENTS(1): "+rows);
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(rows))
         });

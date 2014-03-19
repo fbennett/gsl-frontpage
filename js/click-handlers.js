@@ -10,9 +10,7 @@ function getClickDropdown (fieldID) {
             dropdown.style.display = 'none';
         };
     } else if (fieldID.split('-')[1] === 'attachment') {
-        console.log("Setting attachment click handler, I guess");
         return function (event) {
-            console.log("attachment dropdown: click event");
             attachmentPull(fieldNode,event.target.value);
         }
     } else if (fieldID.split('-')[1] === 'place') {
@@ -23,7 +21,6 @@ function getClickDropdown (fieldID) {
         return function (event) {
             fieldNode.value = event.target.textContent;
 
-            console.log("RUNNING else branch function in getClickDropdown");
             setServantFields(fieldNode);
 
             var dropdown = document.getElementById(fieldID + '-dropdown');
@@ -38,11 +35,9 @@ function getClickDropdown (fieldID) {
 function setAddButtonState (node,action) {
     var addButton = document.getElementById('session-add-button');
     if (checkSessionFieldValues(node)) {
-        console.log("ENABLING");
         addButton.disabled = false;
         addButton.focus();
     } else {
-        console.log("DISABLING");
         moveFocusForward(node,action);
         addButton.disabled = true;
     }

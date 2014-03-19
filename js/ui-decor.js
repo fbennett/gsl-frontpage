@@ -86,7 +86,6 @@ function checkFormComplete () {
     for (var i=0,ilen=formRequired.length;i<ilen;i+=1) {
         if (!formRequired[i].value) {
             ok = false;
-            console.log("ID="+formRequired[i].id);
             break;
         }
     }
@@ -127,7 +126,6 @@ function moveFocusForward (node,action) {
 
 function getContainer(node) {
     var containerID = node.id.split('-')[0];
-    console.log("XXX --> "+containerID);
     return document.getElementById(containerID);
 };
 
@@ -149,8 +147,6 @@ function forServants(node,callback) {
 
 function forMaster(node,callback) { 
     var container = getContainer(node);
-    console.log('container='+container)
-    console.log('container.id='+container.id)
     var master = container.getElementsByClassName('person-master')[0];
     callback(master);
 };
@@ -181,7 +177,6 @@ function sameContainer(anode,bnode) {
 };
 
 function addAttachment (documentID, documentTitle) {
-    console.log("(1)");
     // Get existing values, if any
     status.attachments = {};
     var attachmentContainer = document.getElementById('attachment-container');
@@ -196,7 +191,6 @@ function addAttachment (documentID, documentTitle) {
         status.attachments[id] = titleNode.value;
     }
     
-    console.log("(2)");
     // Add this documentID and documentTitle to status.attachments IF it is a new one.
     if (!status.attachments[documentTitle]) {
         status.attachments[documentID] = documentTitle;
@@ -208,7 +202,6 @@ function addAttachment (documentID, documentTitle) {
         attachments.push({documentID:documentID,documentTitle:status.attachments[documentID]});
     }
     
-    console.log("(3): "+JSON.stringify(attachments,null,2));
     // XXX Sort the list
     attachments.sort(
         function (a,b) {
@@ -221,8 +214,6 @@ function addAttachment (documentID, documentTitle) {
         attachmentContainer.removeChild(attachmentContainer.childNodes[0]);
     }
 
-    console.log("(4)");
-    
     // Add the updated nodes
     for (var i=0,ilen=attachments.length;i<ilen;i+=1) {
         appendAttachmentNode(attachments[i].documentID,attachments[i].documentTitle);
@@ -235,7 +226,6 @@ function addAttachment (documentID, documentTitle) {
     // Clear the visible values in the uploader widget
     attachmentTitleNode.value = '';
     attachmentUploadFilenameNode.value = '';
-    console.log("(5)");
 };
 
 var attachmentHtmlTemplate = '<tr>'
@@ -387,7 +377,6 @@ function deleteSession(sessionID) {
 
 function extractDate(str) {
     var ret = {};
-    console.log("XXXX "+str);
     var m = str.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/);
     ret.year = parseInt(m[1],10);
     ret.month = (parseInt(m[2],10)-1);
