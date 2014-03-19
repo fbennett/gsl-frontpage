@@ -8,8 +8,6 @@
         var personID = params.personid;
         var touchDate = params.touchdate;
 
-        console.log("PERSON ID: ("+personID+")");
-
         sys.db.run('BEGIN TRANSACTION',function(err){
             if (err) {return oops(response,err,'event/savetopersons(1)')};
             checkForFieldStr(0,4);

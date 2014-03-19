@@ -5,8 +5,6 @@
         var sys = this.sys;
         var data = params.data;
 
-        console.log("DATA: "+JSON.stringify(data,null,2));
-
         beginTransaction();
 
         function beginTransaction() {
@@ -211,7 +209,6 @@
             };
             var session = data.sessions[pos];
             var sql = 'INSERT INTO sessions VALUES (NULL,?,?,?,?,?);';
-            console.log("FIELDS: "+data.eventID+" "+session.title+" "+session.place);
             sys.db.run(sql,[data.eventID,session.title,session.place,session.startDateTime,session.endDateTime],function(err){
                 if (err) {return oops(response,err,'saveevent(15)')};
                 addSessions(pos+1,limit);

@@ -5,8 +5,6 @@
         var sys = this.sys;
         var eventID = params.eventid;
 
-        console.log("EVENT ID: "+typeof eventID+" "+eventID);
-        
         var data = {
             eventID:eventID,
             attachments:[],
@@ -44,7 +42,6 @@
                     }
                     getAttachments();
                 } else {
-                    console.log("OOPS, ABORTING. DARN.");
                     response.writeHead(200, {'Content-Type': 'application/json'});
                     response.end(JSON.stringify(data))
                 }

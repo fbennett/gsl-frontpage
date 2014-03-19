@@ -5,8 +5,6 @@
         var sys = this.sys;
         var personID = params.personid;
 
-        console.log("Personid: "+personID);
-
         var sql = 'SELECT name,contact,affiliation,position '
             + 'FROM persons '
             + 'JOIN names USING(nameID) '
@@ -16,7 +14,6 @@
             + 'WHERE personID=?';
 
         sys.db.get(sql,[personID],function(err,row){
-            console.log("RES: "+row);
             if (err) {return oops(response,err,'event/getoneperson(1)')};
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(row));
