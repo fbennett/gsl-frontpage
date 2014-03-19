@@ -168,6 +168,8 @@ function getPageContent (event) {
     // Show current form in pulldown menus
     updateMenuList('event');
     updateMenuList('announcement');
+    // Wake up buttons
+    checkFormComplete();
 };
 
 function getFormNodes() {
@@ -185,12 +187,106 @@ function getFormNodes() {
     return ret;
 };
 
+
+var populateMap = {
+    convenor: {
+        convenorID:'convenor-name-id',
+        convenorName:'convenor-name',
+        convenorContact:'convenor-contact',
+        convenorAffiliation:'convenor-affiliation',
+        convenorPosition:'convenor-position'
+    },
+    presenter: {
+        presenterID:'presenter-name-id',
+        presenterName:'presenter-name',
+        presenterContact:'presenter-contact',
+        presenterAffiliation:'presenter-affiliation',
+        presenterPosition:'presenter-position'
+    },
+    details: {
+        title:'title',
+        description:'description',
+        note:'note'
+    }
+};
+
 function populateForm (eventID,data) {
     var formNodes = getFormNodes();
+
     document.getElementById('event-id').value = eventID;
 
+    var persons = ['convenor','presenter'];
+    for (var i=0,ilen=persons.length;i<ilen;i+=1) {
+        var person = persons[i];
+        var hasPerson = false;
+        for (var key in populateMap[person]) {
+            var node = document.getElementById(populateMap[person][key]);
+            if (data[key]) {
+                hasPerson = true;
+                node.value = data[key];
+                node.classList.add('has-content');
+            }
+        }
+        if (hasPerson) {
+            document.getElementById(person + '-clear').disabled = false;
+            document.getElementById(person + '-edit').style.display = 'inline';
+        }
+    }
+
+    for (var key in populateMap.details) {
+        var node = document.getElementById(populateMap.details[key]);
+        if (data[key]) {
+            hasPerson = true;
+            node.value = data[key];
+            node.classList.add('has-content');
+        }
+    }
+
+    for (var i=0,ilen=data.attachments.length;i<ilen;i+=1) {
+        var attachment = data.attachments[i];
+        appendAttachmentNode(attachment.documentID,attachment.title);
+    }
+
+    for (var i=0,ilen=data.sessions.length;i<ilen;i+=1) {
+        var session = data.sessions[i];
+        var fields = prepareFields(session);
+        appendSessionNode(fields);
+    }
     console.log("JSON: "+JSON.stringify(data,null,2));
 };
+
+function padNumber (num,padlen) {
+    num = '' + num;
+    while (num.length < padlen) {
+        num = '0' + num;
+    }
+    return num;
+};
+
+function prepareFields (session) {
+
+    //  "startDateTime": 1395882000000,
+    //  "endDateTime": 1395885600000
+
+    var ret = {};
+    ret.title = session.title;
+    ret.place = session.place;
+    
+    var startDate = new Date(session.startDateTime);
+    var month = padNumber(startDate.getMonth()+1,2);
+    ret.date = startDate.getFullYear() + '-' + month + '-' + startDate.getDate();
+    var hour = padNumber(startDate.getHours(),2);
+    var minute = padNumber(startDate.getMinutes(),2);
+    ret.start = hour + ':' + minute
+
+    var endDate = new Date(session.endDateTime);
+    var hour = padNumber(endDate.getHours(),2);
+    var minute = padNumber(endDate.getMinutes(),2);
+    ret.end = hour + ':' + minute;
+    
+    return ret;
+};
+
 
 function clearForm () {
     var formNodes = getFormNodes();
@@ -215,12 +311,12 @@ function clearForm () {
         formNodes.servant[i].classList.remove('has-content');
     }
     // Clear attachments
-    for (var i=1,ilen=formNodes.attachment.childNodes.length;i<ilen;i+=1) {
-        formNodes.attachment.removeChild(formNodes.attachment.childNode[1]);
+    for (var i=0,ilen=formNodes.attachment.childNodes.length;i<ilen;i+=1) {
+        formNodes.attachment.removeChild(formNodes.attachment.childNodes[0]);
     }
     // Clear sessions
-    for (var i=1,ilen=formNodes.session.childNodes.length;i<ilen;i+=1) {
-        formNodes.session.removeChild(formNodes.session.childNode[1]);
+    for (var i=0,ilen=formNodes.session.childNodes.length;i<ilen;i+=1) {
+        formNodes.session.removeChild(formNodes.session.childNodes[0]);
     }
     // Disable buttons
     for (var i=0,ilen=formNodes.disable.length;i<ilen;i+=1) {

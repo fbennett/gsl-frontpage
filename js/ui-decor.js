@@ -306,7 +306,8 @@ function getSessionFieldValues (node) {
     return fields;
 };
 
-function clearSessionFieldValues (node) {
+function clearSessionFieldValues () {
+    var node = document.getElementById('session');
     var fields = {};
     var container = getContainer(node);
     var fieldNodes = container.getElementsByClassName('field');
@@ -338,26 +339,27 @@ var sessionHtmlTemplate = '<tr>'
     + '  </td>'
     + '</tr>'
 
-function appendSessionNode(node) {
+function addSessionNode() {
+    var titleNode = document.getElementById('session-title');
+    var fields = getSessionFieldValues(titleNode);
+    appendSessionNode(fields);
+};
 
-    console.log("Append session n0de ...");
+function appendSessionNode(fields) {
+
+    
 
     // XXX Cannot save before form as a whole is saved, because we need the event ID
     // XXX Use the start time as the ID
     // XXX Harvest nodes from the UI, extract content, and sort by start time on each append
-    var titleNode = document.getElementById('session-title');
-    var fields = getSessionFieldValues(titleNode);
+
     var date = extractDate(fields.date);
     var time = extractTime(fields.start);
     var dateTime = new Date(year=date.year,month=date.month,day=date.day,hour=time.hour,minute=time.minute);
     var sessionID = dateTime.getTime()
 
-    console.log("WHAT IS THE DATE? "+dateTime);;
-
     var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
     var dow = days[dateTime.getDay()];
-
-    console.log("sessionID="+sessionID);
 
     var sessionContainer = document.getElementById('session-container');
     var sessionNode = document.createElement('table');
@@ -374,7 +376,7 @@ function appendSessionNode(node) {
         .replace(/@@DOW@@/g,dow)
     sessionContainer.appendChild(sessionNode);
 
-    clearSessionFieldValues(node);
+    clearSessionFieldValues();
     checkFormComplete();
 };
 
@@ -385,6 +387,7 @@ function deleteSession(sessionID) {
 
 function extractDate(str) {
     var ret = {};
+    console.log("XXXX "+str);
     var m = str.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/);
     ret.year = parseInt(m[1],10);
     ret.month = (parseInt(m[2],10)-1);
