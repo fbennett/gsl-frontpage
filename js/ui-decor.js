@@ -313,7 +313,7 @@ var sessionHtmlTemplate = '<tr>'
     + '    <input id="session@@SESSION_ID@@-title" value="@@TITLE@@" class="has-content session-required" disabled="true" type="text" size="50"/>'
     + '  </td>'
     + '  <td rowspan="2">'
-    + '    <input id="session@@SESSION_ID@@-delete-button" type="button" value="Delete"/>'
+    + '    <input id="session@@SESSION_ID@@-delete-button" type="button" onclick="deleteSession(@@SESSION_ID@@);" value="Delete"/>'
     + '  </td>'
     + '</tr>'
     + '<tr>'
@@ -371,7 +371,7 @@ function appendSessionNode(fields) {
 };
 
 function deleteSession(sessionID) {
-    var sessionNode = document.getElementById('document' + sessionID);
+    var sessionNode = document.getElementById('session' + sessionID);
     sessionNode.parentNode.removeChild(sessionNode);
 };
 
@@ -390,4 +390,17 @@ function extractTime(str) {
     ret.hour = m[1];
     ret.minute = m[2];
     return ret;
+};
+
+function inferUiDate (jsEpoch,padding) {
+    var jsDate = new Date(jsEpoch);
+    var month = padNumber(jsDate.getMonth()+1,padding);
+    return (jsDate.getFullYear() + '-' + month + '-' + jsDate.getDate());
+};
+
+function inferUiTime (jsEpoch,padding) {
+    var jsDate = new Date(jsEpoch);
+    var hour = padNumber(jsDate.getHours(),padding);
+    var minute = padNumber(jsDate.getMinutes(),padding);
+    return (hour + ':' + minute);
 };

@@ -118,6 +118,9 @@ function previewForm () {
 
     // API read call (for preview)
     // Compose preview popup and display
+    var path = fixPath('/?admin=' + adminID + '&page=' + pageName + '&cmd=preview&eventid=' + row.eventID);
+    console.log("fixed path: "+path);
+    popupCenter(path,'preview',700,500);
 
     // Once this is all working, only template output, mail, and uploads remain!
 };
@@ -168,6 +171,7 @@ function getPageContent (event) {
     updateMenuList('announcement');
     // Wake up buttons
     checkFormComplete();
+    event.target.blur();
 };
 
 function getFormNodes() {
@@ -256,6 +260,9 @@ function populateForm (eventID,data) {
 };
 
 function padNumber (num,padlen) {
+    if (!padlen) {
+        padlen = 0;
+    }
     num = '' + num;
     while (num.length < padlen) {
         num = '0' + num;
@@ -272,18 +279,10 @@ function prepareFields (session) {
     ret.title = session.title;
     ret.place = session.place;
     
-    var startDate = new Date(session.startDateTime);
-    var month = padNumber(startDate.getMonth()+1,2);
-    ret.date = startDate.getFullYear() + '-' + month + '-' + startDate.getDate();
-    var hour = padNumber(startDate.getHours(),2);
-    var minute = padNumber(startDate.getMinutes(),2);
-    ret.start = hour + ':' + minute
+    ret.date = inferUiDate(session.startDateTime,2);
+    ret.start = inferUiTime(session.startDateTime,2);
+    ret.end = inferUiTime(session.startDateTime,2);
 
-    var endDate = new Date(session.endDateTime);
-    var hour = padNumber(endDate.getHours(),2);
-    var minute = padNumber(endDate.getMinutes(),2);
-    ret.end = hour + ':' + minute;
-    
     return ret;
 };
 
