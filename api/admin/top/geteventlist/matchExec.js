@@ -4,11 +4,12 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
 
-        var sql = 'SELECT eventID,strftime("%Y-%m-%d",(pageDate/1000),"unixepoch") AS date,name AS presenter,title '
+        var sql = 'SELECT eventID,strftime("%Y-%m-%d",(pageDate/1000),"unixepoch") || " | " || name || " | " || title AS title '
             + 'FROM events '
             + 'JOIN titles USING(titleID) '
             + 'JOIN persons ON persons.personID=events.presenterID '
             + 'JOIN names ON names.nameID=persons.nameID '
+            + 'WHERE events.presenterID IS NOT NULL AND status > -1 '
             + 'ORDER BY pageDate DESC';
 
         sys.db.all(sql,function(err,rows){

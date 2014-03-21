@@ -38,11 +38,7 @@ function updateMenuList(type,selectedId) {
         var row = rows[i];
         var option = document.createElement('option');
         option.value = row.eventID;
-        var presenter = ' | ';
-        if (row.presenter) {
-            presenter = ' | ' + row.presenter + ' | ';
-        }
-        option.innerHTML = row.date + presenter + row.title;
+        option.innerHTML = row.title;
         node.appendChild(option);
         if (option.value == selectedId) {
             selectedIndex = (i+1);
@@ -83,7 +79,11 @@ function setFileExtension (node) {
 
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    var ret = match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    if (name === 'page' || !ret) {
+        ret = 'top';
+    }
+    return ret;
 }
 
 function fixPath (path) {

@@ -4,14 +4,20 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
 
-        var sql = 'SELECT eventID,strftime("%Y-%m-%d",(pageDate/1000),"unixepoch") || " | " || title AS title '
+        var sql = 'SELECT eventID,strftime("%Y-%m-%d",(pageDate/1000),"unixepoch") || " | " || '
+            + 'CASE WHEN events.presenterID IS NOT NULL '
+            + '  THEN names.name || " | " || title '
+            + '  ELSE title '
+            + 'END AS title ' 
             + 'FROM events '
             + 'JOIN titles USING(titleID) '
-            + 'WHERE presenterID IS NULL AND status > -1 '
+            + 'LEFT JOIN persons ON persons.personID=events.presenterID '
+            + 'LEFT JOIN names ON names.nameID=persons.nameID '
+            + 'WHERE status=-1 '
             + 'ORDER BY pageDate DESC';
 
         sys.db.all(sql,function(err,rows){
-            if (err||!rows) {return oops(response,err,'getannouncementlist(1)')};
+            if (err||!rows) {return oops(response,err,'gettrashlist(1)')};
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(rows))
         });

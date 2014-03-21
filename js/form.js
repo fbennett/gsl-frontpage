@@ -122,7 +122,9 @@ function previewForm () {
     console.log("fixed path: "+path);
     popupCenter(path,'preview',700,500);
 
-    // Once this is all working, only template output, mail, and uploads remain!
+    setFormButtons(row);
+
+    // Once this is all working, only template output and mail remain!
 };
 
 function convertSessionsObjectToSortedList(sessions) {
@@ -169,8 +171,10 @@ function getPageContent (event) {
     // Show current form in pulldown menus
     updateMenuList('event');
     updateMenuList('announcement');
+    updateMenuList('trash');
     // Wake up buttons
     checkFormComplete();
+    setFormButtons(data);
     event.target.blur();
 };
 
@@ -331,4 +335,48 @@ function clearForm () {
     }
     // Clear search toggle
     formNodes.search.checked = false;
+};
+
+function trashItem (event) {
+    var eventID = document.getElementById('event-id').value;
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=trashevent'
+        , {
+            eventid:eventID
+        }
+    );
+    if (false === row) return;
+
+    updateMenuList('event');
+    updateMenuList('announcement');
+    updateMenuList('trash');
+    setFormButtons(row);
+    event.target.blur();
+};
+
+function restoreItem (event) {
+    var eventID = document.getElementById('event-id').value;
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=restoreevent'
+        , {
+            eventid:eventID
+        }
+    );
+    if (false === row) return;
+
+    updateMenuList('event');
+    updateMenuList('announcement');
+    updateMenuList('trash');
+    setFormButtons(row);
+    event.target.blur();
 };

@@ -92,7 +92,13 @@
         // Add or update event
         function checkEvent () {
             if (data.eventID) {
-                updateEvent();
+                var sql = 'SELECT published,status FROM events WHERE eventID=?;';
+                sys.db.get(sql,[data.eventID],function(err,row){
+                    if (err||!row) {return oops(response,err,'saveevent(7)')};
+                    data.published = row.published;
+                    data.status = row.status;
+                    updateEvent();
+                });
             } else {
                 addEvent();
             }
@@ -105,7 +111,7 @@
             }
             var sql = 'UPDATE events SET titleID=?, descriptionID=?, noteID=?, convenorID=?, presenterID=?, pageDate=? WHERE eventID=?;';
             sys.db.run(sql,[data.title,data.description,data.note,data.convenorID,presenterID,data.pageDate,data.eventID],function(err){
-                if (err) {return oops(response,err,'saveevent(7)')};
+                if (err) {return oops(response,err,'saveevent(8)')};
                 clearSessions();
             });
         };
@@ -116,8 +122,10 @@
             }
             var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,0)';
             sys.db.run(sql,[data.convenorID,data.title,data.description,data.pageDate,presenterID,data.note],function(err){
-                if (err) {return oops(response,err,'saveevent(8)')};
+                if (err) {return oops(response,err,'saveevent(9)')};
                 data.eventID = this.lastID;
+                data.published = false;
+                data.status = 0;
                 clearSessions();
             });
         };
@@ -126,7 +134,7 @@
         function clearSessions () {
             var sql = 'DELETE FROM sessions WHERE eventID=?;';
             sys.db.run(sql,[data.eventID],function(err){
-                if (err) {return oops(response,err,'saveevent(9)')};
+                if (err) {return oops(response,err,'saveevent(10)')};
                 var limit = 0;
                 if (data.sessions) {
                     limit = data.sessions.length;
@@ -143,7 +151,7 @@
             var title = data.sessions[pos].title;
             var sql = 'SELECT titleID FROM titles WHERE title=?;';
             sys.db.get(sql,[title],function(err,row){
-                if (err) {return oops(response,err,'saveevent(10)')};
+                if (err) {return oops(response,err,'saveevent(11)')};
                 if (row && row.titleID) {
                     data.sessions[pos].title = row.titleID;
                 }
@@ -159,7 +167,7 @@
                 var title = data.sessions[pos].title;
                 var sql = 'INSERT INTO titles VALUES (NULL,?);';
                 sys.db.run(sql,[title],function(err){
-                    if (err) {return oops(response,err,'saveevent(11)')};
+                    if (err) {return oops(response,err,'saveevent(12)')};
                     data.sessions[pos].title = this.lastID;
                     addSessionTitles(pos+1,limit);
                 });
@@ -175,7 +183,7 @@
             var place = data.sessions[pos].place;
             var sql = 'SELECT placeID FROM places WHERE place=?;';
             sys.db.get(sql,[place],function(err,row){
-                if (err) {return oops(response,err,'saveevent(12)')};
+                if (err) {return oops(response,err,'saveevent(13)')};
                 if (row && row.placeID) {
                     data.sessions[pos].place = row.placeID;
                     // XXX Nudge touchDate

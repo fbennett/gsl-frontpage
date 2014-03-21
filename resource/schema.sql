@@ -1,4 +1,4 @@
--- 1
+-- 2
 
 CREATE TABLE version (
        schema TEXT PRIMARY KEY,
@@ -40,6 +40,7 @@ CREATE TABLE events (
        presenterID INTEGER,
        noteID INTEGER,
        published BOOLEAN,
+       status INTEGER DEFAULT 0,
        FOREIGN KEY (convenorID) REFERENCES persons(personID),
        FOREIGN KEY (presenterID) REFERENCES persons(personID),
        FOREIGN KEY (titleID) REFERENCES titles(titleID),

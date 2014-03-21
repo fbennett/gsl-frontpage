@@ -42,6 +42,14 @@
                 <select id="event-list"><option value="">Select an event</select>
               </td>
             </tr>
+            <tr>
+              <td>
+                Trash:
+              </td>
+              <td style="text-align:left;">
+                <select id="trash-list"><option value="">Open a trashed item</select>
+              </td>
+            </tr>
           </table>
         </div>
         <div id="content">
@@ -259,13 +267,16 @@
         <input id="preview-button" type="button" class="button" style="font-size:200%;" value="Save" onclick="previewForm();" disabled="true"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
-        <input type="button" class="button" style="font-size:200%;" value="Trash" disabled="true"/>
+        <input id="trash-button" type="button" class="button" style="font-size:200%;" value="Trash" onclick="trashItem(event);" disabled="true"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;display:none;">
-        <input type="button" class="button" style="font-size:200%;" value="Restore" disabled="true"/>
+        <input id="restore-button" type="button" class="button" style="font-size:200%;" value="Restore" onclick="restoreItem(event);"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
-        <input type="button" class="button" style="font-size:200%;" value="Publish" disabled="true"/>
+        <input id="publish-button" type="button" class="button" style="font-size:200%;" value="Publish" onclick="publishItem(event);" disabled="true"/>
+      </div>
+      <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;display:none;">
+        <input id="republish-button" type="button" class="button" style="font-size:200%;" value="Republish" onclick="republishItem(event);"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
       </div>
