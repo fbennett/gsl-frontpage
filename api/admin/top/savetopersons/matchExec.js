@@ -6,7 +6,7 @@
         var fields = ['name','contact','affiliation','position'];
         var data = params.data;
         var personID = params.personid;
-        var touchDate = sys.getUnixEpoch(params.touchdate);
+        var touchDate = params.touchdate;
 
         sys.db.run('BEGIN TRANSACTION',function(err){
             if (err) {return oops(response,err,'event/savetopersons(1)')};

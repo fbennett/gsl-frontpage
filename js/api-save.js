@@ -29,7 +29,7 @@ function savePersonFields (node) {
         , {
             data:data,
             personid:personID,
-            touchdate:pageDate
+            touchdate:clientDateToServer(pageDate)
         }
     );
     if (false === row) return;
@@ -48,7 +48,7 @@ function startingUpload (ev) {
     }
     form.action = '?' + admin + 'cmd=upload';
     var uploadPagedate = document.getElementById('uploader-attachment-pagedate');
-    uploadPagedate.value = pageDate;
+    uploadPagedate.value = localDateToServer(parseInt(pageDate,10));
     var uploadExtension = document.getElementById('uploader-attachment-extension');
     uploadExtension.value = '';
     var uploadMimeType = document.getElementById('uploader-attachment-mimetype');

@@ -52,9 +52,11 @@ function previewForm () {
         }
         var minStartDate = 0;
         // Reprocess sessions to consolidate  date+start and date+end in two dateTime fields
+        // Includes a time adjustment. See TIMES.txt for details.
         for (var sessionKey in data.sessions) {
             var session = data.sessions[sessionKey];
             // Extract from date
+            console.log("Why am I trying to extract? Why am I previewing?");
             var date = extractDate(session['session-date']);
             // Extract from start
             var start = extractTime(session['session-hour-start']);
@@ -62,13 +64,13 @@ function previewForm () {
             var end = extractTime(session['session-hour-end']);
             // Compose ...
             var startDateTime = new Date(year=date.year,month=date.month,day=date.day,hour=start.hour,minute=start.minute);
-            session.startDateTime = startDateTime.getTime();
+            session.startDateTime = jstShift(startDateTime);
             // Track minStartDate
             if (!minStartDate || session.startDateTime < minStartDate) {
                 minStartDate = session.startDateTime;
             }
             var endDateTime = new Date(year=date.year,month=date.month,day=date.day,hour=end.hour,minute=end.minute);
-            session.endDateTime = endDateTime.getTime();
+            session.endDateTime = jstShift(endDateTime);
             // Deletes ...
             delete session['session-date'];
             delete session['session-hour-start'];
@@ -94,6 +96,7 @@ function previewForm () {
     // API save call
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
+    convertAllDatesToRemote(data);
     if (!pageName) {
         pageName = 'top';
     }
@@ -164,6 +167,7 @@ function getPageContent (event) {
         }
     );
     if (false === data) return;
+    convertAllDatesToLocal(data);
     // Clear form
     clearForm();
     // Populate form
@@ -283,6 +287,8 @@ function prepareFields (session) {
     ret.title = session.title;
     ret.place = session.place;
     
+    console.log("TIME: "+session.startDateTime);
+
     ret.date = inferUiDate(session.startDateTime,2);
     ret.start = inferUiTime(session.startDateTime,2);
     ret.end = inferUiTime(session.startDateTime,2);

@@ -381,6 +381,7 @@ function appendSessionNode(fields) {
     // XXX Use the start time as the ID
     // XXX Harvest nodes from the UI, extract content, and sort by start time on each append
 
+    console.log("trying extractDate() here? Can this be avoided? Maybe? "+fields.date);
     var date = extractDate(fields.date);
     var time = extractTime(fields.start);
     var dateTime = new Date(year=date.year,month=date.month,day=date.day,hour=time.hour,minute=time.minute);
@@ -413,38 +414,3 @@ function deleteSession(sessionID) {
     sessionNode.parentNode.removeChild(sessionNode);
 };
 
-function extractDate(str) {
-    var ret = {};
-    var m = str.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/);
-    ret.year = parseInt(m[1],10);
-    ret.month = (parseInt(m[2],10)-1);
-    ret.day = parseInt(m[3],10);
-    return ret;
-};
-
-function extractTime(str) {
-    var ret = {};
-    var m = str.match(/^([0-9]+):([0-9]+)$/);
-    ret.hour = m[1];
-    ret.minute = m[2];
-    return ret;
-};
-
-function inferUiDate (unixEpoch,padding) {
-    var jsEpoch = getJsEpoch(unixEpoch);
-    var jsDate = new Date(jsEpoch);
-    var month = padNumber(jsDate.getMonth()+1,padding);
-    return (jsDate.getFullYear() + '-' + month + '-' + jsDate.getDate());
-};
-
-function inferUiTime (unixEpoch,padding) {
-    var jsEpoch = getJsEpoch(unixEpoch);
-    var jsDate = new Date(jsEpoch);
-    var hour = padNumber(jsDate.getHours(),padding);
-    var minute = padNumber(jsDate.getMinutes(),padding);
-    return (hour + ':' + minute);
-};
-
-function getJsEpoch (unixEpoch) {
-    return (unixEpoch*1000);
-};

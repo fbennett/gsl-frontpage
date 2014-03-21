@@ -205,9 +205,6 @@ function attachmentSet(event) {
         // If a value exists, either set the group from it, or set it as solo
         var adminID = getParameterByName('admin');
         var pageName = getParameterByName('page');
-        if (!pageName) {
-            pageName = 'top';
-        }
         var rows = apiRequest(
             '/?admin='
                 + adminID
@@ -220,6 +217,7 @@ function attachmentSet(event) {
         var perfectMatch = false;
         var row = null;
         if (rows) {
+            convertAllDatesToLocal(rows);
             // Check for match
             for (var i=0,ilen=rows.length;i<ilen;i+=1) {
                 row = rows[i];
@@ -301,7 +299,7 @@ function placeSet(event) {
                 + '&cmd=saveplace'
             , {
                 place:event.target.value,
-                touchdate:pageDate
+                touchdate:clientDateToServer(pageDate)
             }
         );
         if (false === ret) return;
