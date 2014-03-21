@@ -4,7 +4,7 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
 
-        var sql = 'SELECT eventID,strftime("%Y-%m-%d",(pageDate/1000),"unixepoch") || " | " || name || " | " || title AS title '
+        var sql = 'SELECT eventID,strftime("%Y-%m-%d",pageDate,"unixepoch") || " | " || name || " | " || title AS title '
             + 'FROM events '
             + 'JOIN titles USING(titleID) '
             + 'JOIN persons ON persons.personID=events.presenterID '

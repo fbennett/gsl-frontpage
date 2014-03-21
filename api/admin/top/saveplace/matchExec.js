@@ -4,7 +4,7 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
         var place = params.place;
-        var touchDate = params.touchdate;
+        var touchDate = sys.getUnixEpoch(params.touchdate);
         checkPlace();
         
         function checkPlace () {

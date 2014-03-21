@@ -4,7 +4,7 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
 
-        var sql = 'SELECT eventID,strftime("%Y-%m-%d",(pageDate/1000),"unixepoch") || " | " || '
+        var sql = 'SELECT eventID,strftime("%Y-%m-%d",pageDate,"unixepoch") || " | " || '
             + 'CASE WHEN events.presenterID IS NOT NULL '
             + '  THEN names.name || " | " || title '
             + '  ELSE title '

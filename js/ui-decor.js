@@ -430,15 +430,21 @@ function extractTime(str) {
     return ret;
 };
 
-function inferUiDate (jsEpoch,padding) {
+function inferUiDate (unixEpoch,padding) {
+    var jsEpoch = getJsEpoch(unixEpoch);
     var jsDate = new Date(jsEpoch);
     var month = padNumber(jsDate.getMonth()+1,padding);
     return (jsDate.getFullYear() + '-' + month + '-' + jsDate.getDate());
 };
 
-function inferUiTime (jsEpoch,padding) {
+function inferUiTime (unixEpoch,padding) {
+    var jsEpoch = getJsEpoch(unixEpoch);
     var jsDate = new Date(jsEpoch);
     var hour = padNumber(jsDate.getHours(),padding);
     var minute = padNumber(jsDate.getMinutes(),padding);
     return (hour + ':' + minute);
+};
+
+function getJsEpoch (unixEpoch) {
+    return (unixEpoch*1000);
 };

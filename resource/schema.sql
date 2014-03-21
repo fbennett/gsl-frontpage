@@ -1,4 +1,4 @@
--- 2
+-- 3
 
 CREATE TABLE version (
        schema TEXT PRIMARY KEY,

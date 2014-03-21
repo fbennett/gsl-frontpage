@@ -4,6 +4,7 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
         var data = params.data;
+        convertDates(data);
 
         beginTransaction();
 
