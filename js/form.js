@@ -287,11 +287,9 @@ function prepareFields (session) {
     ret.title = session.title;
     ret.place = session.place;
     
-    console.log("TIME: "+session.startDateTime);
-
     ret.date = inferUiDate(session.startDateTime,2);
     ret.start = inferUiTime(session.startDateTime,2);
-    ret.end = inferUiTime(session.startDateTime,2);
+    ret.end = inferUiTime(session.endDateTime,2);
 
     return ret;
 };
@@ -385,4 +383,38 @@ function restoreItem (event) {
     updateMenuList('trash');
     setFormButtons(row);
     event.target.blur();
+};
+
+function publishItem () {
+    var eventID = document.getElementById('event-id').value;
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=publish'
+        , {
+            eventid:eventID
+        }
+    );
+    if (false === row) return;
+
+};
+
+function republishItem () {
+    var eventID = document.getElementById('event-id').value;
+    var adminID = getParameterByName('admin');
+    var pageName = getParameterByName('page');
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=publish'
+        , {
+            eventid:eventID
+        }
+    );
+    if (false === row) return;
+
 };
