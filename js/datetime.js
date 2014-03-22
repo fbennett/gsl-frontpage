@@ -2,9 +2,8 @@
  * Parsing utilities
  */
 function extractDate(str) {
-    console.log("Why am I running extractDate()?");
     var ret = {};
-    var m = str.match(/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/);
+    var m = str.match(/^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})$/);
     ret.year = parseInt(m[1],10);
     ret.month = (parseInt(m[2],10)-1);
     ret.day = parseInt(m[3],10);
@@ -19,17 +18,15 @@ function extractTime(str) {
     return ret;
 };
 
-function inferUiDate (jsEpoch,padding) {
+function inferUiDate (jsEpoch) {
     var jsDate = new Date(jsEpoch);
-    var month = padNumber(jsDate.getMonth()+1,padding);
-    return (jsDate.getFullYear() + '-' + month + '-' + jsDate.getDate());
+    return (jsDate.getFullYear() + '-' + (jsDate.getMonth()+1) + '-' + jsDate.getDate());
 };
 
-function inferUiTime (jsEpoch,padding) {
+function inferUiTime (jsEpoch) {
     var jsDate = new Date(jsEpoch);
-    var hour = padNumber(jsDate.getHours(),padding);
-    var minute = padNumber(jsDate.getMinutes(),padding);
-    return (hour + ':' + minute);
+    var minute = padNumber(jsDate.getMinutes(),2);
+    return (jsDate.getHours() + ':' + minute);
 };
 
 

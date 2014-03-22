@@ -287,9 +287,9 @@ function prepareFields (session) {
     ret.title = session.title;
     ret.place = session.place;
     
-    ret.date = inferUiDate(session.startDateTime,2);
-    ret.start = inferUiTime(session.startDateTime,2);
-    ret.end = inferUiTime(session.endDateTime,2);
+    ret.date = inferUiDate(session.startDateTime);
+    ret.start = inferUiTime(session.startDateTime);
+    ret.end = inferUiTime(session.endDateTime);
 
     return ret;
 };
