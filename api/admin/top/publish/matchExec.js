@@ -119,7 +119,21 @@
                         '@@NOTE@@':function(data) {
                             var ret = '';
                             if (data.note) {
-                                ret = '<p>' + data.note + '</p>\n\n'
+                                ret = this.markdown(data.note);
+                            }
+                            return ret;
+                        },
+                        '@@DESCRIPTION@@':function(data) {
+                            var ret = '';
+                            if (data.description) {
+                                ret = this.markdown(data.description);
+                            }
+                            return ret;
+                        },
+                        '@@HOST@@':function(data) {
+                            var ret = '';
+                            if (data.convenorAffiliation !== data.presenterAffiliation) {
+                                ret = data.convenorAffiliation;
                             }
                             return ret;
                         }
@@ -156,25 +170,132 @@
 
             pages.registerComposer(
                 'Announcement',
-                {}
+                'html',
+                function (data) {
+                    return 'News/' + data.eventID + '.html'
+                },
+                {
+                    announcement:{
+                        '@@DOW@@':function(data) {
+                            var date = new Date(data.pageDate);
+                            var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+                            return days[date.getDay()];
+                        },
+                        '@@DATE@@':function(data) {
+                            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                            var date = new Date(data.pageDate);
+                            var day = date.getDate();
+                            var month = months[date.getMonth()];
+                            var year = date.getFullYear();
+                            return day + ' ' + month + ' ' + year;
+                        },
+                        '@@NOTE@@':function(data) {
+                            var ret = '';
+                            if (data.note) {
+                                ret = this.markdown(data.note);
+                            }
+                            return ret;
+                        },
+                        '@@DESCRIPTION@@':function(data) {
+                            var ret = '';
+                            if (data.description) {
+                                ret = this.markdown(data.description);
+                            }
+                            return ret;
+                        }
+                    },
+                    sessions:{},
+                    attachments:{}
+                }
             );
 
             pages.registerComposer(
                 'Calendar',
-                {}
+                'ics',
+                function (data) {
+                    return 'Events/' + data.eventID + '.ics'
+                },
+                {
+                    calendar:{
+                        '@@NAME_AND_TITLE@@':function(data) {
+                            return data.presenterName + ': ' + data.title;
+                        }
+                    },
+                    sessions:{
+                        '@@SESSION_NUMBER@@':function(data,pos) {
+                            return (pos + 1);
+                        },
+                        '@@NOW@@':function(data) {
+                            var date = new Date();
+                            return this.utcCalendarDate(date);
+                        },
+                        '@@START_DATE_TIME@@':function(data) {
+                            var date = new Date(data.startDateTime);
+                            return this.utcCalendarDate(date);
+                        },
+                        '@@END_DATE_TIME@@':function(data) {
+                            var date = new Date(data.endDateTime);
+                            return this.utcCalendarDate(date);
+                        },
+                        '@@TITLE@@':function(data) {
+                            return data.title;
+                        }
+                    },
+                    attachments:{}
+                }
             );
 
             pages.registerComposer(
                 'Feed',
-                {}
+                'atom',
+                function (data) {
+                    return 'index.atom'
+                },
+                {
+                    feed:{
+                        '@@NOW@@':function(data) {
+                            var date = new Date();
+                            return this.utcFeedDate(date);
+                        }
+                    },
+                    events:{},
+                    announcements:{},
+                    attachments:{},
+                    sessions:{}
+                }
             );
             
-            pages.composeIndex(data);
+            //pages.composeIndex(data);
+            var feedling = [];
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
-                pages.composeEvent(data.events[i]);
+                var event = data.events[i];
+                // The value at 'event' dumps the serialized "page" without writing to disk
+                var pageling = [event.pageDate,pages.composeFeed(event,'events')];
+                feedling.push(pageling);
             }
-
-            // A composer produces a string for a single page. How to iterate?
+            for (var i=0,ilen=data.announcements.length;i<ilen;i+=1) {
+                var announcement = data.announcements[i];
+                // True dumps the serialized "page" without writing to disk
+                var pageling = [announcement.pageDate,pages.composeFeed(announcement,'announcements')];
+                feedling.push(pageling);
+            }
+            feedling.sort(function(a,b){
+                if (a[0]>b[0]) {
+                    return 1;
+                } else if (a[0]<b[0]) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            });
+            var feedEntries = [];
+            for (var i=0,ilen=feedling.length;i<ilen;i+=1) {
+                feedEntries.push(feedling[i][1]);
+            }
+            pages.setFeedVirtual('@@ENTRIES@@',function() {
+                return feedEntries.join('\n')
+            });
+            pages.composeFeed({});
 
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(['success']));
@@ -212,13 +333,17 @@
             };
             
             this.registerComposer = function (name,ext,pathGen,virtuals) {
-                this['compose' + name] = function (data) {
-                    return this.masterComposer(name,ext,pathGen,virtuals,data);
+                this['compose' + name] = function (data,dumpString) {
+                    return this.masterComposer(name,ext,pathGen,virtuals,data,dumpString);
+                };
+                this['set' + name + 'Virtual'] = function (key,func) {
+                    name = name.toLowerCase();
+                    virtuals[name][key] = func;
                 };
             };
         };
 
-        pageEngine.prototype.masterComposer = function(name,ext,pathGen,virtuals,data) {
+        pageEngine.prototype.masterComposer = function(name,ext,pathGen,virtuals,data,dumpString) {
             // A little namespace pollution here
             this.name = name.toLowerCase();
             this.ext = ext;
@@ -229,53 +354,22 @@
                 this.processTemplate('announcements',data.announcements);
                 this.processTemplate('events',data.events);
             } else {
+                console.log("OOPSIE: "+JSON.stringify(data,null,2));
                 this.processTemplate('attachments',data.attachments);
                 this.processTemplate('sessions',data.sessions);
             }
             var path = pathGen(data);
-            var page = this.processTemplate(null,data)
-            this.writePage(path,page);
-        };
-
-        pageEngine.prototype.writePage = function(path,page) {
-            var sys = this.sys;
-            path = 'outbound/' + path;
-            // Assure directory exists
-            var pathLst = path.split('/');
-            setPath(0,pathLst.length-1);
-            // To assure path exists
-            function setPath (pos,limit) {
-                if (pos === limit) {
-                    writePage(path,page);
-                    return;
-                }
-                if (['.','..'].indexOf(pathLst[pos]) === -1) {
-                    sys.fs.readdir(pathLst.slice(0,pos+1).join('/'),function(err,files){
-                        if (err) {
-                            sys.fs.mkdirSync(pathLst.slice(0,pos+1).join('/'));
-                        }
-                        setPath(pos+1,limit);
-                    });
-                } else {
-                    setPath(pos+1,limit);
-                }
+            var subSeg;
+            if (dumpString) {
+                subSeg = dumpString;
+            } else {
+                subSeg = null;
             }
-            // To write the actual page
-            function writePage(path,page) {
-                console.log("WRITING TO: "+path);
-                sys.fs.writeFileSync(path,page);
-            }
-        };
-
-        // Not needed for ordinary page processing, but we might need to use this
-        // for iterative processing of segments in the feed page
-        pageEngine.prototype.clearVirtuals = function() {
-            var ephemerals = ['events','announcements','sessions','attachments'];
-            for (var i=0,ilen=ephemerals.length;i<ilen;i+=1) {
-                var ephemeral = '@@' + ephemerals[i] + '@@';
-                if (this.virtuals[ephemeral]) {
-                    delete this.virtuals[ephemeral];
-                }
+            var page = this.processTemplate(subSeg,data)
+            if (dumpString) {
+                return page;
+            } else {
+                this.writePage(path,page);
             }
         };
 
@@ -284,10 +378,6 @@
             var name = this.name;
             var sys = this.sys;
             var virtuals = this.virtuals;
-            console.log("RUNNING ON "+dSeg);
-            for (var key in virtuals) {
-                console.log("  "+key);
-            }
             var maps = this.maps;
 
             var mSeg;
@@ -304,28 +394,44 @@
                 heading = this.getTemplate(dSeg + '-heading');
                 block = this.getTemplate(dSeg);
             }
+            if (!data) {
+                return block;
+            }
             // We could have a keyed object, or a list of keyed objects.
+            console.log("dSeg: "+dSeg);
             if ("undefined" === typeof data.length) {
                 block = runTemplate(block,data);
             } else {
                 var template = block;
                 block = '';
                 for (var i=0,ilen=data.length;i<ilen;i+=1) {
-                    block += runTemplate(template,data[i]);
+                    block += runTemplate(template,data[i],i);
                 }
             }
 
-            function runTemplate (block,datum) {
-                console.log("  IN: "+name+", "+dSeg);
+            function runTemplate (block,datum,pos) {
+                console.log("dSeg: "+dSeg);
+                if (virtuals[dSeg]['@@SESSIONS@@']) {
+                    substituteVirtual('@@SESSIONS@@',dSeg);
+                    delete virtuals[dSeg]['@@SESSIONS'];
+                }
+                if (virtuals[dSeg]['@@ATTACHMENTS@@']) {
+                    substituteVirtual('@@ATTACHMENTS@@',dSeg);
+                    delete virtuals[dSeg]['@@ATTACHMENTS'];
+                }
                 for (var key in virtuals[dSeg]) {
+                    substituteVirtual(key,dSeg);
+                }
+                function substituteVirtual(key,dSeg) { 
                     var rex = new RegExp(key,'g');
-                    var chip = virtuals[dSeg][key].call(sys,datum);
+                    var chip = virtuals[dSeg][key].call(sys,datum,pos);
                     if (chip) {
                         block = block.replace(rex,chip);
                     } else {
                         block = block.replace(rex,'');
                     }
-                }
+                };
+
                 for (var key in maps[mSeg]) {
                     var rex = new RegExp(key,'g');
                     var chip = datum[maps[mSeg][key]];
@@ -362,6 +468,23 @@
                 ret = '';
             }
             return ret;
+        };
+
+        pageEngine.prototype.writePage = function(path,page) {
+            var sys = this.sys;
+            path = 'outbound/' + path;
+
+            // Assure directory exists
+            var pathLst = path.split('/');
+            for (var i=0,ilen=pathLst.length-1;i<ilen;i+=1) {
+                var p = pathLst.slice(0,i+1).join('/');
+                try {
+                    sys.fs.readdirSync(p);
+                } catch (e) {
+                    sys.fs.mkdirSync(p);
+                }
+            }
+            sys.fs.writeFileSync(path,page);
         };
 
     }
