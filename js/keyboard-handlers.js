@@ -121,7 +121,7 @@ function getSearchableKeyupHandler (fieldName) {
                 dropper.focus();
             }
         } else {
-            keyboardSearchThrottle (250,function(){
+            keyboardSearchThrottle (500,function(){
                 // Expose search lister with updated field value, call API, and populate list
                 var adminID = getParameterByName('admin');
                 var pageName = getParameterByName('page');
