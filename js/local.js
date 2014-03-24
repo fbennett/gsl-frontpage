@@ -67,8 +67,17 @@ function keyboardSearchThrottle (delay,callback) {
 
 var mimeTypes = {
     txt: 'text/plain',
-    doc: 'application/word',
-    pdf: 'application/pdf'
+    doc: 'application/msword',
+    pdf: 'application/pdf',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    xls: 'application/excel',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    ppt: 'application/mspowerpoint',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    zip: 'application/zip'
 }
 
 function setFileExtension (node) {
