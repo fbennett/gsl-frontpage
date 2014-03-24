@@ -14,7 +14,7 @@
             if (data.presenterName) {
                 page = pages.composePreview(data,'events');
             } else {
-                page = pages.composePreview(data,'events');
+                page = pages.composePreview(data,'announcements');
             }
             pages.setPreviewVirtual('@@MESSAGE@@',function() {
                 return page;

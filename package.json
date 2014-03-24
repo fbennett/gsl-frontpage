@@ -44,6 +44,7 @@
     "nodemailer": ">=0.6.0",
     "marked": ">=0.2.10",
     "multiparty": ">=3.1.1",
-    "sqlite3": ">=2.1.19"
+    "sqlite3": ">=2.1.19",
+    "wordwrap": ">=0.0.2"
   }
 }
