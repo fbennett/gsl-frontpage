@@ -1,4 +1,4 @@
--- 3
+-- 4
 
 CREATE TABLE version (
        schema TEXT PRIMARY KEY,
@@ -37,6 +37,7 @@ CREATE TABLE events (
        titleID INTEGER NOT NULL,
        descriptionID INTEGER NOT NULL,
        pageDate INTEGER NOT NULL,
+       touchDate INTEGER NOT NULL,
        presenterID INTEGER,
        noteID INTEGER,
        published BOOLEAN,

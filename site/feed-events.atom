@@ -6,7 +6,7 @@
     <author>
       <name>@@CONVENOR_NAME@@</name>
     </author>
-    <updated>@@NOW@@</updated>
+    <updated>@@TOUCH_DATE@@</updated>
     <content type="html">
       @@DESCRIPTION@@
       @@SESSIONS@@

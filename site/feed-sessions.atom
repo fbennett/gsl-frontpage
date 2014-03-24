@@ -1,2 +1,2 @@
-      <h3>@@TITLE@@</h3>
-      <p>@@DATE@@, @@TIME@@ (@@PLACE@@)</p>
+      <h3>Session @@SESSION_NUMBER@@: @@TITLE@@</h3>
+      <p>@@DOW@@, @@DATE@@, @@TIME@@ (@@PLACE@@)</p>

@@ -258,14 +258,97 @@
                             return this.utcFeedDate(date);
                         }
                     },
-                    events:{},
-                    announcements:{},
+                    events:{
+                        '@@NAME_AND_TITLE@@':function(data) {
+                            return data.presenterName + ': ' + data.title;
+                        },
+                        '@@TOUCH_DATE@@':function(data) {
+                            console.log("touchDate value: "+data.touchDate);
+                            var date = new Date(data.touchDate);
+                            return this.utcFeedDate(date);
+                        },
+                        '@@NOTE@@':function(data) {
+                            var ret = '';
+                            if (data.note) {
+                                ret = this.markdown(data.note);
+                            }
+                            return ret;
+                        },
+                        '@@DESCRIPTION@@':function(data) {
+                            var ret = '';
+                            if (data.description) {
+                                ret = this.markdown(data.description);
+                            }
+                            return ret;
+                        }
+                    },
+                    announcements:{
+                        '@@NAME_AND_TITLE@@':function(data) {
+                            return data.title;
+                        },
+                        '@@TOUCH_DATE@@':function(data) {
+                            var date = new Date(data.touchDate);
+                            return this.utcFeedDate(date);
+                        },
+                        '@@NOTE@@':function(data) {
+                            var ret = '';
+                            if (data.note) {
+                                ret = this.markdown(data.note);
+                            }
+                            return ret;
+                        },
+                        '@@DESCRIPTION@@':function(data) {
+                            var ret = '';
+                            if (data.description) {
+                                ret = this.markdown(data.description);
+                            }
+                            return ret;
+                        }
+                    },
                     attachments:{},
-                    sessions:{}
+                    sessions:{
+                        '@@SESSION_NUMBER@@':function(data,pos) {
+                            return (pos + 1);
+                        },
+                        '@@DOW@@':function(data) {
+                            var date = new Date(data.startDateTime);
+                            var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+                            return days[date.getDay()];
+                        },
+                        '@@DATE@@':function(data) {
+                            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                            var date = new Date(data.startDateTime);
+                            var day = date.getDate();
+                            var month = months[date.getMonth()];
+                            var year = date.getFullYear();
+                            return day + ' ' + month + ' ' + year;
+                        },
+                        '@@TIME@@':function(data) {
+                            var ret;
+                            var startTime = new Date(data.startDateTime);
+                            var startMinutes = this.padNumber(startTime.getMinutes(),2);
+                            var startHours = startTime.getHours();
+                            if (data.startDateTime !== data.endDateTime) {
+                                var endTime = new Date(data.endDateTime);
+                                var endMinutes = this.padNumber(endTime.getMinutes(),2);
+                                var endHours = endTime.getHours();
+                                ret = startHours + ':' + startMinutes + ' - ' + endHours + ':' + endMinutes;
+                            } else {
+                                ret = 'at ' + startHours + ':' + startMinutes;
+                            }
+                            return ret;
+                        }
+                    }
                 }
             );
             
-            //pages.composeIndex(data);
+            pages.composeIndex(data);
+            for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
+                pages.composeEvent(data.events[i]);
+            }
+            for (var i=0,ilen=data.announcements.length;i<ilen;i+=1) {
+                pages.composeAnnouncement(data.announcements[i]);
+            }
             var feedling = [];
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
                 var event = data.events[i];
@@ -275,7 +358,7 @@
             }
             for (var i=0,ilen=data.announcements.length;i<ilen;i+=1) {
                 var announcement = data.announcements[i];
-                // True dumps the serialized "page" without writing to disk
+                // The value at 'event' dumps the serialized "page" without writing to disk
                 var pageling = [announcement.pageDate,pages.composeFeed(announcement,'announcements')];
                 feedling.push(pageling);
             }
@@ -351,10 +434,11 @@
             this.virtuals = virtuals;
 
             if (data.events || data.announcements) {
+                console.log("Running events or announcements list. THIS SHOULD NOT HAPPEN.");
                 this.processTemplate('announcements',data.announcements);
                 this.processTemplate('events',data.events);
             } else {
-                console.log("OOPSIE: "+JSON.stringify(data,null,2));
+                console.log("Running item. This is okay.");
                 this.processTemplate('attachments',data.attachments);
                 this.processTemplate('sessions',data.sessions);
             }
@@ -374,6 +458,7 @@
         };
 
         pageEngine.prototype.processTemplate = function(dSeg,data) {
+            console.log("Running template: "+dSeg);
             var block;
             var name = this.name;
             var sys = this.sys;
@@ -397,8 +482,8 @@
             if (!data) {
                 return block;
             }
+            console.log("  --> so far, so good");
             // We could have a keyed object, or a list of keyed objects.
-            console.log("dSeg: "+dSeg);
             if ("undefined" === typeof data.length) {
                 block = runTemplate(block,data);
             } else {
@@ -410,14 +495,14 @@
             }
 
             function runTemplate (block,datum,pos) {
-                console.log("dSeg: "+dSeg);
-                if (virtuals[dSeg]['@@SESSIONS@@']) {
-                    substituteVirtual('@@SESSIONS@@',dSeg);
-                    delete virtuals[dSeg]['@@SESSIONS'];
+                if (virtuals[name]['@@SESSIONS@@']) {
+                    console.log("  Substituting @@SESSIONS@@ virtual");
+                    substituteVirtual('@@SESSIONS@@',name);
+                    delete virtuals[name]['@@SESSIONS'];
                 }
-                if (virtuals[dSeg]['@@ATTACHMENTS@@']) {
-                    substituteVirtual('@@ATTACHMENTS@@',dSeg);
-                    delete virtuals[dSeg]['@@ATTACHMENTS'];
+                if (virtuals[name]['@@ATTACHMENTS@@']) {
+                    substituteVirtual('@@ATTACHMENTS@@',name);
+                    delete virtuals[name]['@@ATTACHMENTS'];
                 }
                 for (var key in virtuals[dSeg]) {
                     substituteVirtual(key,dSeg);
@@ -448,6 +533,7 @@
                 block = heading + block;
             }
 
+            console.log("SETTING " + name + " @@"+dSeg.toUpperCase() + '@@');
             this.virtuals[name]['@@' + dSeg.toUpperCase() + '@@'] = function() {
                 return block;
             }
