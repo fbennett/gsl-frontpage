@@ -272,7 +272,7 @@
             sys.db.run(sql,function(err){
                 if (err) {return oops(response,err,'saveevent(19)')};
                 response.writeHead(200, {'Content-Type': 'application/json'});
-                response.end(JSON.stringify({eventID:data.eventID}));
+                response.end(JSON.stringify({eventID:data.eventID,published:data.published,status:data.status}));
             });
         };
     }

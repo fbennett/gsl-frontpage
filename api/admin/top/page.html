@@ -1,7 +1,7 @@
 <!DOCTYPE html>  
 <html>
   <head>
-    <title>GSL Frontpage Announcement</title>
+    <title>GSL NewsWriter</title>
     <meta charset="UTF-8"> 
     <script type="text/javascript" src="js/datetime.js"></script>  
     <script type="text/javascript" src="js/local.js"></script>  
@@ -24,7 +24,7 @@
     <div class="grid">  
       <div class="col-1-1">
         <div style="position:relative;">
-          <h1>GSL Frontpage Manager</h1>
+          <h1>GSL NewsWriter</h1>
           <p>Use <span class="buttonish">Enter</span> or <span class="buttonish">Tab</span> to save a field.</p>
           <table style="position:absolute;right:0px;top:0px;">
             <tr>
@@ -110,9 +110,7 @@
               </td>
             </tr>
           </table>
-          <h2>
-            Details
-          </h2>
+          <h2>Details</h2>
           <table id="event" class="wrapper">
             <tr>
               <td>Short Title:</td>
@@ -121,15 +119,15 @@
               </td>
             </tr>
             <tr>
-              <td>Description:</td>
+              <td>Lede:</td>
               <td>
-                <textarea cols="60" id="description" class="field nosearch require form-required" placeholder="Required" type="text"></textarea>
+                <textarea cols="60" id="note" class="field nosearch form-optional" placeholder="Optional" type="text"></textarea>
               </td>
             </tr>
             <tr>
-              <td>Note:</td>
+              <td>Description:</td>
               <td>
-                <textarea cols="60" id="note" class="field nosearch form-optional" placeholder="Optional" type="text"></textarea>
+                <textarea cols="60" id="description" class="field nosearch require form-required" placeholder="Required" type="text"></textarea>
               </td>
             </tr>
           </table>

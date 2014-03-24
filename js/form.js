@@ -19,11 +19,13 @@ function mapField (ret,id,value) {
     }
 };
 
-function previewForm () {
+function previewForm (suppressPreview) {
     var data = {
         pageDate:pageDate,
         touchDate:pageDate
     };
+
+    //data.eventID = document.getElementById('event-id').value;
 
     var formNodes = getFormNodes();
 
@@ -122,12 +124,12 @@ function previewForm () {
     // API read call (for preview)
     // Compose preview popup and display
     var path = fixPath('/?admin=' + adminID + '&page=' + pageName + '&cmd=preview&eventid=' + row.eventID);
-    console.log("fixed path: "+path);
-    popupCenter(path,'preview',700,500);
-
+    if (!suppressPreview) {
+        popupCenter(path,'preview',700,500);
+    };
     setFormButtons(row);
 
-    // Once this is all working, only template output and mail remain!
+    // Once this is all working, only mail remains!
 };
 
 function convertSessionsObjectToSortedList(sessions) {
@@ -386,6 +388,7 @@ function restoreItem (event) {
 };
 
 function publishItem () {
+    previewForm(true);
     var eventID = document.getElementById('event-id').value;
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');
@@ -403,6 +406,7 @@ function publishItem () {
 };
 
 function republishItem () {
+    previewForm(true);
     var eventID = document.getElementById('event-id').value;
     var adminID = getParameterByName('admin');
     var pageName = getParameterByName('page');

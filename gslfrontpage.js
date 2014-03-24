@@ -31,6 +31,10 @@
         var sysClass = new sysModule.sysClass(opts);
         var sys = sysClass.getSys();
 
+        var pagesModule = require('./lib/pages.js');
+        var pagesClass = new pagesModule.pagesClass(sys);
+        var sys = pagesClass.getPages();
+
         var utilModule = require('./lib/util.js');
         var utilClass = new utilModule.utilClass(sys);
         var utils = utilClass.getUtils();

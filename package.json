@@ -1,10 +1,10 @@
 {
-  "name": "gsl-frontpage",
+  "name": "newswriter",
   "version": "0.0.1",
   "engines": {
     "node": "0.10.x"
   },
-  "description": "GLS Frontpage is a generic tool for maintining top page news and announcements in a university environment",
+  "description": "NewsWriter is a generic tool for maintaining news and announcements on a website news page. Details are held in an SQLite database, from which the tool generates the index page (typically the top page of the target site), individual pages for news and announcements, vcalendar objects for events, and a combined Atom newsfeed. Item drafting and editing are handled through a single page with search-as-you-type support for reuseable field content. Details supported include convenors and presenters and their respective contact, affiliation, and position, event description and supplementary note, multiple session titles and their respective times, and multiple attachments.\n\nNewsWriter is particularly suitable for sites with static or batch-generated content that lack elegant through-the-Web support for news maintenance.",
   "keywords": [
     "collaboration",
     "university",
@@ -13,11 +13,12 @@
     "top page",
     "landing page",
     "announcements",
-    "events"
+    "events",
+    "website maintenance"
   ],
-  "homepage": "http://fbennett.github.io/gsl-frontpage/",
+  "homepage": "http://fbennett.github.io/newswriter/",
   "bugs": {
-    "url": "https://github.com/fbennett/gsl-frontpage/issues"
+    "url": "https://github.com/fbennett/newswriter/issues"
   },
   "license": "AGPL-3.0",
   "author": {
@@ -36,7 +37,7 @@
   "main": "gslfrontpage.js",
   "repository": {
     "type": "git",
-    "url": "http://github.com/fbennett/gsl-frontpage.git"
+    "url": "http://github.com/fbennett/newswriter.git"
   },
   "dependencies": {
     "argparse": ">=0.1.15",
