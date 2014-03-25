@@ -142,7 +142,7 @@
             pages.composeFeed({});
 
             try {
-                var rsync = sys.spawn('rsync',['--rsh="sshpass -f .sshpass.txt -l en"','outbound/index.atom','law.nagoya-u.ac.jp:index.atom']);
+                var rsync = sys.spawn('rsync',['--rsh="sshpass -f .sshpass.txt ssh -l en"','outbound/index.atom','law.nagoya-u.ac.jp:index.atom']);
                 rsync.stderr.on('data', function (data) {
                     console.log('rsync stdErr: ' + data);
                 });
