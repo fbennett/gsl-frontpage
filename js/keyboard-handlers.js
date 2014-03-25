@@ -329,7 +329,25 @@ function eventTitleKeydown(event) {
     }
 };
 
-function eventTextareaKeyup (event,fromKeyDown) {
+function noteKeyup (event,fromKeyDown) {
+    if (fromKeyDown) {
+        event.preventDefault();
+    }
+    if (fromKeyDown === 'Tab') {
+        event.preventDefault();
+        cache[event.target.id] = event.target.value;
+        moveFocusForward(event.target);
+    }
+};
+
+function noteKeydown(event) {
+    if (['Tab','Esc'].indexOf(event.key) > -1) {
+        event.preventDefault();
+        noteKeyup(event, event.key);
+    }
+};
+
+function descriptionKeyup (event,fromKeyDown) {
     if (fromKeyDown) {
         event.preventDefault();
     }
@@ -342,10 +360,10 @@ function eventTextareaKeyup (event,fromKeyDown) {
     }
 };
 
-function eventTextareaKeydown(event) {
+function descriptionKeydown(event) {
     if (['Tab','Esc'].indexOf(event.key) > -1) {
         event.preventDefault();
-        eventTextareaKeyup(event, event.key);
+        descriptionKeyup(event, event.key);
     }
 };
 
