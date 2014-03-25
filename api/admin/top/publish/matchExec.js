@@ -142,16 +142,34 @@
             pages.composeFeed({});
 
             try {
-                var rsync = sys.spawn('rsync',['--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','-av','outbound/Events/','law.nagoya-u.ac.jp:/var/www/html/en/Events'],{env:process.env});
-                var rsync = sys.spawn('rsync',['--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','-av','outbound/News/','law.nagoya-u.ac.jp:/var/www/html/en/News'],{env:process.env});
-                var rsync = sys.spawn('rsync',['--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','-av','outbound/index.atom','law.nagoya-u.ac.jp:/var/www/html/en/index.atom'],{env:process.env});
-                var rsync = sys.spawn('rsync',['--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','-av','outbound/index.html','law.nagoya-u.ac.jp:/var/www/html/en/index.html'],{env:process.env});
-                //rsync.stderr.on('data', function (data) {
-                //    console.log('rsync stdErr: ' + data);
-                //});
-                //rsync.stdout.on('data', function (data) {
-                //    console.log('rsync stdOut: ' + data);
-                //});
+                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/Events/','law.nagoya-u.ac.jp:/var/www/html/en/Events'],{env:process.env});
+                rsync.stderr.on('data', function (data) {
+                    console.log('rsync stdErr: ' + data);
+                });
+                rsync.stdout.on('data', function (data) {
+                    console.log('rsync stdOut: ' + data);
+                });
+                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/News/','law.nagoya-u.ac.jp:/var/www/html/en/News'],{env:process.env});
+                rsync.stderr.on('data', function (data) {
+                    console.log('rsync stdErr: ' + data);
+                });
+                rsync.stdout.on('data', function (data) {
+                    console.log('rsync stdOut: ' + data);
+                });
+                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/index.atom','law.nagoya-u.ac.jp:/var/www/html/en/index.atom'],{env:process.env});
+                rsync.stderr.on('data', function (data) {
+                    console.log('rsync stdErr: ' + data);
+                });
+                rsync.stdout.on('data', function (data) {
+                    console.log('rsync stdOut: ' + data);
+                });
+                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/index.html','law.nagoya-u.ac.jp:/var/www/html/en/index.html'],{env:process.env});
+                rsync.stderr.on('data', function (data) {
+                    console.log('rsync stdErr: ' + data);
+                });
+                rsync.stdout.on('data', function (data) {
+                    console.log('rsync stdOut: ' + data);
+                });
             } catch (e) {
                 console.log("SPAWN OOPS: "+e);
             }
