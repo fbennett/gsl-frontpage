@@ -8,8 +8,8 @@
     </author>
     <updated>@@TOUCH_DATE@@</updated>
     <content type="html">
+      @@LEDE@@
       @@DESCRIPTION@@
       @@SESSIONS@@
-      @@NOTE@@
     </content>
   </entry>
