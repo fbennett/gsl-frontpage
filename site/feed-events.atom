@@ -7,9 +7,11 @@
       <name>@@CONVENOR_NAME@@</name>
     </author>
     <updated>@@TOUCH_DATE@@</updated>
-    <content type="html">
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
       @@LEDE@@
       @@DESCRIPTION@@
       @@SESSIONS@@
+      </div>
     </content>
   </entry>

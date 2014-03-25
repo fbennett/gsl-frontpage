@@ -1,14 +1,15 @@
   <entry>
     <id>http://law.nagoya-u.ac.jp/en/@@EVENT_ID@@</id>
-    <title type="text">@@NAME_AND_TITLE@@</title>
-    <link href="http://law.nagoya-u.ac.jp/en/@@EVENT_ID@@" rel="self">
-    </link>
+    <title type="html">@@NAME_AND_TITLE@@</title>
+    <link href="http://law.nagoya-u.ac.jp/en/News/@@EVENT_ID@@.html"/>
     <author>
       <name>@@CONVENOR_NAME@@</name>
     </author>
     <updated>@@TOUCH_DATE@@</updated>
-    <content type="html">
-      @@DESCRIPTION@@
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
       @@NOTE@@
+      @@DESCRIPTION@@
+      </div>
     </content>
   </entry>
