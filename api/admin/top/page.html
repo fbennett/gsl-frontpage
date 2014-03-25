@@ -161,12 +161,12 @@
                   <input type="text" id="uploader-attachment-mimetype" name="mimeType" style="display:none;" value=""/>
                   <input type="text" id="uploader-attachment-extension" name="filenameExtension" style="display:none;" value=""/>
                   <input type="file" id="uploader-attachment-filename" class="field" onchange="setFileExtension(this);" name="attachmentDocument"/>
-                  <input type="submit" value="Upload" id="uploader-attachment-button" class="default-disable" disabled="true"/>
+                  <input type="submit" value="添付" id="uploader-attachment-button" class="default-disable" disabled="true"/>
                 </form>
               </td>
               <td>
                 <div>
-                  <input id="uploader-attachment-searchable" form="uploader" type="checkbox" name="searchableTitle"/> searchable
+                  <input id="uploader-attachment-searchable" form="uploader" type="checkbox" name="searchableTitle"/> 検索可能
                 </div>
               </td>
             </tr>
@@ -238,7 +238,7 @@
                 <input id="session-title" class="session field nosearch" placeholder="必須" type="text" size="50"/>
               </td>
               <td rowspan="2">
-                <input id="session-add-button" onclick="addSessionNode(this);" type="button" value="Add" class="add-button default-disable" disabled="true"/>
+                <input id="session-add-button" onclick="addSessionNode(this);" type="button" value="差し入れ" class="add-button default-disable" disabled="true"/>
               </td>
             </tr>
             <tr>
@@ -264,19 +264,19 @@
         </div>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
-        <input id="preview-button" type="button" class="button" style="font-size:200%;" value="Save" onclick="previewForm();" disabled="true"/>
+        <input id="preview-button" type="button" class="button" style="font-size:200%;" value="保存" onclick="previewForm();" disabled="true"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
-        <input id="trash-button" type="button" class="button" style="font-size:200%;" value="Trash" onclick="trashItem(event);" disabled="true"/>
+        <input id="trash-button" type="button" class="button" style="font-size:200%;" value="削除" onclick="trashItem(event);" disabled="true"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;display:none;">
-        <input id="restore-button" type="button" class="button" style="font-size:200%;" value="Restore" onclick="restoreItem(event);"/>
+        <input id="restore-button" type="button" class="button" style="font-size:200%;" value="復帰" onclick="restoreItem(event);"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
-        <input id="publish-button" type="button" class="button" style="font-size:200%;" value="Publish" onclick="publishItem(event);" disabled="true"/>
+        <input id="publish-button" type="button" class="button" style="font-size:200%;" value="出版" onclick="publishItem(event);" disabled="true"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;display:none;">
-        <input id="republish-button" type="button" class="button" style="font-size:200%;" value="Republish" onclick="republishItem(event);"/>
+        <input id="republish-button" type="button" class="button" style="font-size:200%;" value="再出版" onclick="republishItem(event);"/>
       </div>
       <div class="col-1-4" style="margin:1em 0 1em 0;text-align:center;">
       </div>
