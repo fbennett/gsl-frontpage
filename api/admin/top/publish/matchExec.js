@@ -11,7 +11,47 @@
             announcements:[]
         };
 
-        setPublishedToggle();
+        removeOldEvents();
+
+        // XXX Should be made general
+        function removeOldEvents () {
+            sys.fs.readdir('outbound/Events',function(err,files){
+                if (err) {
+                    console.log('Events dir apparently does not yet exist. Ignoring. '+err);
+                } else {
+                    for (var i=0,ilen=files.length;i<ilen;i+=1) {
+                        var file = files[i];
+                        try {
+                            sys.fs.unlinkSync('outbound/Events/' + file);
+                        } catch (e) {
+                            console.log("OOPS: "+e);
+                        }
+                    }
+                }
+                removeOldNews();
+            });
+        };
+
+        function removeOldNews () {
+            sys.fs.readdir('outbound/News',function(err,files){
+                if (err) {
+                    console.log('News dir apparently does not yet exist. Ignoring.');
+                } else {
+                    for (var i=0,ilen=files.length;i<ilen;i+=1) {
+                        var file = files[i];
+                        try {
+                            sys.fs.unlinkSync('outbound/News/' + file);
+                        } catch (e) {
+                            console.log("OOPS: "+e);
+                            for (var key in sys.fs) {
+                                console.log("  "+key);
+                            }
+                        }
+                    }
+                }
+                setPublishedToggle();
+            });
+        };
 
         function setPublishedToggle () {
             var sql = 'UPDATE events SET published=1 WHERE eventID=?;';
