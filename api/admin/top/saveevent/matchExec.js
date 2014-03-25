@@ -109,6 +109,10 @@
             if (!data.presenterID) {
                 presenterID = null;
             }
+            var noteID = data.note;
+            if (!noteID) {
+                noteID = null;
+            }
             var sql = 'UPDATE events SET titleID=?, descriptionID=?, noteID=?, convenorID=?, presenterID=?, pageDate=?, touchDate=? WHERE eventID=?;';
             sys.db.run(sql,[data.title,data.description,data.note,data.convenorID,presenterID,data.pageDate,data.touchDate,data.eventID],function(err){
                 if (err) {return oops(response,err,'saveevent(8)')};
@@ -120,9 +124,13 @@
             if (!data.presenterID) {
                 presenterID = null;
             }
-            var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,?,0,0)';
-            sys.db.run(sql,[data.convenorID,data.title,data.description,data.pageDate,data.touchDate,presenterID,data.note],function(err){
-                if (err) {return oops(response,err,'saveevent(9) ('+data.title+") ("+data.description+") ("+data.note+")")};
+            var noteID = data.note;
+            if (!noteID) {
+                noteID = null;
+            }
+            var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,0,0,?)';
+            sys.db.run(sql,[data.convenorID,data.title,data.description,data.pageDate,presenterID,noteID,data.touchDate],function(err){
+                if (err) {return oops(response,err,'saveevent(9) ('+data.title+") ("+data.description+") ("+noteID+") ("+presenterID+") ("+data.convenorID+")")};
                 data.eventID = this.lastID;
                 data.published = false;
                 data.status = 0;
