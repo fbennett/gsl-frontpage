@@ -142,8 +142,13 @@
             pages.composeFeed({});
 
             try {
-                var output = sys.spawn('rsync',['--rsh="sshpass -f .sshpass.txt -l en"','outbound/index.atom','law.nagoya-u.ac.jp:index.atom']);
-                console.log("OUTPUT: "+output);
+                var rsync = sys.spawn('rsync',['--rsh="sshpass -f .sshpass.txt -l en"','outbound/index.atom','law.nagoya-u.ac.jp:index.atom']);
+                rsync.stderr.on('data', function (data) {
+                    console.log('rsync stdErr: ' + data);
+                });
+                rsync.stdout.on('data', function (data) {
+                    console.log('rsync stdOut: ' + data);
+                });
             } catch (e) {
                 console.log("SPAWN OOPS: "+e);
             }
