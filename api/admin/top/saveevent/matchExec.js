@@ -120,7 +120,7 @@
             if (!data.presenterID) {
                 presenterID = null;
             }
-            var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,0)';
+            var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,?,0,0)';
             sys.db.run(sql,[data.convenorID,data.title,data.description,data.pageDate,data.touchDate,presenterID,data.note],function(err){
                 if (err) {return oops(response,err,'saveevent(9)')};
                 data.eventID = this.lastID;
