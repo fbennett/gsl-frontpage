@@ -25,7 +25,8 @@
       <div class="col-1-1">
         <div style="position:relative;">
           <h1>GSL NewsWriter</h1>
-          <p>Use <span class="buttonish">Enter</span> or <span class="buttonish">Tab</span> to save a field.</p>
+          <p><span class="buttonish">Enter</span>か<span class="buttonish">Tab</span>がフィルドを固定する</p>
+          <p><span class="buttonish">保存</span>がページを固定する</p>
           <table style="position:absolute;right:0px;top:0px;">
             <tr>
               <td>
@@ -76,7 +77,7 @@
               <td>連絡先：</td>
               <td>
                 <div>
-                  <input id="convenor-contact" class="convenor field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
+                  <input id="convenor-contact" class="convenor field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-contact-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -89,7 +90,7 @@
               <td>所属：</td>
               <td>
                 <div>
-                  <input id="convenor-affiliation" class="convenor field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
+                  <input id="convenor-affiliation" class="convenor field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-affiliation-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -100,7 +101,7 @@
               <td>職名：</td>
               <td>
                 <div>
-                  <input id="convenor-position" class="convenor field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
+                  <input id="convenor-position" class="convenor field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-position-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -113,21 +114,21 @@
           <h2>詳細</h2>
           <table id="event" class="wrapper">
             <tr>
-              <td>Short Title:</td>
+              <td>略式題名：</td>
               <td>
-                <input size="50" id="title" class="field nosearch require form-required" autocomplete="off" placeholder="Required" type="text"/>
+                <input size="50" id="title" class="field nosearch require form-required" autocomplete="off" placeholder="必須" type="text"/>
               </td>
             </tr>
             <tr>
-              <td>Lede:</td>
+              <td>前書：</td>
               <td>
-                <textarea cols="60" id="note" class="field nosearch form-optional" placeholder="Optional" type="text"></textarea>
+                <textarea cols="60" id="note" class="field nosearch form-optional" placeholder="任意" type="text"></textarea>
               </td>
             </tr>
             <tr>
-              <td>Description:</td>
+              <td>本文：</td>
               <td>
-                <textarea cols="60" id="description" class="field nosearch require form-required" placeholder="Required" type="text"></textarea>
+                <textarea cols="60" id="description" class="field nosearch require form-required" placeholder="必須" type="text"></textarea>
               </td>
             </tr>
           </table>
@@ -195,7 +196,7 @@
               <td>連絡先：</td>
               <td>
                 <div>
-                  <input id="presenter-contact" class="presenter field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
+                  <input id="presenter-contact" class="presenter field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-contact-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -208,7 +209,7 @@
               <td>所属：</td>
               <td>
                 <div>
-                  <input id="presenter-affiliation" class="presenter field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
+                  <input id="presenter-affiliation" class="presenter field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-affiliation-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -219,7 +220,7 @@
               <td>職名：</td>
               <td>
                 <div>
-                  <input id="presenter-position" class="presenter field person-servant search" autocomplete="off" placeholder="Required" type="text" disabled="true"/>
+                  <input id="presenter-position" class="presenter field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-position-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -234,7 +235,7 @@
             <tr>
               <td>題名：</td>
               <td colspan="2">
-                <input id="session-title" class="session field nosearch" placeholder="Required" type="text" size="50"/>
+                <input id="session-title" class="session field nosearch" placeholder="必須" type="text" size="50"/>
               </td>
               <td rowspan="2">
                 <input id="session-add-button" onclick="addSessionNode(this);" type="button" value="Add" class="add-button default-disable" disabled="true"/>
