@@ -141,6 +141,13 @@
             });
             pages.composeFeed({});
 
+            try {
+                var output = sys.spawn('rsync',['--rsh="sshpass -f .sshpass.txt -l en"','outbound/index.atom','law.nagoya-u.ac.jp:index.atom']);
+                console.log("OUTPUT: "+output);
+            } catch (e) {
+                console.log("SPAWN OOPS: "+e);
+            }
+
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(['success']));
         };
