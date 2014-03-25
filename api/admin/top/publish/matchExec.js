@@ -104,7 +104,9 @@
             console.log(JSON.stringify(data,null,2));
 
             pages.composeIndex(data);
-            pages.composeCalendar(data);
+            for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
+                pages.composeCalendar(data.events[i]);
+            }
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
                 pages.composeEvent(data.events[i]);
             }
