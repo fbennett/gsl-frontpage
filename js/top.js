@@ -73,9 +73,9 @@ function initializePage () {
     hiddenIframe.addEventListener('load',completedUpload);
 
     var sessionHourStart = document.getElementById('session-start');
-    buildTimes(sessionHourStart,'Start');
+    buildTimes(sessionHourStart,'自');
     var sessionHourEnd = document.getElementById('session-end');
-    buildTimes(sessionHourEnd,'End');
+    buildTimes(sessionHourEnd,'至');
 
     setKeyboardHandlers();
     setSearchableBlurHandlers();
