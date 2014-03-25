@@ -62,7 +62,7 @@
         };
 
         function getEvents () {
-            var sql = 'SELECT eventID FROM events';
+            var sql = 'SELECT eventID FROM events ORDER BY pageDate DESC';
             sys.db.all(sql,function(err,rows){
                 if (err||!rows) {return oops(response,err,'publish(2)')};
                 harvestIterator(0,rows.length,rows)();
