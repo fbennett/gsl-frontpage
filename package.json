@@ -1,10 +1,10 @@
 {
   "name": "newswriter",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "node": "0.10.x"
   },
-  "description": "NewsWriter is a generic tool for maintaining news and announcements on a website news page. Details are held in an SQLite database, from which the tool generates the index page (typically the top page of the target site), individual pages for news and announcements, vcalendar objects for events, and a combined Atom newsfeed. Item drafting and editing are handled through a single page with search-as-you-type support for reuseable field content. Details supported include convenors and presenters and their respective contact, affiliation, and position, event description and supplementary note, multiple session titles and their respective times, and multiple attachments.\n\nNewsWriter is particularly suitable for sites with static or batch-generated content that lack elegant through-the-Web support for news maintenance.",
+  "description": "NewsWriter is a generic tool for maintaining news and announcements on a website news page. Details are held in an SQLite database, from which the tool generates the index page (typically the top page of the target site), individual pages for events and announcements, icalendar objects for events, and separate Atom news feeds for each. Item drafting and editing are handled through a single page, with search-as-you-type support for reuseable field content. Details supported include convenors and presenters and their respective contact, affiliation, and position, event description and supplementary note, multiple session titles and their respective times, and multiple attachments.\n\nNewsWriter is particularly suitable for sites with static or batch-generated content that lack elegant through-the-Web support for news maintenance, and for environments with content splintered across separate sites with varying methods of content editing.",
   "keywords": [
     "collaboration",
     "university",

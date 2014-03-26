@@ -109,6 +109,7 @@
             for (var i=0,ilen=data.announcements.length;i<ilen;i+=1) {
                 pages.composeAnnouncement(data.announcements[i]);
             }
+            pages.composeFeed(data);
             pages.composeFeed(data.announcements);
             pages.composeFeed(data.events);
             try {
