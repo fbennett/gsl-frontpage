@@ -103,6 +103,7 @@
         
         function processData(data) {
             console.log(JSON.stringify(data,null,2));
+/*
             pages.composeIndex(data);
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
                 pages.composeCalendar(data.events[i]);
@@ -114,7 +115,9 @@
                 pages.composeAnnouncement(data.announcements[i]);
             }
             pages.composeFeed(data.announcements);
+*/
             pages.composeFeed(data.events);
+/*
             try {
                 for (var key in sys.outboundMap) {
                     var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/' + key,sys.target_web_hostname + ':' + sources[key]],{env:process.env});
@@ -128,7 +131,7 @@
             } catch (e) {
                 console.log("SPAWN OOPS: "+e);
             }
-
+*/
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(['success']));
         };
