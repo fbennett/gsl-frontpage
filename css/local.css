@@ -1,3 +1,8 @@
+.button-info {
+    margin-bottom:2em;
+    font-size:smaller;
+}
+
 span.keyish {
     padding:0.25em 0.5em 0.25em 0.5em;
     border:1px solid black;
