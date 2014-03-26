@@ -15,6 +15,7 @@
 
         // XXX Should be made general
         function removeOldEvents () {
+            
             sys.fs.readdir('outbound/Events',function(err,files){
                 if (err) {
                     console.log('Events dir apparently does not yet exist. Ignoring. '+err);
@@ -32,15 +33,15 @@
             });
         };
 
-        function removeOldNews () {
-            sys.fs.readdir('outbound/News',function(err,files){
+        function removeOldAnnouncements () {
+            sys.fs.readdir('outbound/Announcements',function(err,files){
                 if (err) {
-                    console.log('News dir apparently does not yet exist. Ignoring.');
+                    console.log('Announcements dir apparently does not yet exist. Ignoring.');
                 } else {
                     for (var i=0,ilen=files.length;i<ilen;i+=1) {
                         var file = files[i];
                         try {
-                            sys.fs.unlinkSync('outbound/News/' + file);
+                            sys.fs.unlinkSync('outbound/Announcements/' + file);
                         } catch (e) {
                             console.log("OOPS: "+e);
                             for (var key in sys.fs) {
@@ -115,41 +116,15 @@
             pages.composeFeed(data.announcements);
             pages.composeFeed(data.events);
             try {
-                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/Events/','law.nagoya-u.ac.jp:/var/www/html/en/Events'],{env:process.env});
-                rsync.stderr.on('data', function (data) {
-                    console.log('rsync stdErr: ' + data);
-                });
-                rsync.stdout.on('data', function (data) {
-                    console.log('rsync stdOut: ' + data);
-                });
-                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/News/','law.nagoya-u.ac.jp:/var/www/html/en/News'],{env:process.env});
-                rsync.stderr.on('data', function (data) {
-                    console.log('rsync stdErr: ' + data);
-                });
-                rsync.stdout.on('data', function (data) {
-                    console.log('rsync stdOut: ' + data);
-                });
-                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/events.atom','law.nagoya-u.ac.jp:/var/www/html/en/events.atom'],{env:process.env});
-                rsync.stderr.on('data', function (data) {
-                    console.log('rsync stdErr: ' + data);
-                });
-                rsync.stdout.on('data', function (data) {
-                    console.log('rsync stdOut: ' + data);
-                });
-                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/announcements.atom','law.nagoya-u.ac.jp:/var/www/html/en/announcements.atom'],{env:process.env});
-                rsync.stderr.on('data', function (data) {
-                    console.log('rsync stdErr: ' + data);
-                });
-                rsync.stdout.on('data', function (data) {
-                    console.log('rsync stdOut: ' + data);
-                });
-                var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/index.html','law.nagoya-u.ac.jp:/var/www/html/en/index.html'],{env:process.env});
-                rsync.stderr.on('data', function (data) {
-                    console.log('rsync stdErr: ' + data);
-                });
-                rsync.stdout.on('data', function (data) {
-                    console.log('rsync stdOut: ' + data);
-                });
+                for (var key in sources) {
+                    var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/' + key,sys.target_web_hostname + ':' + sources[key]],{env:process.env});
+                    rsync.stderr.on('data', function (data) {
+                        console.log('rsync stdErr: ' + data);
+                    });
+                    rsync.stdout.on('data', function (data) {
+                        console.log('rsync stdOut: ' + data);
+                    });
+                }
             } catch (e) {
                 console.log("SPAWN OOPS: "+e);
             }
