@@ -46,11 +46,13 @@ function nameSet (event) {
     }
 };
 
-function showSave (fieldNode) {
+function showSave (fieldNode,blankFinish) {
     fieldNode.classList.add('change-succeeded');
     setTimeout(function(){
         fieldNode.classList.remove('change-succeeded');
-        fieldNode.classList.add('has-content');
+        if (!blankFinish) {
+            fieldNode.classList.add('has-content');
+        }
     },1500);
 };
 

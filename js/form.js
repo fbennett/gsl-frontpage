@@ -404,7 +404,7 @@ function publishItem (event) {
         }
     );
     if (false === row) return;
-    showSave(event.target);
+    showSave(event.target,true);
 };
 
 function republishItem (event) {
@@ -423,5 +423,5 @@ function republishItem (event) {
         }
     );
     if (false === row) return;
-    showSave(event.target);
+    showSave(event.target,true);
 };

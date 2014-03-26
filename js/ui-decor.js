@@ -383,7 +383,6 @@ function appendSessionNode(fields) {
     // XXX Use the start time as the ID
     // XXX Harvest nodes from the UI, extract content, and sort by start time on each append
 
-    console.log("trying extractDate() here? Can this be avoided? Maybe? "+fields.date);
     var date = extractDate(fields.date);
     var time = extractTimeFromIndex(fields.start);
     var dateTime = new Date(year=date.year,month=date.month,day=date.day,hour=time.hour,minute=time.minute);
