@@ -107,39 +107,32 @@ function checkFormComplete () {
 };
 
 function setFormButtons(data) {
-    console.log("SET FORM BUTTONS "+JSON.stringify(data));
     var trashButton = document.getElementById('trash-button');
     var restoreButton = document.getElementById('restore-button');
     var publishButton = document.getElementById('publish-button');
     var republishButton = document.getElementById('republish-button');
     if (data.eventID) {
-        console.log("have eventID");
         trashButton.disabled = false;
         restoreButton.disabled = false;
         publishButton.disabled = false;
         republishButton.disabled = false;
     } else {
-        console.log("no eventID");
         trashButton.disabled = true;
         restoreButton.disabled = true;
         publishButton.disabled = true;
         republishButton.disabled = true;
     }
     if (data.status == -1) {
-        console.log("status -1");
         trashButton.parentNode.style.display = 'none';
         restoreButton.parentNode.style.display = 'inline';
     } else if (!data.status) {
-        console.log("status 0");
         trashButton.parentNode.style.display = 'inline';
         restoreButton.parentNode.style.display = 'none';
     }
     if (data.published) {
-        console.log("published 1");
         publishButton.parentNode.style.display = 'none';
         republishButton.parentNode.style.display = 'inline';
     } else {
-        console.log("published 0");
         publishButton.parentNode.style.display = 'inline';
         republishButton.parentNode.style.display = 'none';
     }
@@ -408,7 +401,6 @@ function appendSessionNode(fields) {
     fixDateField(dateNode);
 
     var startNode = document.getElementById('session'+sessionID+'-hour-start');
-    console.log("OOOOOOOOOOOOOOPS: "+fields.start);
     buildTimes(startNode,null,fields.start);
 
     var endNode = document.getElementById('session'+sessionID+'-hour-end');

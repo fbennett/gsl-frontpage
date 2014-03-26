@@ -58,7 +58,6 @@ function previewForm (suppressPreview) {
         for (var sessionKey in data.sessions) {
             var session = data.sessions[sessionKey];
             // Extract from date
-            console.log("Why am I trying to extract? Why am I previewing?");
             var date = extractDate(session['session-date']);
             // Extract from start
             var start = extractTime(session['session-hour-start']);
@@ -291,7 +290,6 @@ function prepareFields (session) {
     
     ret.date = inferUiDate(session.startDateTime);
     ret.start = inferUiTimeIndex(session.startDateTime);
-    console.log("in prepareFields() got endDateTime: "+session.endDateTime);
     ret.end = inferUiTimeIndex(session.endDateTime);
 
     return ret;

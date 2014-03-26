@@ -44,9 +44,6 @@
                             sys.fs.unlinkSync('outbound/Announcements/' + file);
                         } catch (e) {
                             console.log("OOPS: "+e);
-                            for (var key in sys.fs) {
-                                console.log("  "+key);
-                            }
                         }
                     }
                 }
@@ -102,7 +99,6 @@
         };
         
         function processData(data) {
-            console.log(JSON.stringify(data,null,2));
             pages.composeIndex(data);
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
                 pages.composeCalendar(data.events[i]);
