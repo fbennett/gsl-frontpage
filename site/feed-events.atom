@@ -11,6 +11,7 @@
       @@LEDE@@
       @@DESCRIPTION@@
       @@SESSIONS@@
+      <p><a href="http://law.nagoya-u.ac.jp/en/Events/@@EVENT_ID@@.ics">[Add to calendar]</a></p>
       </div>
     </content>
   </entry>
