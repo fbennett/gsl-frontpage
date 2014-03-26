@@ -50,8 +50,11 @@ function showSave (fieldNode,blankFinish) {
     fieldNode.classList.add('change-succeeded');
     setTimeout(function(){
         fieldNode.classList.remove('change-succeeded');
-        if (!blankFinish) {
-            fieldNode.classList.add('has-content');
+        fieldNode.classList.add('has-content');
+        if (blankFinish) {
+            setTimeout(function() {
+                fieldNode.classList.remove('has-content');
+            },750);
         }
     },1500);
 };
