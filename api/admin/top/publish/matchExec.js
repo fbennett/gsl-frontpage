@@ -29,7 +29,7 @@
                         }
                     }
                 }
-                removeOldNews();
+                removeOldAnnouncements();
             });
         };
 
@@ -116,7 +116,7 @@
             pages.composeFeed(data.announcements);
             pages.composeFeed(data.events);
             try {
-                for (var key in sources) {
+                for (var key in sys.outboundMap) {
                     var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/' + key,sys.target_web_hostname + ':' + sources[key]],{env:process.env});
                     rsync.stderr.on('data', function (data) {
                         console.log('rsync stdErr: ' + data);
