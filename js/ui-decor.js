@@ -329,7 +329,11 @@ function getSessionFieldValues (node) {
     var fieldNodes = container.getElementsByClassName('field');
     for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
         var fieldNode = fieldNodes[i];
-        fields[fieldNode.id.split('-')[1]] = fieldNode.value;
+        if (fieldNode.tagName === 'SELECT') {
+            fields[fieldNode.id.split('-')[1]] = parseInt(fieldNode.selectedIndex,10);
+        } else {
+            fields[fieldNode.id.split('-')[1]] = fieldNode.value;
+        }
     }
     return fields;
 };
@@ -348,7 +352,7 @@ function clearSessionFieldValues () {
 
 var sessionHtmlTemplate = '<tr>'
     + '  <td colspan="2" style="text-align:left;">'
-    + '    <input id="session@@SESSION_ID@@-title" value="@@TITLE@@" class="has-content session-required" disabled="true" type="text" size="50"/>'
+    + '    <input id="session@@SESSION_ID@@-title" value="@@TITLE@@" class="has-content session-required" type="text" size="50"/>'
     + '  </td>'
     + '  <td rowspan="2">'
     + '    <input id="session@@SESSION_ID@@-delete-button" type="button" onclick="deleteSession(@@SESSION_ID@@);" value="Delete"/>'
@@ -356,14 +360,14 @@ var sessionHtmlTemplate = '<tr>'
     + '</tr>'
     + '<tr>'
     + '  <td style="text-align:left;">'
-    + '    <input id="session@@SESSION_ID@@-place" value="@@PLACE@@" class="has-content session-required" disabled="true" type="text" size="10"/>'
+    + '    <input id="session@@SESSION_ID@@-place" value="@@PLACE@@" class="has-content session-required" type="text" size="10"/>'
     + '  </td>'
     + '  <td>'
     + '    <span class="day-of-week">@@DOW@@</span>'
-    + '    <input id="session@@SESSION_ID@@-date" value="@@DATE@@" class="has-content session-required" size="10" disabled="true" type="text"/>'
-    + '    <input id="session@@SESSION_ID@@-hour-start" value="@@START@@" class="has-content session-required" disabled="true" size="5"/>'
+    + '    <input id="session@@SESSION_ID@@-date" value="@@DATE@@" class="has-content session-required" size="10" type="date"/>'
+    + '    <select id="session@@SESSION_ID@@-hour-start" class="session-required"></select>'
     + '〜'
-    + '<input id="session@@SESSION_ID@@-hour-end" value="@@END@@" class="has-content session-required" disabled="true" size="5"/>'
+    + '<select id="session@@SESSION_ID@@-hour-end" class="session-required"></select>'
     + '  </td>'
     + '</tr>'
 
@@ -375,15 +379,13 @@ function addSessionNode() {
 
 function appendSessionNode(fields) {
 
-    
-
     // XXX Cannot save before form as a whole is saved, because we need the event ID
     // XXX Use the start time as the ID
     // XXX Harvest nodes from the UI, extract content, and sort by start time on each append
 
     console.log("trying extractDate() here? Can this be avoided? Maybe? "+fields.date);
     var date = extractDate(fields.date);
-    var time = extractTime(fields.start);
+    var time = extractTimeFromIndex(fields.start);
     var dateTime = new Date(year=date.year,month=date.month,day=date.day,hour=time.hour,minute=time.minute);
     var sessionID = dateTime.getTime()
 
@@ -400,10 +402,18 @@ function appendSessionNode(fields) {
         .replace(/@@TITLE@@/g,fields.title)
         .replace(/@@PLACE@@/g,fields.place)
         .replace(/@@DATE@@/g,fields.date)
-        .replace(/@@START@@/g,fields.start)
-        .replace(/@@END@@/g,fields.end)
         .replace(/@@DOW@@/g,dow)
     sessionContainer.appendChild(sessionNode);
+
+    var dateNode = document.getElementById('session'+sessionID+'-date');
+    fixDateField(dateNode);
+
+    var startNode = document.getElementById('session'+sessionID+'-hour-start');
+    console.log("OOOOOOOOOOOOOOPS: "+fields.start);
+    buildTimes(startNode,null,fields.start);
+
+    var endNode = document.getElementById('session'+sessionID+'-hour-end');
+    buildTimes(endNode,null,fields.end);
 
     clearSessionFieldValues();
     checkFormComplete();

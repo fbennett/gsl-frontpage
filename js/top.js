@@ -1,7 +1,12 @@
 var pageDate = null;
 
-function buildTimes (node,placeholder) {
-    var timesHTML = '<option value="">' + placeholder + '</option>\n';
+function buildTimes (node,placeholder,initIndex) {
+    var timesHTML;
+    if (initIndex) {
+        timesHTML = '';
+    } else {
+        timesHTML = '<option value="">' + placeholder + '</option>\n';
+    }
     for (var j=8,jlen=20;j<jlen;j+=1) {
         for (var k=0,klen=60;k<klen;k+=15) {
             var time = j + ':';
@@ -19,6 +24,9 @@ function buildTimes (node,placeholder) {
     }
     if (node) {
         node.innerHTML = timesHTML;
+        if (initIndex) {
+            node.selectedIndex = (initIndex-1);
+        }
     } else {
         var nodes = document.getElementsByClassName('times');
         for (var i=0,ilen=nodes.length;i<ilen;i+=1) {

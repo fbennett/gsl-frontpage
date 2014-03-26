@@ -18,15 +18,28 @@ function extractTime(str) {
     return ret;
 };
 
+function extractTimeFromIndex(idx) {
+    var ret = {};
+    ret.hour = (idx+3600000/(1000*60*60));
+    ret.minute = (((idx+3600000)/(1000*60))%60);
+    return ret;
+};
+
 function inferUiDate (jsEpoch) {
     var jsDate = new Date(jsEpoch);
     return (jsDate.getFullYear() + '-' + (jsDate.getMonth()+1) + '-' + jsDate.getDate());
 };
 
-function inferUiTime (jsEpoch) {
+function inferUiTimeIndex (jsEpoch) {
+    // Set from JST
+    jsEpoch = jsEpoch + 32400000;
     var jsDate = new Date(jsEpoch);
-    var minute = padNumber(jsDate.getMinutes(),2);
-    return (jsDate.getHours() + ':' + minute);
+    // Not actually UTC, but same difference
+    var hours = jsDate.getUTCHours();
+    var minutes = jsDate.getUTCMinutes();
+    // Why the offset of one unit here? I guess selectedIndex starts from 1?
+    var timeIndex = ((((hours - 8) * 60) + minutes)/15)+1;
+    return timeIndex;
 };
 
 

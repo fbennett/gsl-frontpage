@@ -290,8 +290,9 @@ function prepareFields (session) {
     ret.place = session.place;
     
     ret.date = inferUiDate(session.startDateTime);
-    ret.start = inferUiTime(session.startDateTime);
-    ret.end = inferUiTime(session.endDateTime);
+    ret.start = inferUiTimeIndex(session.startDateTime);
+    console.log("in prepareFields() got endDateTime: "+session.endDateTime);
+    ret.end = inferUiTimeIndex(session.endDateTime);
 
     return ret;
 };
@@ -387,7 +388,8 @@ function restoreItem (event) {
     event.target.blur();
 };
 
-function publishItem () {
+function publishItem (event) {
+    event.target.blur();
     previewForm(true);
     var eventID = document.getElementById('event-id').value;
     var adminID = getParameterByName('admin');
@@ -402,10 +404,11 @@ function publishItem () {
         }
     );
     if (false === row) return;
-
+    showSave(event.target);
 };
 
-function republishItem () {
+function republishItem (event) {
+    event.target.blur();
     previewForm(true);
     var eventID = document.getElementById('event-id').value;
     var adminID = getParameterByName('admin');
@@ -420,5 +423,5 @@ function republishItem () {
         }
     );
     if (false === row) return;
-
+    showSave(event.target);
 };
