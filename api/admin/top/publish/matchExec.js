@@ -101,6 +101,7 @@
         };
         
         function processData(data) {
+            pages.reset();
             pages.composeIndex(data);
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
                 pages.composeCalendar(data.events[i]);
@@ -129,8 +130,25 @@
                 console.log("SPAWN OOPS: "+e);
             }
 
-            response.writeHead(200, {'Content-Type': 'application/json'});
-            response.end(JSON.stringify(['success']));
+            finishPublication();
+
+            function finishPublication() {
+                var params = [sys.getUnixEpoch(pages.now)];
+                var sqlStr = [];
+                for (var key in pages.touchDateIDs) {
+                    sqlStr.push(key);
+                }
+                if (sqlStr.length) {
+                    var sql = 'UPDATE events SET touchDate=? WHERE eventID in (' + sqlStr.join(',') + ')';
+                    sys.db.run(sql,params,function(err){
+                        response.writeHead(200, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify(['success']));
+                    });
+                } else {
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify(['success']));
+                }
+            }
         };
 
     }
