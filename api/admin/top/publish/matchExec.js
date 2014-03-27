@@ -19,7 +19,7 @@
             
             sys.fs.readdir('outbound/Events',function(err,files){
                 if (err) {
-                    console.log('Events dir apparently does not yet exist. Ignoring. '+err);
+                    console.log('Events dir apparently does not yet exist. Ignoring error. '+err);
                 } else {
                     for (var i=0,ilen=files.length;i<ilen;i+=1) {
                         var file = files[i];
@@ -137,10 +137,12 @@
                 var sqlStr = [];
                 for (var key in pages.touchDateIDs) {
                     sqlStr.push(key);
+
                 }
                 if (sqlStr.length) {
                     var sql = 'UPDATE events SET touchDate=? WHERE eventID in (' + sqlStr.join(',') + ')';
                     sys.db.run(sql,params,function(err){
+                        if (err) {return oops(response,err,'publish(end)')}
                         response.writeHead(200, {'Content-Type': 'application/json'});
                         response.end(JSON.stringify(['success']));
                     });
