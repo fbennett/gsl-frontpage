@@ -14,7 +14,6 @@
 
         removeOldEvents();
 
-        // XXX Should be made general
         function removeOldEvents () {
             
             sys.fs.readdir('outbound/Events',function(err,files){
