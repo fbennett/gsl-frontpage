@@ -6,6 +6,9 @@
         var eventID = params.eventid;
         var pages = sys.pages;
 
+        // Set the data acquisition code below as a function in sys, and set processData as a callback
+        // Data acquisition can then be repurposed for the local feed
+
         var result = {
             events:[],
             announcements:[]
