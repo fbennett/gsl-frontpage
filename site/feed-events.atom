@@ -8,9 +8,9 @@
     <updated>@@TOUCH_DATE@@</updated>
     <content type="xhtml">
       <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><a href="http://law.nagoya-u.ac.jp/en/calendar.ics">[Subscription to entire GSL events calendar]</a></p>
       @@LEDE@@
       @@DESCRIPTION@@
-      <p><a href="http://law.nagoya-u.ac.jp/en/Events/@@EVENT_ID@@.ics">[Subscribe to this schedule]</a></p>
       @@SESSIONS@@
       </div>
     </content>

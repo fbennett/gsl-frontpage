@@ -10,6 +10,7 @@
             events:[],
             announcements:[]
         };
+        var allEventsOnly = {events:[]};
 
         removeOldEvents();
 
@@ -75,6 +76,7 @@
                     }
                 }
 
+                allEventsOnly.events = result.events.slice();
                 result.events = result.events.slice(0,10);
                 result.announcements = result.announcements.slice(0,10);
 
@@ -109,6 +111,7 @@
             for (var i=0,ilen=data.announcements.length;i<ilen;i+=1) {
                 pages.composeAnnouncement(data.announcements[i]);
             }
+            pages.composeCalendar(allEventsOnly);
             pages.composeFeed(data);
             pages.composeFeed(data.announcements);
             pages.composeFeed(data.events);
