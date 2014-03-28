@@ -402,7 +402,7 @@ function publishItem (event) {
     updateMenuList('trash');
     showSave(event.target,function(node){
         node.classList.remove('has-content');
-        setFormButtons(row,params.id);
+        setFormButtons(row);
         node.blur();
     });
 };
@@ -448,7 +448,7 @@ function confirmItem (event) {
     updateMenuList('trash');
     showSave(event.target,function(node){
         node.classList.remove('has-content');
-        setFormButtons(row,params.id);
+        setFormButtons(row);
         node.blur();
     });
 };
