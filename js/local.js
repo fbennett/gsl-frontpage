@@ -110,7 +110,7 @@ function setFileExtension (node) {
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     var ret = match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    if (name === 'page' || !ret) {
+    if (name === 'page' && !ret) {
         ret = 'top';
     }
     return ret;
