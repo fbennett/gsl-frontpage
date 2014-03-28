@@ -1,9 +1,8 @@
 (function () {
     function getValidator (pageName,callName) {
         return function (params) {
-            if (this.sys.validAdmin(params)
-                && params.page === pageName
-                && !params.cmd) {
+            if (params.page === pageName
+                && this.sys.validStaff(params)) {
                 
                 return true;
             }
