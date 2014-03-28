@@ -2,11 +2,6 @@ function nameSet (event) {
     if (event.target.value) {
         var container = getContainer(event.target);
         // If a value exists, either set the group from it, or set it as solo
-        var adminID = getParameterByName('admin');
-        var pageName = getParameterByName('page');
-        if (!pageName) {
-            pageName = 'top';
-        }
         var rows = apiRequest(
             '/?admin='
                 + adminID
@@ -46,21 +41,23 @@ function nameSet (event) {
     }
 };
 
-function showSave (fieldNode,rowForButtonUpdate) {
+function showSave (fieldNode,callback) {
+    console.log("(1)");
     fieldNode.classList.add('change-succeeded');
+    console.log("(2)");
     setTimeout(function(){
+        console.log("(3)");
         fieldNode.classList.remove('change-succeeded');
+        console.log("(4)");
         fieldNode.classList.add('has-content');
-        if (rowForButtonUpdate) {
-            setTimeout(function() {
-                updateMenuList('event');
-                updateMenuList('announcement');
-                updateMenuList('trash');
-                fieldNode.classList.remove('has-content');
-                setFormButtons(rowForButtonUpdate);
+        console.log("(5)");
+        if (callback) {
+            setTimeout(function(){
+                console.log("(6)");
+                callback(fieldNode);
             },750);
         }
-    },1500);
+    },750);
 };
 
 function getServantFieldSetter (fieldName) {
@@ -132,12 +129,6 @@ function getSearchableKeyupHandler (fieldName) {
         } else {
             keyboardSearchThrottle (500,function(){
                 // Expose search lister with updated field value, call API, and populate list
-                var adminID = getParameterByName('admin');
-                var pageName = getParameterByName('page');
-                if (!pageName) {
-                    pageName = 'top';
-                }
-                
                 var rows = apiRequest(
                     '/?admin='
                         + adminID
@@ -212,8 +203,6 @@ function attachmentSet(event) {
     if (event.target.value) {
         var container = getContainer(event.target);
         // If a value exists, either set the group from it, or set it as solo
-        var adminID = getParameterByName('admin');
-        var pageName = getParameterByName('page');
         var rows = apiRequest(
             '/?admin='
                 + adminID
@@ -243,8 +232,6 @@ function attachmentSet(event) {
 function attachmentTitleKeyup(event,fromKeyDown) {
     if (fromKeyDown) { event.preventDefault(); } if (event.key === 'Enter' || fromKeyDown === 'Tab') {
         event.preventDefault();
-        var adminID = getParameterByName('admin');
-        var pageName = getParameterByName('page');
         var documentID = 0;
         var m = event.target.id.match(/^document([0-9]+).*/);
         if (m) {
@@ -299,8 +286,6 @@ function sessionTitleKeydown (event) {
 function placeSet(event) {
     if (event.target.value) {
         // Save to DB
-        var adminID = getParameterByName('admin');
-        var pageName = getParameterByName('page');
         var ret = apiRequest(
             '/?admin='
                 + adminID

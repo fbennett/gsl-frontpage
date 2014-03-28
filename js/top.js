@@ -36,7 +36,18 @@ function buildTimes (node,placeholder,initIndex) {
     }
 };
 
+var adminID;
+var pageName;
+var userKey;
+var role;
+
 function initializePage () {
+    adminID = getParameterByName('admin');
+    userKey = getParameterByName('key');
+    pageName = getParameterByName('page');
+    if (!pageName) {
+        pageName = 'top';
+    }
     updateMenuList('event');
     updateMenuList('announcement');
     updateMenuList('trash');

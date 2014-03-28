@@ -38,11 +38,6 @@ function updateMenuList(type,selectedId) {
     } else {
         selectedId = 0;
     }
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
-    if (!pageName) {
-        pageName = 'top';
-    }
     var rows = apiRequest(
         '/?admin='
             + adminID

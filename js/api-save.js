@@ -16,11 +16,6 @@ function savePersonFields (node) {
     });
 
     // API call
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
-    if (!pageName) {
-        pageName = 'top';
-    }
     var row = apiRequest(
         '/?admin='
             + adminID
@@ -43,9 +38,7 @@ function startingUpload (ev) {
     var form = document.getElementById('uploader');
     // XXX How to acquire the adminID?
     var admin = '';
-    if (getParameterByName('admin')) {
-        admin = 'admin=' + getParameterByName('admin') + '&';
-    }
+    admin = 'admin=' + adminID + '&';
     form.action = '?' + admin + 'cmd=upload';
     var uploadPagedate = document.getElementById('uploader-attachment-pagedate');
     uploadPagedate.value = localDateToServer(parseInt(pageDate,10));

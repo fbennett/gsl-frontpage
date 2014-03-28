@@ -95,8 +95,6 @@ function previewForm (suppressPreview) {
         }
     }
     // API save call
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
     convertAllDatesToRemote(data);
     if (!pageName) {
         pageName = 'top';
@@ -149,11 +147,6 @@ function convertSessionsObjectToSortedList(sessions) {
 };
 
 function getPageContent (event) {
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
-    if (!pageName) {
-        pageName = 'top';
-    }
     var eventID = event.target.value;
     if (eventID) {
         eventID = parseInt(eventID,10);
@@ -164,10 +157,12 @@ function getPageContent (event) {
             + '&page=' + pageName
             + '&cmd=readevent'
         , {
-            eventid:eventID
+            eventid:eventID,
+            userkey:userKey
         }
     );
     if (false === data) return;
+    role = data.role;
     convertAllDatesToLocal(data);
     // Clear form
     clearForm();
@@ -344,8 +339,6 @@ function clearForm () {
 
 function trashItem (event) {
     var eventID = document.getElementById('event-id').value;
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
     var row = apiRequest(
         '/?admin='
             + adminID
@@ -366,8 +359,6 @@ function trashItem (event) {
 
 function restoreItem (event) {
     var eventID = document.getElementById('event-id').value;
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
     var row = apiRequest(
         '/?admin='
             + adminID
@@ -387,11 +378,8 @@ function restoreItem (event) {
 };
 
 function publishItem (event) {
-    event.target.blur();
     previewForm(true);
     var eventID = document.getElementById('event-id').value;
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
     var row = apiRequest(
         '/?admin='
             + adminID
@@ -402,15 +390,19 @@ function publishItem (event) {
         }
     );
     if (false === row) return;
-    showSave(event.target,row);
+    updateMenuList('event');
+    updateMenuList('announcement');
+    updateMenuList('trash');
+    showSave(event.target,function(node){
+        node.classList.remove('has-content');
+        setFormButtons(row,params.id);
+        node.blur();
+    });
 };
 
 function republishItem (event) {
-    event.target.blur();
     previewForm(true);
     var eventID = document.getElementById('event-id').value;
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
     var row = apiRequest(
         '/?admin='
             + adminID
@@ -421,5 +413,35 @@ function republishItem (event) {
         }
     );
     if (false === row) return;
-    showSave(event.target,row);
+    updateMenuList('event');
+    updateMenuList('announcement');
+    updateMenuList('trash');
+    showSave(event.target,function(node){
+        node.classList.remove('has-content');
+        setFormButtons(row);
+        node.blur();
+    });
+};
+
+function confirmItem (event) {
+    previewForm(true);
+    var eventID = document.getElementById('event-id').value;
+    var row = apiRequest(
+        '/?admin='
+            + adminID
+            + '&page=' + pageName
+            + '&cmd=confirm'
+        , {
+            eventid:eventID
+        }
+    );
+    if (false === row) return;
+    updateMenuList('event');
+    updateMenuList('announcement');
+    updateMenuList('trash');
+    showSave(event.target,function(node){
+        node.classList.remove('has-content');
+        setFormButtons(row);
+        node.blur();
+    });
 };

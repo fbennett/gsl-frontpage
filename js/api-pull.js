@@ -1,10 +1,5 @@
 function namePull (node,personID) {
     var container = getContainer(node);
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
-    if (!pageName) {
-        pageName = 'top';
-    }
     var row = apiRequest(
         '/?admin='
             + adminID
@@ -33,11 +28,6 @@ function namePull (node,personID) {
 
 function attachmentPull(node,documentID) {
     var container = getContainer(node);
-    var adminID = getParameterByName('admin');
-    var pageName = getParameterByName('page');
-    if (!pageName) {
-        pageName = 'top';
-    }
     var row = apiRequest(
         '/?admin='
             + adminID

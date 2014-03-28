@@ -111,6 +111,7 @@ function setFormButtons(data) {
     var restoreButton = document.getElementById('restore-button');
     var publishButton = document.getElementById('publish-button');
     var republishButton = document.getElementById('republish-button');
+    var confirmButton = document.getElementById('confirm-button');
     if (data.eventID) {
         trashButton.disabled = false;
         restoreButton.disabled = false;
@@ -122,23 +123,40 @@ function setFormButtons(data) {
         publishButton.disabled = true;
         republishButton.disabled = true;
     }
-    if (data.status == -1) {
-        trashButton.parentNode.style.display = 'none';
-        restoreButton.parentNode.style.display = 'inline';
-        publishButton.disabled = true;
-        republishButton.disabled = true;
-    } else if (!data.status) {
-        trashButton.parentNode.style.display = 'inline';
-        restoreButton.parentNode.style.display = 'none';
-        publishButton.disabled = false;
-        republishButton.disabled = false;
-    }
-    if (data.published) {
-        publishButton.parentNode.style.display = 'none';
-        republishButton.parentNode.style.display = 'inline';
+    if (role === 2) {
+        // If we are a reviewer, we cannot change delete or restore
+        // Otherwise, we can.
+        trashButton.disabled = true;
+        restoreButton.disabled = true;
+        if (!data.published) {
+            confirmButton.parentNode.style.display = 'inline';
+            publishButton.parentNode.style.display = 'none';
+            republishButton.parentNode.style.display = 'none';
+        } else {
+            confirmButton.parentNode.style.display = 'none';
+            publishButton.parentNode.style.display = 'none';
+            republishButton.parentNode.style.display = 'inline';
+            republishButton.disabled = true;
+        }
     } else {
-        publishButton.parentNode.style.display = 'inline';
-        republishButton.parentNode.style.display = 'none';
+        if (data.status == -1) {
+            trashButton.parentNode.style.display = 'none';
+            restoreButton.parentNode.style.display = 'inline';
+            publishButton.disabled = true;
+            republishButton.disabled = true;
+        } else if (!data.status) {
+            trashButton.parentNode.style.display = 'inline';
+            restoreButton.parentNode.style.display = 'none';
+            publishButton.disabled = false;
+            republishButton.disabled = false;
+        }
+        if (data.published) {
+            publishButton.parentNode.style.display = 'none';
+            republishButton.parentNode.style.display = 'inline';
+        } else {
+            publishButton.parentNode.style.display = 'inline';
+            republishButton.parentNode.style.display = 'none';
+        }
     }
 };
 
