@@ -14,7 +14,7 @@
             return function (params) {
                 if (this.sys.validAdmin(params)
                     && params.page === pageName
-                    && !params.cmd) {
+                    && this.sys.validStaff(params)) {
                     
                     return true;
                 }

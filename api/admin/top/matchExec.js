@@ -1,10 +1,10 @@
 (function () {
     var cogClass = function () {};
     cogClass.prototype.match = function (params) {
-        ret = (this.sys.validAdmin(params,1)
-                && !params.cmd
-                && !params.commenter
-                && (!params.page || params.page === 'top'));
+        var ret = false;
+        ret = (this.sys.validAdmin(params)
+               && this.sys.validStaff(params)
+               && (!params.page || params.page === 'top'));
         return ret;
     };
     cogClass.prototype.exec = function (params, request, response) {
