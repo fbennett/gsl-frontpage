@@ -10,7 +10,7 @@ table.pulldowns {
 }
 
 .pulldowns option.approved, .pulldowns select.approved {
-    background:green;
+    background:#77ff77;
 }
 
 .button-info {
