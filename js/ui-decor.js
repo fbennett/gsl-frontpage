@@ -144,7 +144,7 @@ function setFormButtons(data) {
             restoreButton.parentNode.style.display = 'inline';
             publishButton.disabled = true;
             republishButton.disabled = true;
-        } else if (!data.status) {
+        } else if (data.status == 0) {
             trashButton.parentNode.style.display = 'inline';
             restoreButton.parentNode.style.display = 'none';
             publishButton.disabled = false;
