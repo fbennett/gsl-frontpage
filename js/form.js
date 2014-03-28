@@ -448,7 +448,7 @@ function confirmItem (event) {
     updateMenuList('trash');
     showSave(event.target,function(node){
         node.classList.remove('has-content');
-        setFormButtons(row);
+        setFormButtons(row,params.id);
         node.blur();
     });
 };

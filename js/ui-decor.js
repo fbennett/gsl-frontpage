@@ -128,15 +128,20 @@ function setFormButtons(data) {
         // Otherwise, we can.
         trashButton.disabled = true;
         restoreButton.disabled = true;
-        if (!data.published) {
+        if (data.published) {
+            confirmButton.parentNode.style.display = 'none';
+            publishButton.parentNode.style.display = 'none';
+            republishButton.parentNode.style.display = 'inline';
+            republishButton.disabled = true;
+        } else if (status == 1) {
             confirmButton.parentNode.style.display = 'inline';
             publishButton.parentNode.style.display = 'none';
             republishButton.parentNode.style.display = 'none';
         } else {
             confirmButton.parentNode.style.display = 'none';
-            publishButton.parentNode.style.display = 'none';
-            republishButton.parentNode.style.display = 'inline';
-            republishButton.disabled = true;
+            publishButton.parentNode.style.display = 'inline';
+            republishButton.parentNode.style.display = 'none';
+            publishButton.disabled = true;
         }
     } else {
         if (data.status == -1) {
