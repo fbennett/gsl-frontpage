@@ -1,7 +1,7 @@
   <entry>
     <id>http://law.nagoya-u.ac.jp/en/@@EVENT_ID@@</id>
     <title type="text">@@NAME_AND_TITLE@@</title>
-    <link href="http://law.nagoya-u.ac.jp/en/News/@@EVENT_ID@@.html"/>
+    <link href="@@LINK_URL@@"/>
     <author>
       <name>@@CONVENOR_NAME@@</name>
     </author>
