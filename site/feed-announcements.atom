@@ -3,7 +3,7 @@
     <title type="text">@@NAME_AND_TITLE@@</title>
     <link href="@@LINK_URL@@"/>
     <author>
-      <name>@@CONVENOR_NAME@@</name>
+      <name>@@STAFF_NAME@@</name>
     </author>
     <updated>@@TOUCH_DATE@@</updated>
     <content type="xhtml">
