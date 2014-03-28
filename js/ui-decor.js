@@ -133,7 +133,7 @@ function setFormButtons(data) {
             publishButton.parentNode.style.display = 'none';
             republishButton.parentNode.style.display = 'inline';
             republishButton.disabled = true;
-        } else if (status == 1) {
+        } else if (status == 0) {
             confirmButton.parentNode.style.display = 'inline';
             publishButton.parentNode.style.display = 'none';
             republishButton.parentNode.style.display = 'none';
