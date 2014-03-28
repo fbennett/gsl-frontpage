@@ -147,7 +147,12 @@ function convertSessionsObjectToSortedList(sessions) {
 };
 
 function getPageContent (event) {
-    var eventID = event.target.value;
+    var eventID;
+    if ("number" === typeof event) {
+        eventID = event;
+    } else {
+        eventID = event.target.value;
+    }
     if (eventID) {
         eventID = parseInt(eventID,10);
     }
@@ -175,7 +180,9 @@ function getPageContent (event) {
     // Wake up buttons
     checkFormComplete();
     setFormButtons(data);
-    event.target.blur();
+    if ("number" !== typeof event) {
+        event.target.blur();
+    }
 };
 
 function getFormNodes() {

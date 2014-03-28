@@ -9,8 +9,7 @@
         var pages = sys.pages;
         pages.reset();
         
-        // XXXX ADD ME BACK: (strftime("%s","now")-strftime("%s",touchDate,"unixepoch"))/60>60 AND 
-        var sql = 'SELECT eventID FROM events WHERE NOT published=1 ORDER BY pageDate DESC;';
+        var sql = 'SELECT eventID FROM events WHERE (strftime("%s","now")-strftime("%s",touchDate,"unixepoch"))/60>30 AND NOT published=1 ORDER BY pageDate DESC;';
         sys.db.all(sql,function(err,rows){
             if (err) {return oops(response,err,'pending(1)')};
 

@@ -102,6 +102,10 @@ function initializePage () {
     setFieldFocusHandlers();
     setupSearchListHandlers();
     setButtons();
+    var eventID = getParameterByName('eventid');
+    if (eventID) {
+        getPageContent(parseInt(eventID,10));
+    }
 };
 
 function setupSearchListHandlers () {
