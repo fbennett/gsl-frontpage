@@ -402,7 +402,7 @@ function publishItem (event) {
         }
     );
     if (false === row) return;
-    showSave(event.target,true);
+    showSave(event.target,row);
 };
 
 function republishItem (event) {
@@ -421,5 +421,5 @@ function republishItem (event) {
         }
     );
     if (false === row) return;
-    showSave(event.target,true);
+    showSave(event.target,row);
 };

@@ -14,18 +14,18 @@
         function checkEvent() {
             var sql = 'SELECT published,status FROM events WHERE eventID=?;';
             sys.db.get(sql,[eventID],function(err,row){
-                if (err||!row) {return oops(response,err,'trashevent(1)')};
-                data.published = row.published;
+                if (err||!row) {return oops(response,err,'restoreevent(1)')};
                 data.status = 0;
+                data.published = 0;
                 restoreEvent();
             });
             
         }
 
         function restoreEvent () {
-            var sql = 'UPDATE events SET status=0 WHERE eventID=?;';
+            var sql = 'UPDATE events SET status=0,published=0 WHERE eventID=?;';
             sys.db.run(sql,[eventID],function(err){
-                if (err) {return oops(response,err,'trashevent(2)')};
+                if (err) {return oops(response,err,'restoreevent(2)')};
                 response.writeHead(200, {'Content-Type': 'application/json'});
                 response.end(JSON.stringify(data));
             });

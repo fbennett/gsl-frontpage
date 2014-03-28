@@ -125,9 +125,13 @@ function setFormButtons(data) {
     if (data.status == -1) {
         trashButton.parentNode.style.display = 'none';
         restoreButton.parentNode.style.display = 'inline';
+        publishButton.disabled = true;
+        republishButton.disabled = true;
     } else if (!data.status) {
         trashButton.parentNode.style.display = 'inline';
         restoreButton.parentNode.style.display = 'none';
+        publishButton.disabled = false;
+        republishButton.disabled = false;
     }
     if (data.published) {
         publishButton.parentNode.style.display = 'none';

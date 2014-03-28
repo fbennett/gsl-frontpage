@@ -9,6 +9,28 @@ var lastFocusNode = null;
 
 var keyboardSearchTimeout = null;
 
+function setStatusHighlight (row,node) {
+    if (row.published === 0) {
+        if (row.status === 0) {
+            node.classList.remove('normal');
+            node.classList.remove('approved');
+            node.classList.add('pending');
+        } else if (row.status === 1) {
+            node.classList.remove('normal');
+            node.classList.remove('pending');
+            node.classList.add('approved');
+        } else {
+            node.classList.remove('approved');
+            node.classList.remove('pending');
+            node.classList.add('normal');
+        }
+    } else {
+        node.classList.remove('approved');
+        node.classList.remove('pending');
+        node.classList.add('normal');
+    }
+}
+
 function updateMenuList(type,selectedId) {
     var selectedId = document.getElementById('event-id').value;
     if (selectedId) {
@@ -38,6 +60,7 @@ function updateMenuList(type,selectedId) {
         var row = rows[i];
         var option = document.createElement('option');
         option.value = row.eventID;
+        setStatusHighlight(row,option);
         option.innerHTML = row.title;
         node.appendChild(option);
         if (option.value == selectedId) {
@@ -45,6 +68,9 @@ function updateMenuList(type,selectedId) {
         }
     };
     node.selectedIndex = selectedIndex;
+    //if (selectedIndex) {
+    //    setStatusHighlight(rows[selectedIndex-1],node);
+    //}
     node.addEventListener('change',getPageContent);
 };
 

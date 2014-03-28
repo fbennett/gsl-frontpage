@@ -9,12 +9,6 @@
         // Set the data acquisition code below as a function in sys, and set processData as a callback
         // Data acquisition can then be repurposed for the local feed
 
-        var result = {
-            events:[],
-            announcements:[]
-        };
-        var allEventsOnly = {events:[]};
-
         removeOldEvents();
 
         function removeOldEvents () {
@@ -63,43 +57,11 @@
         };
 
         function getEvents () {
-            var sql = 'SELECT eventID FROM events ORDER BY pageDate DESC';
+            var sql = 'SELECT eventID FROM events WHERE status>-1 AND published=1 ORDER BY pageDate DESC';
             sys.db.all(sql,function(err,rows){
                 if (err||!rows) {return oops(response,err,'publish(2)')};
-                harvestIterator(0,rows.length,rows)();
+                sys.runEvents(rows,response,processData)
             });
-        };
-
-        function harvestIterator (pos,limit,rows) {
-            if (pos === limit) {
-                for (var key in result) {
-                    for (var i=0,ilen=result[key].length;i<ilen;i+=1) {
-                        sys.convertAllDates(result[key][i],sys.getJsEpoch);
-                    }
-                }
-
-                allEventsOnly.events = result.events.slice();
-                result.events = result.events.slice(0,10);
-                result.announcements = result.announcements.slice(0,10);
-
-                processData(result);
-                return;
-            };
-            var eventID = rows[pos].eventID;
-            var iterateMe = function(carrier,data) {
-                if (data.status > -1 && data.published) {
-                    if (data.presenterName) {
-                        carrier.events.push(data);
-                    } else {
-                        carrier.announcements.push(data);
-                    }
-                }
-                var harvestRunner = harvestIterator(pos+1,limit,rows);
-                if (harvestRunner) harvestRunner();
-            }
-            return function () {
-                sys.getEventData(response,eventID,iterateMe,result);
-            }
         };
         
         function processData(data) {
@@ -114,10 +76,16 @@
             for (var i=0,ilen=data.announcements.length;i<ilen;i+=1) {
                 pages.composeAnnouncement(data.announcements[i]);
             }
+
+            allEventsOnly = {events:data.events.slice()};
+            data.events = data.events.slice(0,10);
+            data.announcements = data.announcements.slice(0,10);
+
             pages.composeCalendar(allEventsOnly);
             pages.composeFeed(data);
             pages.composeFeed(data.announcements);
             pages.composeFeed(data.events);
+/*
             try {
                 for (var key in pages.outboundMap) {
                     var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/' + key,sys.target_web_hostname + ':' + pages.outboundMap[key]],{env:process.env});
@@ -131,7 +99,7 @@
             } catch (e) {
                 console.log("SPAWN OOPS: "+e);
             }
-
+*/
             finishPublication();
 
             function finishPublication() {
@@ -144,14 +112,22 @@
                 if (sqlStr.length) {
                     var sql = 'UPDATE events SET touchDate=? WHERE eventID in (' + sqlStr.join(',') + ')';
                     sys.db.run(sql,params,function(err){
-                        if (err) {return oops(response,err,'publish(end)')}
-                        response.writeHead(200, {'Content-Type': 'application/json'});
-                        response.end(JSON.stringify(['success']));
+                        if (err) {return oops(response,err,'publish(3)')}
+                        respondToClient();
                     });
                 } else {
-                    response.writeHead(200, {'Content-Type': 'application/json'});
-                    response.end(JSON.stringify(['success']));
+                    respondToClient();
                 }
+            }
+
+            function respondToClient() {
+                var sql = 'SELECT eventID,status,published FROM events WHERE eventID=?;';
+                sys.db.get(sql,[eventID],function(err,row){
+                    if (err|!row) {return oops(response,err,'publish(4)')}
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify(row));
+                });
+                
             }
         };
 

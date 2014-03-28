@@ -1,3 +1,18 @@
+table.pulldowns {
+    position:absolute;
+    right:0px;
+    top:0px;
+}
+
+.pulldowns option.pending {
+    background:#ffff00;
+    font-weight:bold;
+}
+
+.pulldowns option.approved, .pulldowns select.approved {
+    background:green;
+}
+
 .button-info {
     margin-bottom:2em;
     font-size:smaller;

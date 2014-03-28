@@ -46,14 +46,18 @@ function nameSet (event) {
     }
 };
 
-function showSave (fieldNode,blankFinish) {
+function showSave (fieldNode,rowForButtonUpdate) {
     fieldNode.classList.add('change-succeeded');
     setTimeout(function(){
         fieldNode.classList.remove('change-succeeded');
         fieldNode.classList.add('has-content');
-        if (blankFinish) {
+        if (rowForButtonUpdate) {
             setTimeout(function() {
+                updateMenuList('event');
+                updateMenuList('announcement');
+                updateMenuList('trash');
                 fieldNode.classList.remove('has-content');
+                setFormButtons(rowForButtonUpdate);
             },750);
         }
     },1500);
