@@ -437,7 +437,7 @@ function confirmItem (event) {
         '/?admin='
             + adminID
             + '&page=' + pageName
-            + '&cmd=confirm'
+            + '&cmd=confirmevent'
         , {
             eventid:eventID
         }
