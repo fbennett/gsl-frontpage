@@ -13,18 +13,11 @@
             console.log("Save parameters!");
         }
 
-        var mailerModule = require('./lib/mailer.js');
-        var mailerClass = new mailerModule.mailerClass(opts);
-        var mailer = mailerClass.getMailer();
-        if (!mailer) {
-            return;
-        }
-
         // (creates subdirs and sqlite3 database if necessary,
         // migrates to sqlite3 db from old CSV files, and removes
         // CSV and their subdirs after validation)
         var initModule = require('./lib/init.js');
-        var initClass = new initModule.initClass(opts,mailer);
+        var initClass = new initModule.initClass(opts);
         var init = initClass.getInit();
 
         var sysModule = require('./lib/sys.js');
