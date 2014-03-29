@@ -233,6 +233,7 @@
             var session = data.sessions[pos];
             var sql = 'INSERT INTO sessions VALUES (NULL,?,?,?,?,?);';
             sys.db.run(sql,[data.eventID,session.title,session.place,session.startDateTime,session.endDateTime],function(err){
+                console.log("HAVE: eventID="+data.eventID+", titleID="+data.title+", placeID="+data.place);
                 if (err) {return oops(response,err,'saveevent(15)')};
                 addSessions(pos+1,limit);
             });
