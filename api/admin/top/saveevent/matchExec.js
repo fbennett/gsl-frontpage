@@ -132,7 +132,7 @@
             }
 
             var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,?,0,0,?)';
-            sys.db.run(sql,[data.convenorID,userID,data.title,data.description,data.pageDate,presenterID,noteID,data.touchDate],function(err){
+            sys.db.run(sql,[userID,data.convenorID,data.title,data.description,data.pageDate,presenterID,noteID,data.touchDate],function(err){
                 if (err) {return oops(response,err,'saveevent(9) ('+data.title+") ("+data.description+") ("+noteID+") ("+presenterID+") ("+data.convenorID+")")};
                 data.eventID = this.lastID;
                 data.published = false;
