@@ -62,6 +62,7 @@ function completedUpload (ev) {
     var iframe = ev.target;
     var innerDocument = iframe.contentDocument || iframe.contentWindow.document;
     var body = innerDocument.getElementsByTagName('BODY')[0];
+    console.log("returned in completedUpload(): "+body.textContent);
     var ret = JSON.parse(body.textContent)
     addAttachment(ret.documentID,ret.documentTitle);
     status.uploadID = null;
