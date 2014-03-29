@@ -218,6 +218,7 @@
                 var sql = 'INSERT INTO places VALUES (NULL,?,?);';
                 sys.db.run(sql,[place,data.touchDate],function(err){
                     if (err) {return oops(response,err,'saveevent(14)')};
+                    data.sessions[pos].place = this.lastID;
                     addPlaces(pos+1,limit);
                 });
             } else {
@@ -233,7 +234,7 @@
             var session = data.sessions[pos];
             var sql = 'INSERT INTO sessions VALUES (NULL,?,?,?,?,?);';
             sys.db.run(sql,[data.eventID,session.title,session.place,session.startDateTime,session.endDateTime],function(err){
-                console.log("HAVE: eventID="+data.eventID+", titleID="+data.title+", placeID="+data.place);
+                //console.log("HAVE: eventID="+data.eventID+", titleID="+data.title+", placeID="+session.place);
                 if (err) {return oops(response,err,'saveevent(15)')};
                 addSessions(pos+1,limit);
             });
