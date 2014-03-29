@@ -169,7 +169,7 @@ function getPageContent (event) {
     );
     if (false === data) return;
     var staffName = document.getElementById('staff-name');
-    staffName.innerHTML = '(' + row.staffName + ')';
+    staffName.innerHTML = '(' + data.staffName + ')';
     role = data.role;
     convertAllDatesToLocal(data);
     // Clear form
