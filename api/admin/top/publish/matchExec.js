@@ -5,6 +5,9 @@
         var sys = this.sys;
         var eventID = params.eventid;
         var pages = sys.pages;
+        var userKey = params.userkey;
+        console.log("userKey="+userKey);
+        var userID = sys.admin[userKey].id;
 
         // Set the data acquisition code below as a function in sys, and set processData as a callback
         // Data acquisition can then be repurposed for the local feed
@@ -49,8 +52,8 @@
         };
 
         function setPublishedToggle () {
-            var sql = 'UPDATE events SET published=1 WHERE eventID=?;';
-            sys.db.run(sql,eventID,function(err){
+            var sql = 'UPDATE events SET published=1,adminID=? WHERE eventID=?;';
+            sys.db.run(sql,[userID,eventID],function(err){
                 if (err) {return oops(response,err,'publish(1)')};
                 getEvents();
             });

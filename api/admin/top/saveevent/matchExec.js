@@ -4,6 +4,8 @@
         var oops = this.utils.apiError;
         var sys = this.sys;
         var data = params.data;
+        var userKey = params.userkey;
+        var userID = sys.admin[userKey].id;
 
         beginTransaction();
 
@@ -113,8 +115,8 @@
             if (!noteID) {
                 noteID = null;
             }
-            var sql = 'UPDATE events SET titleID=?, descriptionID=?, noteID=?, convenorID=?, presenterID=?, pageDate=?, touchDate=? WHERE eventID=?;';
-            sys.db.run(sql,[data.title,data.description,data.note,data.convenorID,presenterID,data.pageDate,data.touchDate,data.eventID],function(err){
+            var sql = 'UPDATE events SET adminID=?, titleID=?, descriptionID=?, noteID=?, convenorID=?, presenterID=?, pageDate=?, touchDate=? WHERE eventID=?;';
+            sys.db.run(sql,[userID,data.title,data.description,data.note,data.convenorID,presenterID,data.pageDate,data.touchDate,data.eventID],function(err){
                 if (err) {return oops(response,err,'saveevent(8)')};
                 clearSessions();
             });
@@ -128,8 +130,9 @@
             if (!noteID) {
                 noteID = null;
             }
-            var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,0,0,?)';
-            sys.db.run(sql,[data.convenorID,data.title,data.description,data.pageDate,presenterID,noteID,data.touchDate],function(err){
+
+            var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,?,0,0,?)';
+            sys.db.run(sql,[data.convenorID,userID,data.title,data.description,data.pageDate,presenterID,noteID,data.touchDate],function(err){
                 if (err) {return oops(response,err,'saveevent(9) ('+data.title+") ("+data.description+") ("+noteID+") ("+presenterID+") ("+data.convenorID+")")};
                 data.eventID = this.lastID;
                 data.published = false;

@@ -105,7 +105,8 @@ function previewForm (suppressPreview) {
             + '&page=' + pageName
             + '&cmd=saveevent'
         , {
-            data:data
+            data:data,
+            userkey:userKey
         }
     );
     if (false === row) return;
@@ -393,7 +394,8 @@ function publishItem (event) {
             + '&page=' + pageName
             + '&cmd=publish'
         , {
-            eventid:eventID
+            eventid:eventID,
+            userkey:userKey
         }
     );
     if (false === row) return;
@@ -416,7 +418,8 @@ function republishItem (event) {
             + '&page=' + pageName
             + '&cmd=publish'
         , {
-            eventid:eventID
+            eventid:eventID,
+            userkey:userKey
         }
     );
     if (false === row) return;
