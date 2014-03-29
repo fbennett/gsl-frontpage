@@ -36,10 +36,16 @@ function startingUpload (ev) {
     status.uploadID = ev.id;
     var uploadButton = document.getElementById('uploader-attachment-button');
     var form = document.getElementById('uploader');
-    // XXX How to acquire the adminID?
+    
+    // XXX We need to be a bunch more clever here.
+    
     var admin = '';
-    admin = 'admin=' + adminID + '&';
+    if (adminID) {
+        admin = 'admin=' + adminID + '&';
+    }
     form.action = '?' + admin + 'cmd=upload';
+
+
     var uploadPagedate = document.getElementById('uploader-attachment-pagedate');
     uploadPagedate.value = clientDateToServer(parseInt(pageDate,10));
     var uploadExtension = document.getElementById('uploader-attachment-extension');
