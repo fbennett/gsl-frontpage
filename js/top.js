@@ -40,8 +40,16 @@ var adminID;
 var pageName;
 var userKey;
 var role;
+var keyCodeMap;
 
 function initializePage () {
+    keyCodeMap = {
+        13:'Enter',
+        9:'Tab',
+        27:'Esc',
+        38:'Up',
+        40:'Down'
+    }
     adminID = getParameterByName('admin');
     userKey = getParameterByName('key');
     pageName = getParameterByName('page');
@@ -71,20 +79,17 @@ function initializePage () {
     noteNode.style.width = (titleNode.offsetWidth + 'px');
 
     var titleNode = document.getElementById('title');
-    titleNode.addEventListener('keyup',eventTitleKeyup);
-    titleNode.addEventListener('keydown',eventTitleKeydown);
+    titleNode.addEventListener('keydown',eventTitleKeyup);
     titleNode.addEventListener('blur',blurEventFieldRestoreFromCache);
     titleNode.addEventListener('focus',eventFieldFocus);
 
     var descriptionNode = document.getElementById('description');
-    descriptionNode.addEventListener('keyup',descriptionKeyup);
-    descriptionNode.addEventListener('keydown',descriptionKeydown);
+    descriptionNode.addEventListener('keydown',descriptionKeyup);
     descriptionNode.addEventListener('blur',blurEventFieldRestoreFromCache);
     descriptionNode.addEventListener('focus',eventFieldFocus);
 
     var noteNode = document.getElementById('note');
-    noteNode.addEventListener('keyup',noteKeyup);
-    noteNode.addEventListener('keydown',noteKeydown);
+    noteNode.addEventListener('keydown',noteKeyup);
     noteNode.addEventListener('blur',blurEventFieldOptional);
     noteNode.addEventListener('focus',eventFieldFocus);
 
@@ -154,16 +159,13 @@ function setButtons() {
 };
 
 var nameKeyupHandler = null;
-var nameKeydownHandler = null;
 
 function setKeyboardHandlers() {
     var nodes = document.getElementsByClassName('person-master');
     nameKeyupHandler = getSearchableKeyupHandler('name');
-    nameKeydownHandler = getSearchableKeydownHandler('name');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
         var node = nodes[i];
-        node.addEventListener('keydown',nameKeydownHandler);
-        node.onkeyup = nameKeyupHandler;
+        node.onkeydown = nameKeyupHandler;
     }
     var nodes = document.getElementsByClassName('person-servant');
     for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
@@ -172,34 +174,25 @@ function setKeyboardHandlers() {
         if (!window[fieldName + 'KeyupHandler']) {
             window[fieldName + 'KeyupHandler'] = getSearchableKeyupHandler(fieldName);
         }
-        if (!window[fieldName + 'KeydownHandler']) {
-            window[fieldName + 'KeydownHandler'] = getSearchableKeydownHandler(fieldName);
-        }
         if (!window[fieldName + 'Set']) {
             window[fieldName + 'Set'] = getServantFieldSetter(fieldName);
         }
-        node.onkeyup = window[fieldName + 'KeyupHandler'];
-        node.addEventListener('keydown',window[fieldName + 'KeydownHandler']);
+        node.onkeydown = window[fieldName + 'KeyupHandler'];
     }
 
     // The only solo field requiring keyboard-driven postprocessing is the session title
     var node = document.getElementById('session-title');
-    node.addEventListener('keyup',sessionTitleKeyup);
-    node.addEventListener('keydown',sessionTitleKeydown);
+    node.addEventListener('keydown',sessionTitleKeyup);
     node.addEventListener('blur',blurRestoreFromCache);
     node.addEventListener('focus',blockBlurRestore);
 
     var node = document.getElementById('uploader-attachment');
     attachmentKeyupHandler = getSearchableKeyupHandler('attachment')
-    node.addEventListener('keyup',attachmentKeyupHandler);
-    attachmentKeydownHandler = getSearchableKeydownHandler('attachment');
-    node.addEventListener('keydown',attachmentKeydownHandler);
+    node.addEventListener('keydown',attachmentKeyupHandler);
 
     var node = document.getElementById('session-place');
     placeKeyupHandler = getSearchableKeyupHandler('place')
-    node.addEventListener('keyup',placeKeyupHandler);
-    placeKeydownHandler = getSearchableKeydownHandler('place');
-    node.addEventListener('keydown',placeKeydownHandler);
+    node.addEventListener('keydown',placeKeyupHandler);
 };
 
 function setSearchableBlurHandlers() {

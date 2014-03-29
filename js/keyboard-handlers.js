@@ -91,30 +91,21 @@ function setServantFields(node) {
     }
 };
 
-function getSearchableKeydownHandler (fieldName) {
-    return function (event) {
-        if (['Tab','Down','Esc'].indexOf(event.key) > -1) {
-            event.preventDefault();
-            window[fieldName + 'KeyupHandler'](event, event.key);
-        }
-    };
-};
-
 function getSearchableKeyupHandler (fieldName) {
-    return function (event, fromKeyDown) {
-        if (fromKeyDown) {
-            event.preventDefault();
-        }
+    return function (event) {
         if (event.target.classList.contains('block-sayt')) {
             event.target.classList.remove('block-sayt');
             return;
         }
-        if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+        console.log("keyCode: "+event.keyCode);
+        if (['Enter','Tab'].indexOf(keyCodeMap[event.keyCode]) > -1) {
             event.preventDefault();
+            console.log("Running Tab");
             event.target.removeEventListener('blur',blurRestoreFromCache);
             window[fieldName + 'Set'](event);
             event.target.addEventListener('blur',blurRestoreFromCache);
-        } else if (fromKeyDown === 'Down') {
+        } else if (keyCodeMap[event.keyCode] === 'Down') {
+            event.preventDefault();
             var dropper = getDropper(event.target);
             if (dropper.childNodes.length) {
                 event.target.classList.remove('block-sayt');
@@ -166,11 +157,11 @@ function getSearchableKeyupHandler (fieldName) {
 function getKeyDropdown(fieldID) {
     return function (event) {
         if (event.target.tagName === 'SELECT') {
-            event.preventDefault();
             var fieldID = event.target.id.split('-').slice(0,2).join('-');
             var fieldNode = document.getElementById(fieldID);
             var fieldName = event.target.id.split('-')[1];
-            if (['Enter','Tab'].indexOf(event.key) > -1) {
+            if (['Enter','Tab'].indexOf(keyCodeMap[event.keyCode]) > -1) {
+                event.preventDefault();
                 if (fieldName === 'name') {
                     var fieldName = fieldNode.id.split('-')[1];
                     window[fieldName + 'Pull'](event.target,event.target.options[event.target.selectedIndex].value);
@@ -190,7 +181,8 @@ function getKeyDropdown(fieldID) {
                 fieldNode.classList.remove('block-sayt');
                 moveFocusForward(fieldNode);
                 dropdown.style.display = 'none';
-            } else if ((event.key === 'Up' && event.target.selectedIndex === 0) || event.key === 'Esc') {
+            } else if ((keyCodeMap[event.keyCode] === 'Up' && event.target.selectedIndex === 0) || keyCodeMap[event.keyCode] === 'Esc') {
+                event.preventDefault();
                 fieldNode.focus();
             }
         }
@@ -229,8 +221,8 @@ function attachmentSet(event) {
     moveFocusForward(event.target);
 };
 
-function attachmentTitleKeyup(event,fromKeyDown) {
-    if (fromKeyDown) { event.preventDefault(); } if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+function attachmentTitleKeyup(event) {
+    if (['Enter','Tab'].indexOf(keyCodeMap[event.keyCode]) > -1) {
         event.preventDefault();
         var documentID = 0;
         var m = event.target.id.match(/^document([0-9]+).*/);
@@ -259,27 +251,10 @@ function attachmentTitleKeyup(event,fromKeyDown) {
     }
 };
 
-function attachmentTitleKeydown(event) {
-    if (['Tab','Esc'].indexOf(event.key) > -1) {
-        event.preventDefault();
-        attachmentTitleKeyup(event, event.key);
-    }
-};
-
-function sessionTitleKeyup (event,fromKeyDown) {
-    if (fromKeyDown) {
-        event.preventDefault();
-    }
-    if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+function sessionTitleKeyup (event) {
+    if (['Enter','Tab'].indexOf(keyCodeMap[event.keyCode]) > -1) {
         event.preventDefault();
         updateSessionAddButton(event.target);
-    }
-};
-
-function sessionTitleKeydown (event) {
-    if (['Tab','Esc'].indexOf(event.key) > -1) {
-        event.preventDefault();
-        sessionTitleKeyup(event, event.key);
     }
 };
 
@@ -303,11 +278,8 @@ function placeSet(event) {
     }
 };
 
-function eventTitleKeyup (event,fromKeyDown) {
-    if (fromKeyDown) {
-        event.preventDefault();
-    }
-    if (event.key === 'Enter' || fromKeyDown === 'Tab') {
+function eventTitleKeyup (event) {
+    if (['Enter','Tab'].indexOf(keyCodeMap[event.keyCode]) > -1) {
         event.preventDefault();
         if (event.target.value) {
             cache[event.target.id] = event.target.value;
@@ -316,36 +288,16 @@ function eventTitleKeyup (event,fromKeyDown) {
     }
 };
 
-function eventTitleKeydown(event) {
-    if (['Tab','Esc'].indexOf(event.key) > -1) {
-        event.preventDefault();
-        eventTitleKeyup(event, event.key);
-    }
-};
-
-function noteKeyup (event,fromKeyDown) {
-    if (fromKeyDown) {
-        event.preventDefault();
-    }
-    if (fromKeyDown === 'Tab') {
+function noteKeyup (event) {
+    if ('Tab' === keyCodeMap[event.keyCode]) {
         event.preventDefault();
         cache[event.target.id] = event.target.value;
         moveFocusForward(event.target);
     }
 };
 
-function noteKeydown(event) {
-    if (['Tab','Esc'].indexOf(event.key) > -1) {
-        event.preventDefault();
-        noteKeyup(event, event.key);
-    }
-};
-
-function descriptionKeyup (event,fromKeyDown) {
-    if (fromKeyDown) {
-        event.preventDefault();
-    }
-    if (fromKeyDown === 'Tab') {
+function descriptionKeyup (event) {
+    if ('Tab' === keyCodeMap[event.keyCode]) {
         event.preventDefault();
         if (event.target.value) {
             cache[event.target.id] = event.target.value;
@@ -353,11 +305,3 @@ function descriptionKeyup (event,fromKeyDown) {
         }
     }
 };
-
-function descriptionKeydown(event) {
-    if (['Tab','Esc'].indexOf(event.key) > -1) {
-        event.preventDefault();
-        descriptionKeyup(event, event.key);
-    }
-};
-
