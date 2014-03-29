@@ -41,7 +41,7 @@ function startingUpload (ev) {
     admin = 'admin=' + adminID + '&';
     form.action = '?' + admin + 'cmd=upload';
     var uploadPagedate = document.getElementById('uploader-attachment-pagedate');
-    uploadPagedate.value = localDateToServer(parseInt(pageDate,10));
+    uploadPagedate.value = clientDateToServer(parseInt(pageDate,10));
     var uploadExtension = document.getElementById('uploader-attachment-extension');
     uploadExtension.value = '';
     var uploadMimeType = document.getElementById('uploader-attachment-mimetype');
