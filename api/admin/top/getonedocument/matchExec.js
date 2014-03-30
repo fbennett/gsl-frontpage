@@ -12,7 +12,7 @@
 
         sys.db.get(sql,[documentID],function(err,row){
             if (err||!row||!row.documentID) {return oops(response,err,'event/getonedocument(1)')};
-            row.url = 'http://' + sys.proxy_hostname + sys.gslfrontpage_path + 'attachments/' + documentID;
+            row.url = sys.urlEngine.hostpath() + '/attachments/' + documentID;
             response.writeHead(200, {'Content-Type': 'application/json'});
             response.end(JSON.stringify(row));
         });
