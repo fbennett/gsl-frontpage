@@ -11,7 +11,7 @@
         var page = this.page.toString();
         page = page.replace(/@@HOSTNAME_AND_PORT@@/,this.sys.urlEngine.hostname());
         response.writeHead(200, {'Content-Type': 'text/html'});
-        response.end(this.page)
+        response.end(page)
     }
     exports.cogClass = cogClass;
 })();
