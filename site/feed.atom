@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <title type="text">Nagoya University, Graduate School of Law (@@SEGMENT@@)</title>
-  <id>http://law.nagoya-u.ac.jp/@@SEGMENT@@</id>
-  <link rel="self" type="application/atom+xml" href="http://law.nagoya-u.ac.jp/@@SEGMENT@@.atom"/>
+  <id>@@TARGET_RELATIVE@@</id>
+  <link rel="self" type="application/atom+xml" href="@@TARGET_RELATIVE@@/index.atom"/>
   <author>
     <name>Server Administrator</name>
     <email>bennett@law.nagoya-u.ac.jp</email>
   </author>
   <rights>Copyright 2014 Faculty of Law, Nagoya University</rights>
-  <generator uri="http://github.com/fbennett/gsl-frontpage" version="0.0.1">
-    gsl-frontpage http://github.com/fbennett/gsl-frontpage 0.0.1
+  <generator uri="http://github.com/fbennett/newswriter" version="0.2.1">
+    gsl-frontpage http://github.com/fbennett/newswriter 0.2.1
   </generator>
   <updated>@@NOW@@</updated>
   @@ENTRIES@@
