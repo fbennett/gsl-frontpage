@@ -9,7 +9,7 @@
     };
     cogClass.prototype.exec = function (params, request, response) {
         var page = this.page.toString();
-        page = page.replace(/@@HOSTNAME_AND_PORT@@/,this.sys.urlEngine.hostname());
+        page = page.replace(/@@HOST_PATH@@/,this.sys.urlEngine.hostpath());
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.end(page)
     }
