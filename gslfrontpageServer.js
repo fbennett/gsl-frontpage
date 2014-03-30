@@ -1,2 +1,2 @@
-var gslfrontpage = require('gsl-frontpage');
+var gslfrontpage = require('newswriter');
 gslfrontpage.run();
