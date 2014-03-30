@@ -8,7 +8,8 @@
         return ret;
     };
     cogClass.prototype.exec = function (params, request, response) {
-        var oops = this.utils.apiError;
+        var page = this.page.toString();
+        page = page.replace(/@@HOSTNAME_AND_PORT@@/,this.sys.hostname_and_port);
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.end(this.page)
     }

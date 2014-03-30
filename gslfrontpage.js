@@ -28,12 +28,8 @@
         var pagesClass = new pagesModule.pagesClass(sys);
         var sys = pagesClass.getPages();
 
-        var utilModule = require('./lib/util.js');
-        var utilClass = new utilModule.utilClass(sys);
-        var utils = utilClass.getUtils();
-
         var cogsModule = require('./lib/cogs.js');
-        var cogsClass = new cogsModule.cogsClass(sys,utils);
+        var cogsClass = new cogsModule.cogsClass(sys);
         var cogs = cogsClass.getCogs();
 
         var apiModule = require('./lib/api.js');
@@ -41,7 +37,7 @@
         var api = apiClass.getApi();
 
         var serverModule = require('./lib/server.js');
-        var serverClass = new serverModule.serverClass(sys,api,utils);
+        var serverClass = new serverModule.serverClass(sys,api);
         serverClass.runServer();
     }
     exports.run = run;

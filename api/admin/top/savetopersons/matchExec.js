@@ -1,7 +1,7 @@
 (function () {
     var cogClass = function () {};
     cogClass.prototype.exec = function (params, request, response) {
-        var oops = this.utils.apiError;
+        var oops = this.sys.apiError;
         var sys = this.sys;
         var fields = ['name','contact','affiliation','position'];
         var data = params.data;
