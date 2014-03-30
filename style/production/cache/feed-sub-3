@@ -1,0 +1,21 @@
+  <entry>
+    <id>http://law.nagoya-u.ac.jp/en/3</id>
+    <title type="text">SOLV: Farewell Party</title>
+    <link href="http://law.nagoya-u.ac.jp/en/Events/3.html"/>
+    <author>
+      <name>admin</name>
+    </author>
+    <updated>@@TOUCH_DATE@@</updated>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><a href="http://law.nagoya-u.ac.jp/en/calendar.ics">[Subscription to entire GSL events calendar]</a></p>
+      <p>A farewell party for students who have completed their studies will be held on Tuesday, 25 March.</p>
+
+      <p>Staff and junior classmates are welcome to come help us celebrate this new beginning for our graduating class.</p>
+
+            <h3>Session : Farewell Party</h3>
+      <p>Tuesday, 25 March 2014, 17:30 - 19:30 (CALE Forum)</p>
+
+      </div>
+    </content>
+  </entry>

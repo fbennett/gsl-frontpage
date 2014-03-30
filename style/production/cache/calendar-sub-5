@@ -1,0 +1,11 @@
+
+BEGIN:VEVENT
+UID:/Events/5.html-@gsl-nagoya-u.net
+DTSTAMP:@@TOUCH_DATE@@
+ORGANIZER;CN=Satoshi Miura:MAILTO:smiura@law.nagoya-u.ac.jp
+DTSTART:20140401T054500Z
+DTEND:20140401T070000Z
+SUMMARY:Akiyoshi Yonezawa: International Human Resource Development at Nagoya University (University-wide Faculty Development Session)
+LOCATION:Zengau-kan S14
+URL:http://law.nagoya-u.ac.jp/en/Events/5.html
+END:VEVENT

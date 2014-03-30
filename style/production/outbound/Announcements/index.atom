@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title type="text">Nagoya University, Graduate School of Law (en/News)</title>
+  <id>http://law.nagoya-u.ac.jp/en/News</id>
+  <link rel="self" type="application/atom+xml" href="http://law.nagoya-u.ac.jp/en/News.atom"/>
+  <author>
+    <name>Server Administrator</name>
+    <email>bennett@law.nagoya-u.ac.jp</email>
+  </author>
+  <rights>Copyright 2014 Faculty of Law, Nagoya University</rights>
+  <generator uri="http://github.com/fbennett/gsl-frontpage" version="0.0.1">
+    gsl-frontpage http://github.com/fbennett/gsl-frontpage 0.0.1
+  </generator>
+  <updated>2014-03-30T09:25:51.140Z</updated>
+  
+    <entry>
+    <id>http://law.nagoya-u.ac.jp/en/2</id>
+    <title type="text">Front Page News News</title>
+    <link href="http://law.nagoya-u.ac.jp/en/News/2.html"/>
+    <author>
+      <name>admin</name>
+    </author>
+    <updated>2014-03-30T09:25:15.766Z</updated>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      
+      <p>We have deployed a new tool for publishing news items to the GSL website that should help us to keep the top page content up to date.</p>
+<p>Thanks are due to one and all for your patience pending this long-awaited revamp of our information service. This is the first of many announcements to follow.</p>
+
+      </div>
+    </content>
+  </entry>
+  <entry>
+    <id>http://law.nagoya-u.ac.jp/en/6</id>
+    <title type="text">Nagoya Team at the Willem C. Vis (East) International Commercial Arbitration Moot</title>
+    <link href="http://law.nagoya-u.ac.jp/en/News/6.html"/>
+    <author>
+      <name>admin</name>
+    </author>
+    <updated>2014-03-30T08:06:16.874Z</updated>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      
+      <p>A team from Nagoya University will be participating in <a href="http://www.cisgmoot.org/index.html">11th Willem C. Vis (East) International Commercial Arbitration Moot</a> in Hong Kong, 1-6 April 2014. The moot is an annual competition among teams from law schools throughout the world, run in parallel with the Willem C. Vis International Commercial Arbitration Moot in Vienna.</p>
+<p>The University will be represented this year by Naoyuki Okano, Maksud Karaketov, Marzuki Sinambela, Bolor Erdene-Dorjgotov, and Jacek Kozikowski, in the first appearance by Nagoya in the competition.</p>
+
+      </div>
+    </content>
+  </entry>
+
+  
+</feed>

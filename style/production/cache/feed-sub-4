@@ -1,0 +1,27 @@
+  <entry>
+    <id>http://law.nagoya-u.ac.jp/en/4</id>
+    <title type="text">Bennett: Multilingual Zotero</title>
+    <link href="http://law.nagoya-u.ac.jp/en/Events/4.html"/>
+    <author>
+      <name>admin</name>
+    </author>
+    <updated>@@TOUCH_DATE@@</updated>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><a href="http://law.nagoya-u.ac.jp/en/calendar.ics">[Subscription to entire GSL events calendar]</a></p>
+      <p>We are pleased to announce a presentation by Associate Professor Bennett of GSL:</p>
+<blockquote>
+<p>Multilingual Zotero.</p>
+</blockquote>
+
+      <p>This will be an informal workshop in two segments. Problems and style debugging issues will have priority, so if you are having difficulties, bring them to the session. Other topics covered will be determined by the interest of participants. If you have specific problems you would like to discuss, please bring along your PC so we can examine the issues directly.</p>
+<p>The session is open to the public.</p>
+
+            <h3>Session 1: Lunchtime Q&amp;A</h3>
+      <p>Wednesday, 2 April 2014, 12:00 - 13:00 (Leading Satellite)</p>
+      <h3>Session 2: Installfest and first-level tutorial</h3>
+      <p>Wednesday, 2 April 2014, 13:00 - 14:30 (Leading Satellite)</p>
+
+      </div>
+    </content>
+  </entry>

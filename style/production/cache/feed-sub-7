@@ -1,0 +1,24 @@
+  <entry>
+    <id>http://law.nagoya-u.ac.jp/en/7</id>
+    <title type="text">Frank Bennett: xxxx</title>
+    <link href="http://law.nagoya-u.ac.jp/en/Events/7.html"/>
+    <author>
+      <name>Frank Bennett</name>
+    </author>
+    <updated>@@TOUCH_DATE@@</updated>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><a href="http://law.nagoya-u.ac.jp/en/calendar.ics">[Subscription to entire GSL events calendar]</a></p>
+      <p>We are pleased to announce a presentation by Associate Professor Frank Bennett of GSL:</p>
+<blockquote>
+<p>xxxx.</p>
+</blockquote>
+
+      <p>yyyy</p>
+
+            <h3>Session : bbbb</h3>
+      <p>Thursday, 27 March 2014, 9:45 - 12:00 (Place Here)</p>
+
+      </div>
+    </content>
+  </entry>

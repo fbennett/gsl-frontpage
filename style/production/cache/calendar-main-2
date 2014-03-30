@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nagoya University Faculty of Law//NONSGML Event Calendar//EN@@EVENTS@@
+BEGIN:VEVENT
+UID:/Events/2.html-1@gsl-nagoya-u.net
+DTSTAMP:2014-03-27T11:58:06.860Z
+ORGANIZER;CN=Frank Bennett:MAILTO:bennett@law.nagoya-u.ac.jp
+DTSTART:20140401T233000Z
+DTEND:20140402T003000Z
+SUMMARY:Frank Bennett: Multilingual Zotero (One more)
+LOCATION:Law room 906
+URL:http://law.nagoya-u.ac.jp/en/Events/2.html
+END:VEVENT
+BEGIN:VEVENT
+UID:/Events/2.html-2@gsl-nagoya-u.net
+DTSTAMP:2014-03-27T11:58:06.860Z
+ORGANIZER;CN=Frank Bennett:MAILTO:bennett@law.nagoya-u.ac.jp
+DTSTART:20140402T030000Z
+DTEND:20140402T030000Z
+SUMMARY:Frank Bennett: Multilingual Zotero (Workshop Two)
+LOCATION:Law room 906
+URL:http://law.nagoya-u.ac.jp/en/Events/2.html
+END:VEVENT
+END:VCALENDAR

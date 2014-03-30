@@ -1,0 +1,178 @@
+Reading config from quizzer-3333.cfg
+Admin URL: http://localhost:3333/?admin=078349ri
+Adding admin role
+Adding commenter 'sean' with URL http://localhost:3333/?commenter=7f2l6f7w
+Adding commenter 'david' with URL http://localhost:3333/?commenter=q0t3nbht
+Adding commenter 'giorgio' with URL http://localhost:3333/?commenter=qd453ap8
+Adding commenter 'frank' with URL http://localhost:3333/?commenter=gbq7pl3r
+Adding commenter 'ito hiroko' with URL http://localhost:3333/?commenter=ltb9xaib
+Adding commenter 'matsuura yoshiharu' with URL http://localhost:3333/?commenter=kfsle0ze
+Adding commenter 'paul' with URL http://localhost:3333/?commenter=42ivmaz3
+Adding commenter 'isabelle' with URL http://localhost:3333/?commenter=hdfik1r4
+Adding commenter 'teilee' with URL http://localhost:3333/?commenter=78edzeib
+Adding admin role
+Adding commenter 'Phomsouvanh' with URL http://localhost:3333/?commenter=71u2zaat
+Loaded class membership keys
+Woke up the mail schedulers
+Done. Ready to shake, rattle and roll!
+this.url=/?studentid=141&studentkey=4f1ej7ux&classid=2&quizno=2
+this.url=/css/simple-grid.css
+/media/storage/src/quizzer/lib/css/simple-grid.css
+this.url=/css/local.css
+/media/storage/src/quizzer/lib/css/local.css
+this.url=/css/quiz-result.css
+/media/storage/src/quizzer/lib/css/quiz-result.css
+this.url=/js/local.js
+this.url=/js/marked.js
+this.url=/js/quiz-result.js
+this.url=/?cmd=readrulelangs&classid=2&studentid=141&studentkey=4f1ej7ux
+this.url=/?cmd=myquizresult&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+CHOICE: 2
+CHOICE: 2
+CHOICE: 2
+CHOICE: 2
+CHOICE: 2
+CHOICE: 2
+this.url=/?cmd=readrules&classid=2&studentid=141&studentkey=4f1ej7ux
+XX ruleID: 20
+XX ruleID: 21
+XX ruleID: 22
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=20 numberAttempted=undefined numberFailed=undefined
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=21 numberAttempted=undefined numberFailed=undefined
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=22 numberAttempted=undefined numberFailed=undefined
+OK [
+  {
+    "ruleID": 20,
+    "ruleText": "Rule 1",
+    "origGloss": "This is my gloss on Rule 1",
+    "transGloss": "This is my gloss on Rule 1",
+    "performance": 2
+  },
+  {
+    "ruleID": 21,
+    "ruleText": "Rule 2 violation",
+    "origGloss": "This is my gloss on Rule 2",
+    "transGloss": "This is my gloss on Rule 2",
+    "performance": 2
+  },
+  {
+    "ruleID": 22,
+    "ruleText": "Rule 3 violation",
+    "origGloss": "",
+    "transGloss": "",
+    "performance": 1
+  }
+]
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readonerule&classid=2&studentid=141&studentkey=4f1ej7ux&quizno=2
+this.url=/?cmd=readrules&classid=2&studentid=141&studentkey=4f1ej7ux
+XX ruleID: 20
+XX ruleID: 21
+XX ruleID: 22
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=20 numberAttempted=undefined numberFailed=undefined
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=21 numberAttempted=undefined numberFailed=undefined
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=22 numberAttempted=undefined numberFailed=undefined
+OK [
+  {
+    "ruleID": 20,
+    "ruleText": "Rule 1",
+    "origGloss": "This is my gloss on Rule 1",
+    "transGloss": "This is my gloss on Rule 1",
+    "performance": 2
+  },
+  {
+    "ruleID": 21,
+    "ruleText": "Rule 2 violation",
+    "origGloss": "This is my gloss on Rule 2",
+    "transGloss": "This is my gloss on Rule 2",
+    "performance": 2
+  },
+  {
+    "ruleID": 22,
+    "ruleText": "Rule 3 violation",
+    "origGloss": "",
+    "transGloss": "",
+    "performance": 1
+  }
+]
+this.url=/?cmd=readrules&classid=2&studentid=141&studentkey=4f1ej7ux
+XX ruleID: 20
+XX ruleID: 21
+XX ruleID: 22
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=20 numberAttempted=undefined numberFailed=undefined
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=21 numberAttempted=undefined numberFailed=undefined
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=22 numberAttempted=undefined numberFailed=undefined
+OK [
+  {
+    "ruleID": 20,
+    "ruleText": "Rule 1",
+    "origGloss": "This is my gloss on Rule 1",
+    "transGloss": "This is my gloss on Rule 1",
+    "performance": 2
+  },
+  {
+    "ruleID": 21,
+    "ruleText": "Rule 2 violation",
+    "origGloss": "This is my gloss on Rule 2",
+    "transGloss": "This is my gloss on Rule 2",
+    "performance": 2
+  },
+  {
+    "ruleID": 22,
+    "ruleText": "Rule 3 violation",
+    "origGloss": "",
+    "transGloss": "",
+    "performance": 1
+  }
+]
+this.url=/?cmd=readrules&classid=2&studentid=141&studentkey=4f1ej7ux
+XX ruleID: 20
+XX ruleID: 21
+XX ruleID: 22
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=20 numberAttempted=undefined numberFailed=undefined
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=21 numberAttempted=undefined numberFailed=undefined
+SQL SELECT ruleStrings.string AS ruleText,CASE WHEN rtE.string IS NOT NULL THEN rtE.string ELSE '' END AS origGloss,CASE WHEN rtO.string IS NOT NULL THEN rtO.string ELSE '' END AS transGloss,classes.classID,ans.studentID,rules.ruleID,counts.performance FROM classes JOIN quizzes USING(classID) JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID JOIN rules USING(ruleID) JOIN ruleStrings USING(ruleStringID) LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang='en') AS rtE ON rtE.ruleID=rules.ruleID LEFT JOIN (SELECT ruleID,string FROM ruleTranslations WHERE lang=?) AS rtO ON rtO.ruleID=rules.ruleID LEFT JOIN (SELECT attempts.ruleID,CASE WHEN COUNT(attempts.attempt)=5 AND COUNT(attempts.failure)=0 THEN 2 WHEN COUNT(attempts.attempt)=5 THEN 1 ELSE 0 END AS performance FROM (SELECT rtc.ruleID,ans.answerID AS attempt,failures.answerID AS failure FROM quizzes AS qz JOIN questions AS q USING(quizID) JOIN choices USING(questionID) JOIN answers AS ans ON ans.questionID=q.questionID AND ans.choice=choices.choice LEFT JOIN quizAnswers as qa ON qa.quizID=q.quizID AND qa.studentID=ans.studentID JOIN rulesToChoices AS rtc ON rtc.choiceID=choices.choiceID LEFT JOIN (SELECT answerID FROM answers WHERE answers.studentID=?) AS failures ON failures.answerID=ans.answerID WHERE qz.classID=? AND rtc.ruleID=? ORDER BY qa.submissionDate DESC LIMIT 5) AS attempts) AS counts ON counts.ruleID=rtc.ruleID WHERE classes.classID=? AND rules.ruleID=? AND counts.performance>0;
+ROW [object Object] classID=2 studentID=141 ruleID=22 numberAttempted=undefined numberFailed=undefined
+OK [
+  {
+    "ruleID": 20,
+    "ruleText": "Rule 1",
+    "origGloss": "This is my gloss on Rule 1",
+    "transGloss": "This is my gloss on Rule 1",
+    "performance": 2
+  },
+  {
+    "ruleID": 21,
+    "ruleText": "Rule 2 violation",
+    "origGloss": "This is my gloss on Rule 2",
+    "transGloss": "This is my gloss on Rule 2",
+    "performance": 2
+  },
+  {
+    "ruleID": 22,
+    "ruleText": "Rule 3 violation",
+    "origGloss": "",
+    "transGloss": "",
+    "performance": 1
+  }
+]

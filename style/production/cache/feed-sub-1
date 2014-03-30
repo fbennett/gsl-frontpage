@@ -1,0 +1,26 @@
+  <entry>
+    <id>http://law.nagoya-u.ac.jp/en/1</id>
+    <title type="text">Graduate School of Law: Orientation for Incoming Students</title>
+    <link href="http://localhost:6338?admin=iw9acthc&amp;id=@@USER_ID@@&amp;key=@@USER_KEY@@&amp;eventid=1"/>
+    <author>
+      <name>Saori Okuda</name>
+    </author>
+    <updated>@@TOUCH_DATE@@</updated>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><a href="http://law.nagoya-u.ac.jp/en/calendar.ics">[Subscription to entire GSL events calendar]</a></p>
+      <p>Orientation for new students in the Law Faculty will be held on 8 April.</p>
+
+      <p>All incoming students are expected to attend the relevant sessions. </p>
+<p>The schedule below is tentative. The final schedule and session materials will be published to this page as they become available.</p>
+
+            <h3>Session 1: General Guidance (all GSL graduate students)</h3>
+      <p>Tuesday, 8 April 2014, 10:00 - 11:00 (Lecture Room 3)</p>
+      <h3>Session 2: Immigration Rules and Work Permits (all international students)</h3>
+      <p>Tuesday, 8 April 2014, 14:00 - 14:30 (Lecture Room 3)</p>
+      <h3>Session 3: Masters Course Requirements (all first-year Masters candidates)</h3>
+      <p>Tuesday, 8 April 2014, 14:30 - 15:30 (Lecture Room 3)</p>
+
+      </div>
+    </content>
+  </entry>

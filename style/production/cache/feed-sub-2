@@ -1,0 +1,17 @@
+  <entry>
+    <id>http://law.nagoya-u.ac.jp/en/2</id>
+    <title type="text">Front Page News News</title>
+    <link href="http://law.nagoya-u.ac.jp/en/News/2.html"/>
+    <author>
+      <name>admin</name>
+    </author>
+    <updated>@@TOUCH_DATE@@</updated>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      
+      <p>We have deployed a new tool for publishing news items to the GSL website that should help us to keep the top page content up to date.</p>
+<p>Thanks are due to one and all for your patience pending this long-awaited revamp of our information service. This is the first of many announcements to follow.</p>
+
+      </div>
+    </content>
+  </entry>

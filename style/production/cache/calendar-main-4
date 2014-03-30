@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nagoya University Faculty of Law//NONSGML Event Calendar//EN
+BEGIN:VEVENT
+UID:/Events/4.html-1@gsl-nagoya-u.net
+DTSTAMP:2014-03-30T08:06:16.874Z
+ORGANIZER;CN=Bennett:MAILTO:bennett@nagoya-u.jp
+DTSTART:20140402T030000Z
+DTEND:20140402T040000Z
+SUMMARY:Bennett: Multilingual Zotero (Lunchtime Q&A)
+LOCATION:Leading Satellite
+URL:http://law.nagoya-u.ac.jp/en/Events/4.html
+END:VEVENT
+BEGIN:VEVENT
+UID:/Events/4.html-2@gsl-nagoya-u.net
+DTSTAMP:2014-03-30T08:06:16.874Z
+ORGANIZER;CN=Bennett:MAILTO:bennett@nagoya-u.jp
+DTSTART:20140402T040000Z
+DTEND:20140402T053000Z
+SUMMARY:Bennett: Multilingual Zotero (Installfest and first-level tutorial)
+LOCATION:Leading Satellite
+URL:http://law.nagoya-u.ac.jp/en/Events/4.html
+END:VEVENT
+END:VCALENDAR
