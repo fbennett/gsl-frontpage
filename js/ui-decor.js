@@ -241,7 +241,7 @@ function addAttachment (documentID, documentTitle) {
     for (var i=0,ilen=attachmentContainer.childNodes.length;i<ilen;i+=1) {
         var node = attachmentContainer.childNodes[i];
         var titleNode = node.getElementsByClassName('document-title')[0];
-        var m = titleNode.id.match(/^document([0-9+]).*/);
+        var m = titleNode.id.match(/^document([0-9]+).*/);
         var id = 0;
         if (m) {
             id = m[1];
