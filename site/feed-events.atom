@@ -1,5 +1,5 @@
   <entry>
-    <id>http://law.nagoya-u.ac.jp/en/@@EVENT_ID@@</id>
+    <id>@@TARGET_HOST_TOP@@/@@EVENT_ID@@</id>
     <title type="text">@@NAME_AND_TITLE@@</title>
     <link href="@@LINK_URL@@"/>
     <author>
@@ -8,7 +8,7 @@
     <updated>@@TOUCH_DATE@@</updated>
     <content type="xhtml">
       <div xmlns="http://www.w3.org/1999/xhtml">
-      <p><a href="http://law.nagoya-u.ac.jp/en/calendar.ics">[Subscription to entire GSL events calendar]</a></p>
+      <p><a href="@@TARGET_HOST_TOP@@/calendar.ics">[Subscription to entire GSL events calendar]</a></p>
       @@LEDE@@
       @@DESCRIPTION@@
       @@SESSIONS@@
