@@ -9,7 +9,7 @@
     };
     cogClass.prototype.exec = function (params, request, response) {
         var page = this.page.toString();
-        page = page.replace(/@@HOSTNAME_AND_PORT@@/,this.sys.hostname_and_port);
+        page = page.replace(/@@HOSTNAME_AND_PORT@@/,this.sys.hostname());
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.end(this.page)
     }
