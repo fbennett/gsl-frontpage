@@ -1,0 +1,15 @@
+#!/usr/local/bin/node
+
+function getRandomKey(len, base) {
+    // Modified from http://jsperf.com/random-md5-hash-implementations
+    len = len ? len : 16;
+    base = base ? base : 16;
+    var _results;
+    _results = [];
+    for (var i=0;i<len;i+=1) {
+        _results.push((Math.random() * base | 0).toString(base));
+    }
+    return _results.join("");
+};
+
+console.log('\n' + getRandomKey(8,36) + '\n');
