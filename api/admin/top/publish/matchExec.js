@@ -6,7 +6,6 @@
         var eventID = params.eventid;
         var pages = sys.pages;
         var userKey = params.userkey;
-        console.log("userKey="+userKey);
         var userID = sys.admin[userKey].id;
 
         // Set the data acquisition code below as a function in sys, and set processData as a callback
@@ -88,20 +87,79 @@
             pages.composeFeed(data);
             pages.composeFeed(data.announcements);
             pages.composeFeed(data.events);
-            try {
-                for (var key in pages.outboundMap) {
-                    var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','style/' + sys.output_style + '/outbound/' + key,sys.target_hostname + ':' + pages.outboundMap[key]],{env:process.env});
-                    rsync.stderr.on('data', function (data) {
-                        console.log('rsync stdErr: ' + data);
-                    });
-                    rsync.stdout.on('data', function (data) {
-                        console.log('rsync stdOut: ' + data);
-                    });
+
+            rsyncOutput();
+            
+            function rsyncOutput () {
+                var mapLst = [];
+                for (var src in pages.outboundMap) {
+                    mapLst.push(src)
                 }
-            } catch (e) {
-                console.log("SPAWN OOPS: "+e);
-            }
-            finishPublication();
+                mapLst.sort();
+                
+                rsyncRunUpload(0,mapLst.length);
+            
+                function rsyncRunUpload(pos,limit) {
+                    if (pos == limit) {
+                        finishPublication();
+                        return
+                    }
+                    var src = mapLst[pos];
+                    var args = null;
+                    // For possibilites, we have:
+                    if (sys.rsync_binary && sys.sshpass_binary && sys.ssh_binary && sys.account_name && sys.target_hostname) {
+                        // * rsync over ssh with sshpass (remote)
+                        //     --rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en
+                        //     sys.target_hostname + ':' + pages.outboundMap[key]
+                        //     NEED: rsync_binary, sshpass_binary, ssh_binary, account_name, target_hostname
+                        //     NEVER: local_path
+                        args = [
+                            '-av',
+                            '--rsh=' + sys.sshpass_binary + ' -f .sshpass.txt ' + sys.ssh_binary + ' -l ' + sys.account_name,
+                            'style/' + sys.output_style + '/outbound/' + src,
+                            sys.target_hostname + ':' + pages.outboundMap[src]
+                        ];
+                    } else if (sys.rsync_binary && sys.ssh_binary && sys.account_name && sys.target_hostname) {
+                        // * rsync over ssh with passwordless keys (remote)
+                        //     --rsh=/usr/bin/ssh -l en
+                        //     sys.target_hostname + ':' + pages.outboundMap[key]
+                        //     NEED: rsync_binary, ssh_binary, account_name, target_hostname
+                        //     NOT: sshpass_binary
+                        //     NEVER: local_path
+                        args = [
+                            '-av',
+                            '--rsh=' + sys.ssh_binary + ' -l ' + sys.account_name,
+                            'style/' + sys.output_style + '/outbound/' + src,
+                            sys.target_hostname + ':' + pages.outboundMap[src]
+                        ];
+                    } else if (sys.rsync_binary && sys.fs_local_dir) {
+                        // * vanilla rsync (local disk only)
+                        //     none
+                        //     RELATIVE_PATH_NAME + pages.outboundMap[key]
+                        //     NEED: rsync_binary, fs_local_dir
+                        //     NEVER: ssh_binary, sshpass_binary, account_name
+                        args = [
+                            '-av',
+                            'style/' + sys.output_style + '/outbound/' + src,
+                            sys.fs_local_dir + '/' + pages.outboundMap[src]
+                        ];
+                    }
+                    if (args) {
+                        var rsync = sys.spawn(sys.rsync_binary,args,{env:process.env});
+                        rsync.stderr.on('data', function (data) {
+                            console.log('rsync stdErr: ' + data);
+                        });
+                        rsync.stdout.on('data', function (data) {
+                            console.log('rsync stdOut: ' + data);
+                        });
+                        rsync.stdout.on('end',function(err){
+                            rsyncRunUpload(pos+1,limit);
+                        });
+                    } else {
+                        finishPublication();
+                    }
+                };
+            };
 
             function finishPublication() {
                 var params = [sys.getUnixEpoch(pages.now)];
