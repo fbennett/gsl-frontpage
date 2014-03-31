@@ -1,0 +1,17 @@
+  <entry>
+    <id>@@TARGET_HOST_TOP@@/@@EVENT_ID@@</id>
+    <title type="text">@@NAME_AND_TITLE@@</title>
+    <link href="@@LINK_URL@@"/>
+    <author>
+      <name>@@STAFF_NAME@@</name>
+    </author>
+    <updated>@@TOUCH_DATE@@</updated>
+    <content type="xhtml">
+      <div xmlns="http://www.w3.org/1999/xhtml">
+      <p><a href="@@TARGET_HOST_TOP@@/calendar.ics">[Subscription to entire GSL events calendar]</a></p>
+      @@LEDE@@
+      @@DESCRIPTION@@
+      @@SESSIONS@@
+      </div>
+    </content>
+  </entry>
