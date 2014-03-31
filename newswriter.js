@@ -24,7 +24,7 @@
         var sysClass = new sysModule.sysClass(opts);
         var sys = sysClass.getSys();
 
-        var pagesModule = require('./lib/pages.js');
+        var pagesModule = require('./style/' + sys.output_style + '.js');
         var pagesClass = new pagesModule.pagesClass(sys);
         var sys = pagesClass.getPages();
 

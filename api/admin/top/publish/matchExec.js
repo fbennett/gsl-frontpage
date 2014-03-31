@@ -16,14 +16,14 @@
 
         function removeOldEvents () {
             
-            sys.fs.readdir('outbound/Events',function(err,files){
+            sys.fs.readdir('style/' + sys.output_style + '/outbound/Events',function(err,files){
                 if (err) {
                     console.log('Events dir apparently does not yet exist. Ignoring error. '+err);
                 } else {
                     for (var i=0,ilen=files.length;i<ilen;i+=1) {
                         var file = files[i];
                         try {
-                            sys.fs.unlinkSync('outbound/Events/' + file);
+                            sys.fs.unlinkSync('style/' + sys.output_style + '/outbound/Events/' + file);
                         } catch (e) {
                             console.log("OOPS: "+e);
                         }
@@ -34,14 +34,14 @@
         };
 
         function removeOldAnnouncements () {
-            sys.fs.readdir('outbound/Announcements',function(err,files){
+            sys.fs.readdir('style/' + sys.output_style + '/outbound/Announcements',function(err,files){
                 if (err) {
                     console.log('Announcements dir apparently does not yet exist. Ignoring.');
                 } else {
                     for (var i=0,ilen=files.length;i<ilen;i+=1) {
                         var file = files[i];
                         try {
-                            sys.fs.unlinkSync('outbound/Announcements/' + file);
+                            sys.fs.unlinkSync('style/' + sys.output_style + '/outbound/Announcements/' + file);
                         } catch (e) {
                             console.log("OOPS: "+e);
                         }
@@ -90,7 +90,7 @@
             pages.composeFeed(data.events);
             try {
                 for (var key in pages.outboundMap) {
-                    var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','outbound/' + key,sys.target_hostname + ':' + pages.outboundMap[key]],{env:process.env});
+                    var rsync = sys.spawn('rsync',['-av','--rsh=/usr/bin/sshpass -f .sshpass.txt /usr/bin/ssh -l en','style/' + sys.output_style + '/outbound/' + key,sys.target_hostname + ':' + pages.outboundMap[key]],{env:process.env});
                     rsync.stderr.on('data', function (data) {
                         console.log('rsync stdErr: ' + data);
                     });
