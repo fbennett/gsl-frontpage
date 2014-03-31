@@ -32,7 +32,9 @@
     "js/",
     "lib/",
     "newswriter.js",
-    "resource/"
+    "resource/",
+    "style/demo.js",
+    "style/demo/templates"
   ],
   "main": "newswriter.js",
   "repository": {
