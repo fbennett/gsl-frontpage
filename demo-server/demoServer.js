@@ -23,7 +23,7 @@ http.createServer(function (request, response) {
     request.on('end', function(){
         var fileOK = true;
         try {
-            var filepath = uriObj.href.slice(1);
+            var filepath = 'www' + uriObj.href;
             content = fs.readFileSync(filepath);
         } catch (e) {
             fileOK = false;
@@ -52,5 +52,5 @@ http.createServer(function (request, response) {
         }
     });
 }).listen(8080);
-console.log("Listening on http://localhost:8080");
+console.log("Listening on http://localhost:8082");
 
