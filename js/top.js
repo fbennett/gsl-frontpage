@@ -5,7 +5,7 @@ function buildTimes (node,placeholder,initIndex) {
     if (initIndex) {
         timesHTML = '';
     } else {
-        timesHTML = '<option value="">' + placeholder + '</option>\n';
+        timesHTML = '<option id="time-' + placeholder + '" value="">' + placeholder + '</option>\n';
     }
     for (var j=8,jlen=20;j<jlen;j+=1) {
         for (var k=0,klen=60;k<klen;k+=15) {
@@ -41,6 +41,7 @@ var pageName;
 var userKey;
 var role;
 var keyCodeMap;
+var langEngine;
 
 function initializePage () {
     keyCodeMap = {
@@ -50,6 +51,14 @@ function initializePage () {
         38:'Up',
         40:'Down'
     }
+
+    var sessionHourStart = document.getElementById('session-start');
+    buildTimes(sessionHourStart,'start');
+    var sessionHourEnd = document.getElementById('session-end');
+    buildTimes(sessionHourEnd,'end');
+
+    langEngine = new LangEngine(document);
+
     adminID = getParameterByName('admin');
     userKey = getParameterByName('key');
     pageName = getParameterByName('page');
@@ -95,11 +104,6 @@ function initializePage () {
 
     var hiddenIframe = document.getElementById('hidden-iframe-id');
     hiddenIframe.addEventListener('load',completedUpload);
-
-    var sessionHourStart = document.getElementById('session-start');
-    buildTimes(sessionHourStart,'自');
-    var sessionHourEnd = document.getElementById('session-end');
-    buildTimes(sessionHourEnd,'至');
 
     setKeyboardHandlers();
     setSearchableBlurHandlers();

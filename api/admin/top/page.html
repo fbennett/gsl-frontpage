@@ -3,6 +3,7 @@
   <head profile="http://www.w3.org/2005/10/profile">
     <title>GSL NewsWriter</title>
     <meta charset="UTF-8"> 
+    <script type="text/javascript" src="js/language.js"></script>  
     <script type="text/javascript" src="js/datetime.js"></script>  
     <script type="text/javascript" src="js/local.js"></script>  
     <script type="text/javascript" src="js/ui-decor.js"></script>  
@@ -26,47 +27,53 @@
       <div class="col-1-1">
         <div style="position:relative;">
           <h1>GSL NewsWriter <span id="staff-name"></span></h1>
-          <p class="button-info"><span class="keyish">Enter</span> か <span class="keyish">Tab</span> でフィルドを記憶</p>
-          <p class="button-info"><span class="buttonish">保存</span> でコンテンツを固定</p>
+          <p id="explanation-1" class="button-info"><span class="keyish">Enter</span> か <span class="keyish">Tab</span> でフィルドを記憶</p>
+          <p id="explanation-2" class="button-info"><span class="buttonish">保存</span> でコンテンツを固定</p>
           <table class="pulldowns">
             <tr>
-              <td>
+              <td></td>
+              <td style="text-align:right;">
+                <input type="button" class="i18n-value-language" value="switch language" onclick="langEngine.toggle();"/>
+              </td>
+            </tr>
+            <tr>
+              <td id="label-1">
                 通知：
               </td>
               <td style="text-align:left;">
-                <select id="announcement-list"><option value="">通知の項目を選択</select>
+                <select id="announcement-list"><option id="label-2" value="">通知の項目を選択</select>
               </td>
             </tr>
             <tr>
-              <td>
+              <td id="label-3">
                 研修会：
               </td>
               <td style="text-align:left;">
-                <select id="event-list"><option value="">研修会の項目を選択</select>
+                <select id="event-list"><option id="label-4" value="">研修会の項目を選択</select>
               </td>
             </tr>
             <tr>
-              <td>
+              <td id="label-5">
                 ゴミ箱：
               </td>
               <td style="text-align:left;">
-                <select id="trash-list"><option value="">ゴミ箱内の項目を選択</select>
+                <select id="trash-list"><option id="label-6" value="">ゴミ箱内の項目を選択</select>
               </td>
             </tr>
           </table>
         </div>
         <div id="content">
-          <h2>
+          <h2 id="label-7">
             担当者
-            <input id="convenor-clear" type="button" value="空白" class="clear-person default-disable" disabled="true"/>
-            <input id="convenor-edit" type="button" value="編集" class="edit-person default-nodisplay" style="display:none;"/>
+            <input id="convenor-clear" type="button" value="空白" class="clear-person default-disable i18n-value-clear" disabled="true"/>
+            <input id="convenor-edit" type="button" value="編集" class="edit-person default-nodisplay i18n-value-edit" style="display:none;"/>
           </h2>
           <table id="convenor" class="wrapper">
             <tr>
-              <td>氏名：</td>
+              <td id="label-8">氏名：</td>
               <td>
                 <div>
-                  <input id="convenor-name" class="convenor field person-master search" autocomplete="off" placeholder="検索" type="text"/>
+                  <input id="convenor-name" class="convenor field person-master search i18n-placeholder-search" autocomplete="off" placeholder="検索" type="text"/>
                   <input id="convenor-name-id" class="form-required require" style="display:none;"/>
                 </div>
                 <div class="relative" id="convenor-name-dropdown" style="display:none;">
@@ -75,10 +82,10 @@
                   </div>
                 </div>
               </td>
-              <td>連絡先：</td>
+              <td id="label-9">連絡先：</td>
               <td>
                 <div>
-                  <input id="convenor-contact" class="convenor field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
+                  <input id="convenor-contact" class="convenor field person-servant search i18n-placeholder-required" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-contact-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -88,10 +95,10 @@
               </td>
             </tr>
             <tr>
-              <td>所属：</td>
+              <td id="label-10">所属：</td>
               <td>
                 <div>
-                  <input id="convenor-affiliation" class="convenor field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
+                  <input id="convenor-affiliation" class="convenor field person-servant search i18n-placeholder-required" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-affiliation-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -99,10 +106,10 @@
                   </div>
                 </div>
               </td>
-              <td>職名：</td>
+              <td id="label-11">職名：</td>
               <td>
                 <div>
-                  <input id="convenor-position" class="convenor field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
+                  <input id="convenor-position" class="convenor field person-servant search i18n-placeholder-required" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="convenor-position-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -112,34 +119,34 @@
               </td>
             </tr>
           </table>
-          <h2>詳細</h2>
+          <h2 id="label-12">詳細</h2>
           <table id="event" class="wrapper">
             <tr>
-              <td>略式題名：</td>
+              <td id="label-13">略式題名：</td>
               <td>
-                <input size="50" id="title" class="field nosearch require form-required" autocomplete="off" placeholder="必須" type="text"/>
+                <input size="50" id="title" class="field nosearch require form-required i18n-placeholder-required" autocomplete="off" placeholder="必須" type="text"/>
               </td>
             </tr>
             <tr>
-              <td>前書：</td>
+              <td id="label-14">前書：</td>
               <td>
-                <textarea cols="60" rows="5" id="note" class="field nosearch form-optional" placeholder="任意" type="text"></textarea>
+                <textarea cols="60" rows="5" id="note" class="field nosearch form-optional i18n-placeholder-optional" placeholder="任意" type="text"></textarea>
               </td>
             </tr>
             <tr>
-              <td>本文：</td>
+              <td id="label-15">本文：</td>
               <td>
-                <textarea cols="60" rows="8" id="description" class="field nosearch require form-required" placeholder="必須" type="text"></textarea>
+                <textarea cols="60" rows="8" id="description" class="field nosearch require form-required i18n-placeholder-required" placeholder="必須" type="text"></textarea>
               </td>
             </tr>
           </table>
-          <h2>添付資料</h2>
+          <h2 id="label-16">添付資料</h2>
           <table class="wrapper agent">
             <tr>
-              <td>見出し：</td>
+              <td id="label-17">見出し：</td>
               <td>
                 <div>
-                  <input id="uploader-attachment" name="attachmentTitle" autocomplete="off" form="uploader" class="attachment field search" placeholder="検索" type="text" size="50"/>
+                  <input id="uploader-attachment" name="attachmentTitle" autocomplete="off" form="uploader" class="attachment field search i18n-placeholder-search" placeholder="検索" type="text" size="50"/>
                 </div>
                 <div class="relative" id="uploader-attachment-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -167,7 +174,7 @@
               </td>
               <td>
                 <div>
-                  <input id="uploader-attachment-searchable" form="uploader" type="checkbox" name="searchableTitle"/> 検索可能
+                  <input id="uploader-attachment-searchable" form="uploader" type="checkbox" name="searchableTitle"/> <span id="label-18">検索可能</span>
                 </div>
               </td>
             </tr>
@@ -175,17 +182,17 @@
           <div id="attachment-container"></div>
           <p>&nbsp;</p>
           <hr/>
-          <h2>
+          <h2 id="label-19">
             発表者
-            <input id="presenter-clear" type="button" value="空白" class="clear-person default-disable" disabled="true"/>
-            <input id="presenter-edit" type="button" value="編集" class="edit-person default-nodisplay" style="display:none;"/>
+            <input id="presenter-clear" type="button" value="空白" class="clear-person default-disable i18n-value-clear" disabled="true"/>
+            <input id="presenter-edit" type="button" value="編集" class="edit-person default-nodisplay i18n-value-edit" style="display:none;"/>
           </h2>
           <table id="presenter" class="wrapper">
             <tr>
-              <td>氏名：</td>
+              <td id="label-20">氏名：</td>
               <td>
                 <div>
-                  <input id="presenter-name" class="presenter field person-master search" autocomplete="off" placeholder="検索" type="text"/>
+                  <input id="presenter-name" class="presenter field person-master search i18n-placeholder-search" autocomplete="off" placeholder="検索" type="text"/>
                   <input id="presenter-name-id" value="" class="form-optional require" style="display:none;"/>
                 </div>
                 <div class="relative" id="presenter-name-dropdown" style="display:none;">
@@ -194,10 +201,10 @@
                   </div>
                 </div>
               </td>
-              <td>連絡先：</td>
+              <td id="label-21">連絡先：</td>
               <td>
                 <div>
-                  <input id="presenter-contact" class="presenter field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
+                  <input id="presenter-contact" class="presenter field person-servant search i18n-placeholder-required" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-contact-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -207,10 +214,10 @@
               </td>
             </tr>
             <tr>
-              <td>所属：</td>
+              <td id="label-22">所属：</td>
               <td>
                 <div>
-                  <input id="presenter-affiliation" class="presenter field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
+                  <input id="presenter-affiliation" class="presenter field person-servant search i18n-placeholder-required" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-affiliation-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -218,10 +225,10 @@
                   </div>
                 </div>
               </td>
-              <td>職名：</td>
+              <td id="label-23">職名：</td>
               <td>
                 <div>
-                  <input id="presenter-position" class="presenter field person-servant search" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
+                  <input id="presenter-position" class="presenter field person-servant search i18n-placeholder-required" autocomplete="off" placeholder="必須" type="text" disabled="true"/>
                 </div>
                 <div class="relative" id="presenter-position-dropdown" style="display:none;">
                   <div class="combo-mask">
@@ -231,21 +238,21 @@
               </td>
             </tr>
           </table>
-          <h2>発表会の詳細</h2>
+          <h2 id="label-24">発表会の詳細</h2>
           <table id="session" class="wrapper agent">
             <tr>
-              <td>題名：</td>
+              <td id="label-25">題名：</td>
               <td colspan="2">
-                <input id="session-title" class="session field nosearch" placeholder="必須" type="text" size="50"/>
+                <input id="session-title" class="session field nosearch i18n-placeholder-required" placeholder="必須" type="text" size="50"/>
               </td>
               <td rowspan="2">
-                <input id="session-add-button" onclick="addSessionNode(this);" type="button" value="差し入れ" class="add-button default-disable" disabled="true"/>
+                <input id="session-add-button" onclick="addSessionNode(this);" type="button" value="差し入れ" class="add-button default-disable i18n-value-insert" disabled="true"/>
               </td>
             </tr>
             <tr>
               <td></td>
               <td style="text-align:left;">
-                <input id="session-place" class="session field search" placeholder="場所・検索" type="text" size="10"/>
+                <input id="session-place" class="session field search i18n-placeholder-required-place" placeholder="場所・検索" type="text" size="10"/>
                 <div class="relative" id="session-place-dropdown" style="display:none;">
                   <div class="combo-mask">
                     <select id="session-place-dropdown-select" size="6" class="combo"></select>
@@ -253,7 +260,7 @@
                 </div>
               </td>
               <td>
-                <input id="session-date" class="session field date-field" onchange="setAddButtonState(this,'click');" placeholder="日程" size="10" type="date"/>
+                <input id="session-date" class="session field date-field i18n-placeholder-date" onchange="setAddButtonState(this,'click');" placeholder="日程" size="10" type="date"/>
                 <select id="session-start" class="session field" onchange="setAddButtonState(this,'click');"></select>
                 〜
                 <select id="session-end" class="session field" onchange="setAddButtonState(this);"></select>
