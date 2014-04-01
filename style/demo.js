@@ -226,7 +226,11 @@
                         return ret;
                     }
                 },
-                attachments:{}
+                attachments:{
+                    '@@HOST_PATH@@':function(data) {
+                        return this.sys.urlEngine.hostpath();
+                    }
+                }
             }
         );
 
@@ -274,7 +278,11 @@
                     }
                 },
                 sessions:{},
-                attachments:{}
+                attachments:{
+                    '@@HOST_PATH@@':function(data) {
+                        return this.sys.urlEngine.hostpath();
+                    }
+                }
             }
         );
 
