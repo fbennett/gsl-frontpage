@@ -169,5 +169,4 @@ Frank Bennett, Nagoya University, Japan
 
 # NewsWriter page view
 
-![](nw-empty-display.png)
-
+![](https://github.com/fbennett/newswriter/raw/master/nw-empty-display.png)
