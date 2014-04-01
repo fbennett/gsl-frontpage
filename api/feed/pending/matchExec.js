@@ -10,12 +10,11 @@
         pages.reset();
         
         var delay = 30;
-        console.log("DELAY "+delay);
         if (sys.output_style === 'demo') {
             delay = 0;
         }
 
-        var sql = 'SELECT eventID FROM events WHERE (strftime("%s","now")-strftime("%s",touchDate,"unixepoch"))/60>30 AND NOT published=1 and status=0 ORDER BY pageDate DESC;';
+        var sql = 'SELECT eventID FROM events WHERE (strftime("%s","now")-strftime("%s",touchDate,"unixepoch"))/60>? AND NOT published=1 and status=0 ORDER BY pageDate DESC;';
         sys.db.all(sql,[delay],function(err,rows){
             if (err) {return oops(response,err,'pending(1)')};
 
