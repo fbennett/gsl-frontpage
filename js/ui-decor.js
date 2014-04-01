@@ -286,25 +286,25 @@ function addAttachment (documentID, documentTitle) {
     attachmentUploadFilenameNode.value = '';
 };
 
-var attachmentHtmlTemplate = '<tr>'
-    + '  <td>Title:</td>'
-    +'   <td class="document">'
-    + '    <div>'
-    + '      <input id="document@@DOCUMENT_ID@@-attachment" class="document-title field field-closed attachment-required" type="text" size="50" value="@@DOCUMENT_TITLE@@" onblur="soloFieldBlur(event);" onfocus="soloFieldFocus(event);" onkeydown="attachmentTitleKeydown(event);" onkeyup="attachmentTitleKeyup(event);"/>'
-    + '    </div>'
-    + '  </td>'
-    + '  <td rowspan="2">'
-    + '    <input type="button" value="Delete" onclick="deleteAttachment(@@DOCUMENT_ID@@)">'
-    + '  </td>'
-    + '</tr>'
-    + '<tr>'
-    + '  <td></td>'
-    + '  <td>'
-    + '<div class="document-link"><a href="attachments/@@DOCUMENT_ID@@">attachments/@@DOCUMENT_ID@@</a></div>'
-    + '  </td>'
-    + '</tr>';
-
 function appendAttachmentNode(documentID,documentTitle) {
+    var attachmentHtmlTemplate = '<tr>'
+        + '  <td class="i18n-innerHTML-title">' + langEngine.strings[langEngine.lang].innerHTMLbyClass['i18n-innerHTML-title'] + '</td>'
+        +'   <td class="document">'
+        + '    <div>'
+        + '      <input id="document@@DOCUMENT_ID@@-attachment" class="document-title field field-closed attachment-required" type="text" size="50" value="@@DOCUMENT_TITLE@@" onblur="soloFieldBlur(event);" onfocus="soloFieldFocus(event);" onkeydown="attachmentTitleKeydown(event);" onkeyup="attachmentTitleKeyup(event);"/>'
+        + '    </div>'
+        + '  </td>'
+        + '  <td rowspan="2">'
+        + '    <input type="button" value="' + langEngine.strings[langEngine.lang].valueByClass['i18n-value-remove'] + '" class="i18n-value-remove" onclick="deleteAttachment(@@DOCUMENT_ID@@)">'
+        + '  </td>'
+        + '</tr>'
+        + '<tr>'
+        + '  <td></td>'
+        + '  <td>'
+        + '<div class="document-link"><a href="attachments/@@DOCUMENT_ID@@">attachments/@@DOCUMENT_ID@@</a></div>'
+        + '  </td>'
+        + '</tr>';
+
     var attachmentContainer = document.getElementById('attachment-container');
     var attachmentNode = document.createElement('table');
     attachmentNode.setAttribute('id', 'document' + documentID);
@@ -370,27 +370,6 @@ function clearSessionFieldValues () {
     }
 };
 
-var sessionHtmlTemplate = '<tr>'
-    + '  <td colspan="2" style="text-align:left;">'
-    + '    <input id="session@@SESSION_ID@@-title" value="@@TITLE@@" class="has-content session-required" type="text" size="50"/>'
-    + '  </td>'
-    + '  <td rowspan="2">'
-    + '    <input id="session@@SESSION_ID@@-delete-button" type="button" onclick="deleteSession(@@SESSION_ID@@);" value="Delete"/>'
-    + '  </td>'
-    + '</tr>'
-    + '<tr>'
-    + '  <td style="text-align:left;">'
-    + '    <input id="session@@SESSION_ID@@-place" value="@@PLACE@@" class="has-content session-required" type="text" size="10"/>'
-    + '  </td>'
-    + '  <td>'
-    + '    <span class="day-of-week">@@DOW@@</span>'
-    + '    <input id="session@@SESSION_ID@@-date" value="@@DATE@@" class="has-content session-required" size="10" type="date"/>'
-    + '    <select id="session@@SESSION_ID@@-hour-start" class="session-required"></select>'
-    + '〜'
-    + '<select id="session@@SESSION_ID@@-hour-end" class="session-required"></select>'
-    + '  </td>'
-    + '</tr>'
-
 function addSessionNode() {
     var titleNode = document.getElementById('session-title');
     var fields = getSessionFieldValues(titleNode);
@@ -398,6 +377,27 @@ function addSessionNode() {
 };
 
 function appendSessionNode(fields) {
+
+    var sessionHtmlTemplate = '<tr>'
+        + '  <td colspan="2" style="text-align:left;">'
+        + '    <input id="session@@SESSION_ID@@-title" value="@@TITLE@@" class="has-content session-required" type="text" size="50"/>'
+        + '  </td>'
+        + '  <td rowspan="2">'
+        + '    <input id="session@@SESSION_ID@@-delete-button" type="button" class="i18n-value-remove" onclick="deleteSession(@@SESSION_ID@@);" value="' + langEngine.strings[langEngine.lang].valueByClass['i18n-value-remove'] + '"/>'
+        + '  </td>'
+        + '</tr>'
+        + '<tr>'
+        + '  <td style="text-align:left;">'
+        + '    <input id="session@@SESSION_ID@@-place" value="@@PLACE@@" class="has-content session-required" type="text" size="10"/>'
+        + '  </td>'
+        + '  <td>'
+        + '    <span class="day-of-week">@@DOW@@</span>'
+        + '    <input id="session@@SESSION_ID@@-date" value="@@DATE@@" class="has-content session-required" size="10" type="date"/>'
+        + '    <select id="session@@SESSION_ID@@-hour-start" class="session-required"></select>'
+        + '〜'
+        + '<select id="session@@SESSION_ID@@-hour-end" class="session-required"></select>'
+        + '  </td>'
+        + '</tr>'
 
     // XXX Cannot save before form as a whole is saved, because we need the event ID
     // XXX Use the start time as the ID

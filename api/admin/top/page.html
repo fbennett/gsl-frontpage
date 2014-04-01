@@ -26,13 +26,14 @@
     <div class="grid">  
       <div class="col-1-1">
         <div style="position:relative;">
-          <h1>GSL NewsWriter <span id="staff-name"></span></h1>
+          <h1>GSL NewsWriter (@@STAFF_NAME@@)</h1>
           <p id="explanation-1" class="button-info"><span class="keyish">Enter</span> か <span class="keyish">Tab</span> でフィルドを記憶</p>
           <p id="explanation-2" class="button-info"><span class="buttonish">保存</span> でコンテンツを固定</p>
           <table class="pulldowns">
             <tr>
               <td></td>
               <td style="text-align:right;">
+                <span id="default-language" style="display:none;">@@DEFAULT_LANGUAGE@@</span>
                 <input type="button" class="i18n-value-language" value="switch language" onclick="langEngine.toggle();"/>
               </td>
             </tr>
@@ -63,8 +64,8 @@
           </table>
         </div>
         <div id="content">
-          <h2 id="label-7">
-            担当者
+          <h2>
+            <span id="label-7">担当者</span>
             <input id="convenor-clear" type="button" value="空白" class="clear-person default-disable i18n-value-clear" disabled="true"/>
             <input id="convenor-edit" type="button" value="編集" class="edit-person default-nodisplay i18n-value-edit" style="display:none;"/>
           </h2>
@@ -169,7 +170,7 @@
                   <input type="text" id="uploader-attachment-mimetype" name="mimeType" style="display:none;" value=""/>
                   <input type="text" id="uploader-attachment-extension" name="filenameExtension" style="display:none;" value=""/>
                   <input type="file" id="uploader-attachment-filename" class="field" onchange="setFileExtension(this);" name="attachmentDocument"/>
-                  <input type="submit" value="添付" id="uploader-attachment-button" class="default-disable" disabled="true"/>
+                  <input type="submit" value="添付" id="uploader-attachment-button" class="default-disable i18n-value-upload" disabled="true"/>
                 </form>
               </td>
               <td>
@@ -182,8 +183,8 @@
           <div id="attachment-container"></div>
           <p>&nbsp;</p>
           <hr/>
-          <h2 id="label-19">
-            発表者
+          <h2>
+            <span id="label-19">発表者</span>
             <input id="presenter-clear" type="button" value="空白" class="clear-person default-disable i18n-value-clear" disabled="true"/>
             <input id="presenter-edit" type="button" value="編集" class="edit-person default-nodisplay i18n-value-edit" style="display:none;"/>
           </h2>

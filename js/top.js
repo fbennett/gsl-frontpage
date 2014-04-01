@@ -57,7 +57,8 @@ function initializePage () {
     var sessionHourEnd = document.getElementById('session-end');
     buildTimes(sessionHourEnd,'end');
 
-    langEngine = new LangEngine(document);
+    var defaultLanguage = document.getElementById('default-language').textContent;
+    langEngine = new LangEngine(document,defaultLanguage);
 
     adminID = getParameterByName('admin');
     userKey = getParameterByName('key');

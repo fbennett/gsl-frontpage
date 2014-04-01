@@ -1,7 +1,4 @@
 function LangEngine (document,lang) {
-    if (!lang) {
-        lang = 'ja';
-    }
     this.lang = lang;
     this.document = document;
     this.setLanguage();
@@ -52,7 +49,9 @@ LangEngine.prototype.strings = {
             "i18n-value-language":"English",
             "i18n-value-clear":"空白",
             "i18n-value-edit":"編集",
-            "i18n-value-insert":"差し入れ"
+            "i18n-value-insert":"差し入れ",
+            "i18n-value-upload":"添付",
+            "i18n-value-remove":"削除"
         },
         placeholderByClass:{
             "i18n-placeholder-search":"検索",
@@ -60,6 +59,9 @@ LangEngine.prototype.strings = {
             "i18n-placeholder-optional":"任意",
             "i18n-placeholder-required-place":"場所・検索",
             "i18n-placeholder-date":"日程"
+        },
+        innerHTMLbyClass:{
+            "i18n-innerHTML-title":"見出し："
         }
     },
     en:{
@@ -106,7 +108,9 @@ LangEngine.prototype.strings = {
             "i18n-value-language":"日本語",
             "i18n-value-clear":"Clear",
             "i18n-value-edit":"Edit",
-            "i18n-value-insert":"Insert"
+            "i18n-value-insert":"Insert",
+            "i18n-value-upload":"Upload",
+            "i18n-value-remove":"Remove"
         },
         placeholderByClass:{
             "i18n-placeholder-search":"Search",
@@ -114,6 +118,9 @@ LangEngine.prototype.strings = {
             "i18n-placeholder-optional":"Optional",
             "i18n-placeholder-required-place":"Place (search)",
             "i18n-placeholder-date":"Date"
+        },
+        innerHTMLbyClass:{
+            "i18n-innerHTML-title":"Title:"
         }
     }
 };
@@ -143,6 +150,13 @@ LangEngine.prototype.setLanguage = function () {
         for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
             node = nodes[i];
             node.setAttribute('placeholder',lang.placeholderByClass[cls]);
+        }
+    }
+    for (var cls in lang.innerHTMLbyClass) {
+        nodes = document.getElementsByClassName(cls);
+        for (var i=0,ilen=nodes.length;i<ilen;i+=1) {
+            node = nodes[i];
+            node.innerHTML = lang.innerHTMLbyClass[cls];
         }
     }
 }
