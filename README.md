@@ -86,7 +86,7 @@ the URL reported to the terminal at startup. In this case, that was:
 
     http://localhost:8081/?admin=ol1p9jn3&id=1&key=ol1p9jn3
 
-The form will look like that shown at the bottom of this page.  There
+The form will look like that shown at the bottom of the [GitHub view of this page](https://github.com/fbennett/newswriter).  There
 is a logic to the form navigation that should become apparent with a
 little experimentation. As the note at the top of the form says, you
 need to use `Enter` or `Tab` to save a field: if you click outside of
