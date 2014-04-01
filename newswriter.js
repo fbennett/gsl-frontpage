@@ -40,11 +40,11 @@
         var serverClass = new serverModule.serverClass(sys,api);
         serverClass.runServer();
     };
-    function demoServer () {
+    function runDemoServer () {
         var server = require('newswriter-demo')
 	server.run();
     };
-    exports.demoServer = demoServer;
+    exports.runDemoServer = runDemoServer;
     exports.run = run;
 })();
 

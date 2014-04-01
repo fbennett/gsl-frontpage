@@ -364,13 +364,13 @@
             },
             {
                 feed:{
-                    '@@ORGANIZATION_NAME@@'function(data) {
+                    '@@ORGANIZATION_NAME@@':function(data) {
                         return this.sys.organization_name;
                     },
-                    '@@ADMIN_EMAIL@@'function(data) {
+                    '@@ADMIN_EMAIL@@':function(data) {
                         return this.sys.admin_email;
                     },
-                    '@@COPYRIGHT_NOTICE@@'function(data) {
+                    '@@COPYRIGHT_NOTICE@@':function(data) {
                         return this.sys.copyright_notice;
                     },
                     '@@TOUCH_DATE@@':function(data){

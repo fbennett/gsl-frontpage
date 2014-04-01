@@ -364,6 +364,15 @@
             },
             {
                 feed:{
+                    '@@ORGANIZATION_NAME@@':function(data) {
+                        return this.sys.organization_name;
+                    },
+                    '@@ADMIN_EMAIL@@':function(data) {
+                        return this.sys.admin_email;
+                    },
+                    '@@COPYRIGHT_NOTICE@@':function(data) {
+                        return this.sys.copyright_notice;
+                    },
                     '@@TOUCH_DATE@@':function(data){
                         var ret = '@@TOUCH_DATE@@';
                         if (data.touchDate) {
