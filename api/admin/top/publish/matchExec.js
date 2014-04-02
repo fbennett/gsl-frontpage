@@ -87,6 +87,7 @@
             pages.composeFeed(data);
             pages.composeFeed(data.announcements);
             pages.composeFeed(data.events);
+            pages.composeFeed(data);
 
             rsyncOutput();
             
