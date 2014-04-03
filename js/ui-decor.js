@@ -125,7 +125,7 @@ function setFormButtons(data) {
     }
     if (role === 2) {
         // If we are a reviewer, we cannot change delete or restore
-        // Otherwise, we can.
+        // Otherwise, we can. Unless we are a proposer.
         trashButton.disabled = true;
         restoreButton.disabled = true;
         if (data.published) {
@@ -142,6 +142,22 @@ function setFormButtons(data) {
             publishButton.parentNode.style.display = 'inline';
             republishButton.parentNode.style.display = 'none';
             publishButton.disabled = true;
+        }
+    } else if (role === 3) {
+        // If we are a proposer, we cannot change delete, restore, publish or republish
+        // Otherwise, we can.
+        trashButton.disabled = true;
+        restoreButton.disabled = true;
+        if (data.published) {
+            confirmButton.parentNode.style.display = 'none';
+            publishButton.parentNode.style.display = 'none';
+            republishButton.parentNode.style.display = 'inline';
+            republishButton.disabled = true;
+        } else {
+            confirmButton.parentNode.style.display = 'none';
+            publishButton.parentNode.style.display = 'inline';
+            publishButton.disabled = true;
+            republishButton.parentNode.style.display = 'none';
         }
     } else {
         if (data.status == -1) {

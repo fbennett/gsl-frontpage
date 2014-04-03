@@ -6,12 +6,20 @@
         var eventID = params.eventid;
         var pages = sys.pages;
         var userKey = params.userkey;
-        var userID = sys.admin[userKey].id;
-
+        var userID = null;
+        var userRole = null;
+        if (sys.admin[userKey]) {
+            userID = sys.admin[userKey].id;
+            userRole = sys.admin[userKey].role;
+        }
         // Set the data acquisition code below as a function in sys, and set processData as a callback
         // Data acquisition can then be repurposed for the local feed
 
-        removeOldEvents();
+        if (userRole == 1) {
+            removeOldEvents();
+        } else {
+            oops(response,'Failed attempt to publish. User ' + userID +' does not have publishing privileges','publish(0)');
+        }
 
         function removeOldEvents () {
             
