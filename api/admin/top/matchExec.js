@@ -27,6 +27,7 @@
         page = page.replace(/@@STAFF_NAME@@/g,this.sys.admin[params.key].name);
         page = page.replace(/@@DEFAULT_LANGUAGE@@/g,this.sys.default_language);
         page = page.replace(/@@PUBLISH_DISABLED@@/g,republishDisabled);
+        page = page.replace(/@@ORGANIZATION_NICKNAME@@/g,this.sys.organization_nickname);
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.end(page)
     }
