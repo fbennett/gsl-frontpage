@@ -9,6 +9,7 @@
     };
     cogClass.prototype.exec = function (params, request, response) {
         var page = this.page.toString();
+	var sys = this.sys;
         var userKey = params.userkey;
         var userID = null;
         var userRole = null;
