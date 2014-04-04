@@ -128,14 +128,12 @@
             {
                 index:{
                     '@@TOUCH_DATE@@':function(data) {
-                        return true;
+                        console.log("  returning touchDate: "+data.touchDate);
+                        return data.touchDate;
                     }
                 },
                 announcements:{},
                 events:{
-                    '@@TOUCH_DATE@@':function(data) {
-                        return data.touchDate;
-                    },
                     '@@DATE@@':function(data) {
                         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var date = new Date(data.pageDate);
