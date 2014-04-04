@@ -126,12 +126,13 @@
                 return 'index.html'
             },
             {
-                index:{},
-                announcements:{},
-                events:{
+                index:{
                     '@@TOUCH_DATE@@':function(data) {
                         return true;
-                    },
+                    }
+                },
+                announcements:{},
+                events:{
                     '@@DATE@@':function(data) {
                         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var date = new Date(data.pageDate);
