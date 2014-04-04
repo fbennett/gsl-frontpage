@@ -7,6 +7,9 @@
         var userKey = params.userkey;
         var userID = sys.admin[userKey].id;
 
+        var date = new Date();
+        var touchDate = sys.getUnixEpoch(date.getTime());
+
         beginTransaction();
 
         function beginTransaction() {
@@ -132,7 +135,7 @@
             }
 
             var sql = 'INSERT INTO events VALUES (NULL,?,?,?,?,?,?,?,0,0,?)';
-            sys.db.run(sql,[userID,data.convenorID,data.title,data.description,data.pageDate,presenterID,noteID,data.touchDate],function(err){
+            sys.db.run(sql,[userID,data.convenorID,data.title,data.description,data.pageDate,presenterID,noteID,touchDate],function(err){
                 if (err) {return oops(response,err,'saveevent(9) ('+data.title+") ("+data.description+") ("+noteID+") ("+presenterID+") ("+data.convenorID+")")};
                 data.eventID = this.lastID;
                 data.published = false;
@@ -199,7 +202,7 @@
                     data.sessions[pos].place = row.placeID;
                     // XXX Nudge touchDate
                     var sql = 'UPDATE places SET touchDate=? WHERE placeID=?;';
-                    sys.db.run(sql,[data.touchDate,row.placeID],function(err){
+                    sys.db.run(sql,[touchDate,row.placeID],function(err){
                         if (err) {return oops(response,err,'saveevent(13)')};
                         checkPlaces(pos+1,limit);
                     });
@@ -216,7 +219,7 @@
             if ("number" !== typeof data.sessions[pos].place) {
                 var place = data.sessions[pos].place;
                 var sql = 'INSERT INTO places VALUES (NULL,?,?);';
-                sys.db.run(sql,[place,data.touchDate],function(err){
+                sys.db.run(sql,[place,touchDate],function(err){
                     if (err) {return oops(response,err,'saveevent(14)')};
                     data.sessions[pos].place = this.lastID;
                     addPlaces(pos+1,limit);
@@ -260,7 +263,7 @@
             }
             var documentID = data.attachments[pos];
             var sql = 'UPDATE documents SET touchDate=? WHERE documentID=?;';
-            sys.db.run(sql,[data.touchDate,documentID],function(err){
+            sys.db.run(sql,[touchDate,documentID],function(err){
                 if (err) {return oops(response,err,'saveevent(17)')};
                 touchDocuments(pos+1,limit);
             });

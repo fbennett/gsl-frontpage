@@ -178,6 +178,7 @@
 
                 }
                 if (sqlStr.length) {
+                    console.log("Touch dates for: "+sqlStr.join(','));
                     var sql = 'UPDATE events SET touchDate=? WHERE eventID in (' + sqlStr.join(',') + ')';
                     sys.db.run(sql,params,function(err){
                         if (err) {return oops(response,err,'publish(3)')}

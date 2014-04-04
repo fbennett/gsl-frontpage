@@ -20,13 +20,8 @@ function mapField (ret,id,value) {
 };
 
 function previewForm (suppressPreview) {
-    // In saveevent, on events themselves, touchDate is set only on new items.
-    // Subsequent bumps are done only on publication.
-    var now = new Date();
-    var nowDate = clientDateToServer(now.getTime());
     var data = {
-        pageDate:pageDate,
-        touchDate:nowDate
+        pageDate:pageDate
     };
 
     //data.eventID = document.getElementById('event-id').value;
