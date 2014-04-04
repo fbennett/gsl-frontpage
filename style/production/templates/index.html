@@ -31,7 +31,7 @@ function bugleFunction() {
         var now = new Date();
         var nowDate = now.getTime();
         // Three days, counting in seconds
-        if (pageDate > (nowDate - 259200)) {
+        if (pageDate > (nowDate - 259200000)) {
             node.nextSibling.style.display = 'inline';
         } else {
             node.nextSibling.style.display = 'none';
