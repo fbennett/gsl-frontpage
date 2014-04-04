@@ -129,9 +129,6 @@
                 index:{},
                 announcements:{},
                 events:{
-                    '@@PAGE_DATE@@':function(data) {
-                        return parseInt(data.pageDate,10);
-                    },
                     '@@DATE@@':function(data) {
                         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var date = new Date(data.pageDate);

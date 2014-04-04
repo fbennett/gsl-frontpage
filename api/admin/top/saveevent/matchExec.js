@@ -115,8 +115,8 @@
             if (!noteID) {
                 noteID = null;
             }
-            var sql = 'UPDATE events SET adminID=?, titleID=?, descriptionID=?, noteID=?, convenorID=?, presenterID=?, pageDate=?, touchDate=? WHERE eventID=?;';
-            sys.db.run(sql,[userID,data.title,data.description,data.note,data.convenorID,presenterID,data.pageDate,data.touchDate,data.eventID],function(err){
+            var sql = 'UPDATE events SET adminID=?, titleID=?, descriptionID=?, noteID=?, convenorID=?, presenterID=?, pageDate=? WHERE eventID=?;';
+            sys.db.run(sql,[userID,data.title,data.description,data.note,data.convenorID,presenterID,data.pageDate,data.eventID],function(err){
                 if (err) {return oops(response,err,'saveevent(8)')};
                 clearSessions();
             });
