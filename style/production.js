@@ -128,7 +128,7 @@
             {
                 index:{
                     '@@TOUCH_DATE@@':function(data) {
-                        return '@@TOUCH_DATE@@';
+                        return data.touchDate;
                     }
                 },
                 announcements:{},
