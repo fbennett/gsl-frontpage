@@ -1,3 +1,3 @@
 function initPreview () {
-    window.addEventListener('blur',function(){window.close()},true);
+    //window.addEventListener('blur',function(){window.close()},true);
 };
