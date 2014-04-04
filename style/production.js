@@ -129,6 +129,9 @@
                 index:{},
                 announcements:{},
                 events:{
+                    '@@TOUCH_DATE@@':function(data) {
+                        return true;
+                    },
                     '@@DATE@@':function(data) {
                         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                         var date = new Date(data.pageDate);
