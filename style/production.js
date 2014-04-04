@@ -127,6 +127,9 @@
             },
             {
                 index:{
+                    '@@TOUCH_DATE@@':function(data) {
+                        return true;
+                    }
                 },
                 announcements:{},
                 events:{
