@@ -129,7 +129,11 @@
                 index:{
                     '@@TOUCH_DATE@@':function(data) {
                         console.log("  returning touchDate: "+data.touchDate);
-                        return data.touchDate;
+                        var ret = data.touchDate;
+                        if (data.touchDate > data.pageDate) {
+                            ret = data.pageDate;
+                        }
+                        return ret;
                     }
                 },
                 announcements:{},
