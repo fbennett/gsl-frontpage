@@ -469,11 +469,12 @@
                         return ret;
                     },
                     '@@PRE_DATE@@':function(data){
-                        var preDate = (data.pageDate - 1000);
+                        var preDate = data.pageDate;
                         if (data.touchDate) {
-                            var preDate = (data.touchDate - 1000);
+                            preDate = data.touchDate;
                         }
-                        return this.sys.utcFeedDate(preDate);
+                        var myDate = new Date(parseInt(preDate,10) - 1000);
+                        return this.sys.utcFeedDate(myDate);
                     }
                 },
                 announcements:{
