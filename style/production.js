@@ -467,14 +467,6 @@
                             ret += ('/' + this.sys.target_top_relative);
                         }
                         return ret;
-                    },
-                    '@@PRE_DATE@@':function(data){
-                        var preDate = data.pageDate;
-                        if (data.touchDate) {
-                            preDate = data.touchDate;
-                        }
-                        var myDate = new Date(parseInt(preDate,10) - 1000);
-                        return this.sys.utcFeedDate(myDate);
                     }
                 },
                 announcements:{

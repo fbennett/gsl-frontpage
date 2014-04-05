@@ -1,6 +1,3 @@
-  <at:deleted-entry
-      ref="@@TARGET_HOST_TOP@@/@@EVENT_ID@@"
-      when="@@PRE_DATE@@"/>
   <entry>
     <id>@@TARGET_HOST_TOP@@/@@EVENT_ID@@</id>
     <title type="text">@@NAME_AND_TITLE@@</title>
