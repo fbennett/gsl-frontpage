@@ -76,6 +76,17 @@
         
         function processData(data) {
             pages.reset();
+
+            allEventsOnly = {events:data.events.slice()};
+            data.events = data.events.slice(0,10);
+            data.announcements = data.announcements.slice(0,10);
+
+            pages.composeCalendar(allEventsOnly);
+            pages.composeFeed(data);
+            pages.composeFeed(data.announcements);
+            pages.composeFeed(data.events);
+            pages.composeFeed(data);
+
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
                 pages.composeEvent(data.events[i]);
             }
@@ -87,16 +98,6 @@
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
                 pages.composeCalendar(data.events[i]);
             }
-
-            allEventsOnly = {events:data.events.slice()};
-            data.events = data.events.slice(0,10);
-            data.announcements = data.announcements.slice(0,10);
-
-            pages.composeCalendar(allEventsOnly);
-            pages.composeFeed(data);
-            pages.composeFeed(data.announcements);
-            pages.composeFeed(data.events);
-            pages.composeFeed(data);
 
             rsyncOutput();
             
