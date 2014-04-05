@@ -467,6 +467,10 @@
                             ret += ('/' + this.sys.target_top_relative);
                         }
                         return ret;
+                    },
+                    '@@PAGE_DATE@@':function(data){
+                        var newDate = new Date(data.pageDate);
+                        return this.sys.utcFeedDate(newDate);
                     }
                 },
                 announcements:{
