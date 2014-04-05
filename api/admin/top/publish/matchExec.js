@@ -76,15 +76,16 @@
         
         function processData(data) {
             pages.reset();
-            pages.composeIndex(data);
-            for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
-                pages.composeCalendar(data.events[i]);
-            }
             for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
                 pages.composeEvent(data.events[i]);
             }
             for (var i=0,ilen=data.announcements.length;i<ilen;i+=1) {
                 pages.composeAnnouncement(data.announcements[i]);
+            }
+            pages.composeIndex(data);
+
+            for (var i=0,ilen=data.events.length;i<ilen;i+=1) {
+                pages.composeCalendar(data.events[i]);
             }
 
             allEventsOnly = {events:data.events.slice()};
