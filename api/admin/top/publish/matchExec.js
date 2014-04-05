@@ -19,6 +19,7 @@
             removeOldEvents();
         } else {
             oops(response,'Failed attempt to publish. User ' + userID +' does not have publishing privileges','publish(0)');
+            return;
         }
 
         function removeOldEvents () {
