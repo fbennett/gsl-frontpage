@@ -468,9 +468,12 @@
                         }
                         return ret;
                     },
-                    '@@PAGE_DATE@@':function(data){
-                        var newDate = new Date(data.pageDate);
-                        return this.sys.utcFeedDate(newDate);
+                    '@@PRE_DATE@@':function(data){
+                        var preDate = (data.pageDate - 1000);
+                        if (data.touchDate) {
+                            var preDate = (data.touchDate - 1000);
+                        }
+                        return this.sys.utcFeedDate(preDate);
                     }
                 },
                 announcements:{
