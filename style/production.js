@@ -128,9 +128,8 @@
             {
                 index:{
                     '@@TOUCH_DATE@@':function(data) {
-                        console.log("  returning touchDate: "+data.touchDate);
                         // Three days of milliseconds
-                        var ret = (data.touchDate - 259200000);
+                        var ret = (data.touchDate + 259200000);
                         if (data.touchDate > data.pageDate) {
                             ret = data.pageDate;
                         }
