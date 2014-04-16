@@ -193,7 +193,7 @@
             }
 
             function respondToClient() {
-                sys.purgeStrings();
+                sys.purgeStrings(response);
                 var sql = 'SELECT eventID,status,published FROM events WHERE eventID=?;';
                 sys.db.get(sql,[eventID],function(err,row){
                     if (err|!row) {return oops(response,err,'publish(4)')}
