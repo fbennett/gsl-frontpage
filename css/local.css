@@ -1,3 +1,10 @@
+.truncate {
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 table.pulldowns {
     position:absolute;
     right:0px;

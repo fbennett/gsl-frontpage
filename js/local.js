@@ -55,6 +55,7 @@ function updateMenuList(type,selectedId) {
         var row = rows[i];
         var option = document.createElement('option');
         option.value = row.eventID;
+        option.classList.add('truncate');
         setStatusHighlight(row,option);
         option.innerHTML = row.title;
         node.appendChild(option);
