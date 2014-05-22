@@ -90,12 +90,14 @@ function initializePage () {
 
     var titleNode = document.getElementById('title');
     titleNode.addEventListener('keydown',eventTitleKeyup);
-    titleNode.addEventListener('blur',blurEventFieldRestoreFromCache);
+    //titleNode.addEventListener('blur',blurEventFieldRestoreFromCache);
+    titleNode.addEventListener('blur',blurEventFieldOptional);
     titleNode.addEventListener('focus',eventFieldFocus);
 
     var descriptionNode = document.getElementById('description');
     descriptionNode.addEventListener('keydown',descriptionKeyup);
-    descriptionNode.addEventListener('blur',blurEventFieldRestoreFromCache);
+    //descriptionNode.addEventListener('blur',blurEventFieldRestoreFromCache);
+    descriptionNode.addEventListener('blur',blurEventFieldOptional);
     descriptionNode.addEventListener('focus',eventFieldFocus);
 
     var noteNode = document.getElementById('note');

@@ -36,6 +36,8 @@ function blurSearchDropdown (event) {
     },200);
 };
 
+// DECOMMISSIONED
+// This attempt at an "undo" interface was cumbersome and annoying
 function blurEventFieldRestoreFromCache (event) {
     setTimeout(function(){
         if (cache[event.target.id]) {
