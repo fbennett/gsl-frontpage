@@ -98,8 +98,9 @@ function blurRestoreFromCache (event) {
                 enableEditButton(event.target);
                 enableClearButton(event.target);
             }
-        } else {
+        } else if (false) {
             // XXX If incomplete in cache, clear the person and set to initial mode
+            // XXX ON THE OTHER HAND, be friendly and just leave things as they are.
             forField(event.target,function(field){
                 field.value = '';
                 delete cache[field.id];
