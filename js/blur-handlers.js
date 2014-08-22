@@ -98,13 +98,14 @@ function blurRestoreFromCache (event) {
                 enableEditButton(event.target);
                 enableClearButton(event.target);
             }
-        } else if (false) {
+        } else {
             // XXX If incomplete in cache, clear the person and set to initial mode
             // XXX ON THE OTHER HAND, be friendly and just leave things as they are.
-            forField(event.target,function(field){
-                field.value = '';
-                delete cache[field.id];
-            });
+
+            //forField(event.target,function(field){
+            //    field.value = '';
+            //    delete cache[field.id];
+            //});
             
             // 
             if (masterServant) {
