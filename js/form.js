@@ -1,18 +1,3 @@
-var fieldMap = {
-    "convenor-name-id":"convenorID",
-    "presenter-name-id":"presenterID",
-    "title":"title",
-    "description":"description",
-    "note":"note",
-    "document-attachment":"documentID",
-    "session-title":"title",
-    "session-place":"place",
-    "session-date":"session-date",
-    "session-hour-start":"session-hour-start",
-    "session-hour-end":"session-hour-end",
-    "event-id":"eventID"
-};
-
 function mapField (ret,id,value) {
     if (fieldMap[id]) {
         ret[fieldMap[id]] = value;

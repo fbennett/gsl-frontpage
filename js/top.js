@@ -1,5 +1,3 @@
-var pageDate = null;
-
 function buildTimes (node,placeholder,initIndex) {
     var timesHTML;
     if (initIndex) {

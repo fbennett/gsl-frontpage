@@ -1,4 +1,4 @@
-var datefield=document.createElement("input")
+datefield=document.createElement("input")
 datefield.setAttribute("type", "date")
 if (datefield.type!="date"){ //if browser doesn't support input type="date", load files for jQuery UI Date Picker
     document.write('<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />\n')

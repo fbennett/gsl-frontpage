@@ -1,13 +1,48 @@
-var status = {
+cache = {};
+
+lastFocusedElement = null;
+
+pageDate = null;
+
+page_status = {
     sent:false,
     reviewed:false,
     uploadID:null,
     attachments:{}
 }
 
-var lastFocusNode = null;
 
-var keyboardSearchTimeout = null;
+keyboardSearchTimeout = null;
+
+fieldMap = {
+    "convenor-name-id":"convenorID",
+    "presenter-name-id":"presenterID",
+    "title":"title",
+    "description":"description",
+    "note":"note",
+    "document-attachment":"documentID",
+    "session-title":"title",
+    "session-place":"place",
+    "session-date":"session-date",
+    "session-hour-start":"session-hour-start",
+    "session-hour-end":"session-hour-end",
+    "event-id":"eventID"
+};
+
+mimeTypes = {
+    txt: 'text/plain',
+    doc: 'application/msword',
+    pdf: 'application/pdf',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    xls: 'application/excel',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    ppt: 'application/mspowerpoint',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    zip: 'application/zip'
+}
 
 function setStatusHighlight (row,node) {
     if (row.published === 0) {
@@ -86,21 +121,6 @@ function keyboardSearchThrottle (delay,callback) {
         },delay);
     }
 };
-
-var mimeTypes = {
-    txt: 'text/plain',
-    doc: 'application/msword',
-    pdf: 'application/pdf',
-    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    xls: 'application/excel',
-    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    png: 'image/png',
-    jpg: 'image/jpeg',
-    jpeg: 'image/jpeg',
-    ppt: 'application/mspowerpoint',
-    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-    zip: 'application/zip'
-}
 
 function setFileExtension (node) {
     var uploadButton = document.getElementById('uploader-attachment-button');
