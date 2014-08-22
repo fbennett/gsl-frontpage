@@ -135,7 +135,7 @@ LangEngine.prototype.setLanguage = function () {
     }
     for (var id in lang.innerHTMLbyId) {
         node = document.getElementById(id);
-        console.log("id="+id);
+        //console.log("id="+id);
         node.innerHTML = lang.innerHTMLbyId[id];
     }
     for (var cls in lang.valueByClass) {

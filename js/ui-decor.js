@@ -249,7 +249,6 @@ function sameContainer(anode,bnode) {
 function addAttachment (documentID, documentTitle) {
     // Get existing values, if any
     page_status.attachments = {};
-    console.log("XX-1: ("+typeof page_status+") "+page_status);
     var attachmentContainer = document.getElementById('attachment-container');
     for (var i=0,ilen=attachmentContainer.childNodes.length;i<ilen;i+=1) {
         var node = attachmentContainer.childNodes[i];
@@ -261,7 +260,6 @@ function addAttachment (documentID, documentTitle) {
         }
         page_status.attachments[id] = titleNode.value;
     }
-    console.log("XX-2: "+page_status.attachments);
     
     // Add this documentID and documentTitle to status.attachments IF it is a new one.
     if (!page_status.attachments[documentTitle]) {

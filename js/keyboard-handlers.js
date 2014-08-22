@@ -42,18 +42,18 @@ function nameSet (event) {
 };
 
 function showSave (fieldNode,callback) {
-    console.log("(1)");
+    //console.log("(1)");
     fieldNode.classList.add('change-succeeded');
-    console.log("(2)");
+    //console.log("(2)");
     setTimeout(function(){
-        console.log("(3)");
+        //console.log("(3)");
         fieldNode.classList.remove('change-succeeded');
-        console.log("(4)");
+        //console.log("(4)");
         fieldNode.classList.add('has-content');
-        console.log("(5)");
+        //console.log("(5)");
         if (callback) {
             setTimeout(function(){
-                console.log("(6)");
+                //console.log("(6)");
                 callback(fieldNode);
             },750);
         }
@@ -97,10 +97,10 @@ function getSearchableKeyupHandler (fieldName) {
             event.target.classList.remove('block-sayt');
             return;
         }
-        console.log("keyCode: "+event.keyCode);
+        //console.log("keyCode: "+event.keyCode);
         if (['Enter','Tab'].indexOf(keyCodeMap[event.keyCode]) > -1) {
             event.preventDefault();
-            console.log("Running Tab");
+            //console.log("Running Tab");
             event.target.removeEventListener('blur',blurRestoreFromCache);
             window[fieldName + 'Set'](event);
             event.target.addEventListener('blur',blurRestoreFromCache);
