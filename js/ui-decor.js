@@ -422,7 +422,7 @@ function appendSessionNode(fields) {
     function getRandomKey(len, base) {
         // Modified from http://jsperf.com/random-md5-hash-implementations
         len = len ? len : 16;
-        base = base ? base : 16;
+        base = base ? base : 10;
        	var _results;
         _results = [];
         for (var i=0;i<len;i+=1) {
