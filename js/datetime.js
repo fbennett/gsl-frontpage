@@ -20,8 +20,8 @@ function extractTime(str) {
 
 function extractTimeFromIndex(idx) {
     var ret = {};
-    ret.hour = (idx+3600000/(1000*60*60));
-    ret.minute = (((idx+3600000)/(1000*60))%60);
+    ret.hour = Math.floor(((idx-1)/4)+8);
+    ret.minute = (((idx-1)%4)*15);
     return ret;
 };
 

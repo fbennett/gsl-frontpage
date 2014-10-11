@@ -361,7 +361,7 @@ function getSessionFieldValues (node) {
     var fieldNodes = container.getElementsByClassName('field');
     for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
         var fieldNode = fieldNodes[i];
-        if (fieldNode.tagName === 'SELECT') {
+        if (fieldNode.tagName && fieldNode.tagName.upperCase() === 'SELECT') {
             fields[fieldNode.id.split('-')[1]] = parseInt(fieldNode.selectedIndex,10);
         } else {
             fields[fieldNode.id.split('-')[1]] = fieldNode.value;
@@ -418,7 +418,19 @@ function appendSessionNode(fields) {
     var date = extractDate(fields.date);
     var time = extractTimeFromIndex(fields.start);
     var dateTime = new Date(year=date.year,month=date.month,day=date.day,hour=time.hour,minute=time.minute);
-    var sessionID = dateTime.getTime()
+
+    function getRandomKey(len, base) {
+        // Modified from http://jsperf.com/random-md5-hash-implementations
+        len = len ? len : 16;
+        base = base ? base : 16;
+       	var _results;
+        _results = [];
+        for (var i=0;i<len;i+=1) {
+            _results.push((Math.random() * base | 0).toString(base));
+        }
+	return _results.join("");
+    };
+    var sessionID = getRandomKey(16,16);
 
     var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
     var dow = days[dateTime.getDay()];
