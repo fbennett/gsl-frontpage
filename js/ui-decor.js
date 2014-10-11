@@ -422,7 +422,7 @@ function appendSessionNode(fields) {
     function getRandomKey(len, base) {
         // Modified from http://jsperf.com/random-md5-hash-implementations
         len = len ? len : 16;
-        base = base ? base : 10;
+        base = base ? base : 16;
        	var _results;
         _results = [];
         for (var i=0;i<len;i+=1) {
@@ -430,7 +430,7 @@ function appendSessionNode(fields) {
         }
 	return _results.join("");
     };
-    var sessionID = getRandomKey(16,16);
+    var sessionID = getRandomKey(16,10);
 
     var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
     var dow = days[dateTime.getDay()];
