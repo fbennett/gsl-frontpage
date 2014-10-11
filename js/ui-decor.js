@@ -361,7 +361,7 @@ function getSessionFieldValues (node) {
     var fieldNodes = container.getElementsByClassName('field');
     for (var i=0,ilen=fieldNodes.length;i<ilen;i+=1) {
         var fieldNode = fieldNodes[i];
-        if (fieldNode.tagName && fieldNode.tagName.upperCase() === 'SELECT') {
+        if (fieldNode.tagName && fieldNode.tagName.toUpperCase() === 'SELECT') {
             fields[fieldNode.id.split('-')[1]] = parseInt(fieldNode.selectedIndex,10);
         } else {
             fields[fieldNode.id.split('-')[1]] = fieldNode.value;
