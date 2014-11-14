@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>NewsWriter: Event Demo Page</title>
+  </head>
+  <body>
+    <h1>NewsWriter: Event Demo Page</h1>
+    <div>
+      <a href="/index.html">[return to top]</a>
+    </div>
+    <div>
+      <a href="@@EVENT_ID@@.ics">[Add this event to your calendar @@MONTH@@ @@DAY@@]</a>
+    </div>
+    <div style="text-align:right;">
+      @@DOW@@, @@DATE@@
+    </div>
+    <h2>@@NAME_AND_TITLE@@</h2>
+    <div>
+      @@LEDE@@
+      @@DESCRIPTION@@
+    </div>
+    <h3>Session details</h3>
+    <div style="margin-left:2em;">
+      @@SESSIONS@@
+    </div>
+    @@ATTACHMENTS@@
+    <hr/>
+    <div>
+      For further information, contact @@CONVENOR_NAME@@, @@CONVENOR_POSITION@@ (@@CONVENOR_AFFILIATION@@)@@CONVENOR_CONTACT@@.
+    </div>
+  </body>
+</html>
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja"><!-- InstanceBegin template="/Templates/templete.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>@@TITLE@@</title>
+<!-- InstanceEndEditable -->
+<meta http-equiv="content-script-type" content="text/javascript" />
+<meta http-equiv="content-style-type" content="text/style" />
+<meta http-equiv="content-style-type" content="text/css" />
+<!-- InstanceBeginEditable name="description" -->
+<!-- InstanceEndEditable -->
+<link rel="stylesheet" href="../../css/base.css" type="text/css" />
+<link rel="stylesheet" href="../../css/style.css" type="text/css" />
+<script type="text/javascript" src="../../js/menuShowHide.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../../js/jquery.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../../js/scrolltopcontrol.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../../js/fix_browser.js" charset="UTF-8"></script>
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+</head>
+
+<body>
+<!--Outside-Line-->
+<div id="outside"> 
+	<!--Outside-->
+	<div id="container"> 
+		<!--Header-->
+		<div id="header">
+			<div class="header_content">
+				<h1 id="top"><a href="../../index.html"><img src="../../images/head-logo.gif" alt="名古屋大学大学院法学研究科/法制度設計・国際的制度移植専門家の養成プログラム" /></a></h1>
+				<div class="head_right">
+					<p><a href="http://www.nagoya-u.ac.jp" target="_blank"><img src="../../images/head-right-logo.gif" alt="名古屋大学／NagoyaUniversity" /></a></p>
+					<ul>
+						<li class="li03"><a href="../../others-b.html">サイトポリシー</a></a></li>
+						<li class="li02"><a href="../../others-c.html">サイトマップ</a></li>
+						<li class="li01"><a href="../../news.html">新着・イベント情報</a></li>
+					</ul>
+					<!-- InstanceBeginEditable name="EditRegion7" -->
+					<ul id="lang">
+						<li><a href="../../en/news/event/events-detail20140515e.html">English</a></li>
+						<li><a href="events-detail20140515.html">日本語</a></li>
+					</ul>
+					<!-- InstanceEndEditable --></div>
+				<div id="navbox">
+					<ul id="head_menu">
+						<li class="nav01"><a href="../../index.html" onmouseover="menuShowHide('sbm1');">HOME</a></li>
+						<li class="nav02"><a href="../../programoutline-a.html" onmouseover="menuShowHide('sbm2');">プログラムの概要</a></li>
+						<li class="nav03"><a href="../../prospectivestudents-a.html" onmouseover="menuShowHide('sbm3');">入学希望の方へ</a></li>
+						<li class="nav04"><a href="../../currentstudent-a.html" onmouseover="menuShowHide('sbm4');">在学生向け情報</a></li>
+						<li class="nav05"><a href="../../others-a.html" onmouseover="menuShowHide('sbm5');">アクセス</a></li>
+					</ul>
+					<!--▲Global Navigation▲--> 
+					<!--▼DropDownNav▼-->
+					<div id="hd_submenu">
+						<!--<div class="sbm1" style="display:none;" id="dropdown01">
+							<ul>
+								<li><a href="../index.html">HOME</a></li>
+							</ul>
+						</div>
+						<div class="sbm2" style="display:none;" id="dropdown02">
+							<ul>
+								<li><a href="../programoutline-a.html">目的・理念</a></li>
+								<li><a href="../programoutline-b.html">プログラムの特色</a></li>
+								<li><a href="../programoutline-c.html">教員・スタッフ</a></li> 							
+							</ul>
+						</div>
+						<div class="sbm3" style="display:none;" id="dropdown03"><ul>
+								<li><a href="../prospectivestudents-a.html">学生募集</a></li>
+								<li><a href="../prospectivestudents-b.html">応募・選考プロセス</a></li>
+								<li><a href="../prospectivestudents-c.html">学位および進路</a></li> 	
+							</ul></div>
+						<div class="sbm4" style="display:none;" id="dropdown04">
+							<ul>
+								<li><a href="http://www.law.nagoya-u.ac.jp/naibu/syllabus.html" target="_blank">シラバスシステム</a></li>
+								<li><a href="../currentstudent-a.html">専門家養成プログラムの概要</a></li>
+								<li><a href="../currentstudent-b.html">学位審査</a></li>
+								<li><a href="#">ハンドブック</a></li>
+								<li><a href="../pdf/Stipend12.pdf" target="_blank">奨励金受給者一覧</a></li>
+							</ul></div>
+						<div class="sbm5" style="display:none;" id="dropdown05">
+							<ul>
+								<li><a href="../others-a.html"> アクセス・お問い合わせ</a></li>
+							</ul>
+						</div>-->						
+					</div>
+				</div>
+				<!-- InstanceBeginEditable name="banner" -->
+				<div class="head_banner"><img src="../../images/news-banner.jpg" alt="新着・イベント情報" width="960" height="160" /></div>				
+				<!-- InstanceEndEditable --> 
+			</div>
+		</div>
+		<!--Header--> 
+		<!--Main--> 
+		<!--2Column-->
+		<div class="main_content">
+			<div id="content">
+			<!-- InstanceBeginEditable name="EditRegion1" -->
+				<ol id="path">
+					<li><a href="../../index.html">Home</a>&nbsp;&gt;</li>
+					<li><a href="../../news.html">新着・イベント情報</a>&nbsp;&gt;</li>
+					<li>オンデマンドセミナー</li></ol>
+				<h2 class="main_title"><img src="../../images/event-main-title.gif" alt="新着・イベント情報" width="650" height="20" /></h2>
+				<div class="news_cont">
+    <div style="text-align:right;">
+      @@DOW@@, @@DATE@@
+    </div>
+    <h2>@@NAME_AND_TITLE@@</h2>
+    <div>
+      @@LEDE@@
+      @@DESCRIPTION@@
+    </div>
+    <h3>セッションの詳細</h3>
+    <div style="margin-left:2em;">
+      @@SESSIONS@@
+    </div>
+    @@ATTACHMENTS@@
+    <hr/>
+    <div>
+      情報：@@CONVENOR_NAME@@, @@CONVENOR_POSITION@@ (@@CONVENOR_AFFILIATION@@)@@CONVENOR_CONTACT@@.
+    </div>
+				</div>
+				<!--<ul class="content_link">
+					<li><a href="others-a.html">アクセス・お問い合わせ先</a></li>
+					<li><a href="others-b.html">サイトポリシー</a></li>
+					<li><a href="others-c.html">サイトマップ</a></li>					
+				</ul>-->
+				<!-- InstanceEndEditable --> 
+			</div>
+			<div id="side">
+			<!-- InstanceBeginEditable name="sideNav" -->
+				<h2><img src="../../images/temp-side-h2.gif" alt="その他" /></h2>
+				<ul>
+					<li><a href="../../others-a.html">&nbsp;&nbsp;&nbsp;アクセス・お問い合わせ先</a></li>
+					<li><a href="../../others-b.html">&nbsp;&nbsp;&nbsp;サイトポリシー</a></li>
+					<li><a href="../../others-c.html">&nbsp;&nbsp;&nbsp;サイトマップ</a></li>
+				</ul>
+			<!-- InstanceEndEditable --> 
+				<p><a href="http://www.nagoya-u.ac.jp" target="_blank"><img src="../../images/temp-side-img1.gif" alt="名古屋大学／NagoyaUniversity" /></a></p>
+				<p><a href="http://www.jsps.go.jp" target="_blank"><img src="../../images/temp-side-img2.gif" alt="日本学術振興会" /></a></p>
+				<p><a href="http://www.mext.go.jp" target="_blank"><img src="../../images/temp-side-img4.gif" alt="文部科学省" /></a></p>
+			</div>
+			<p class="backtop"><a href="#top"><img src="../../images/backtop.gif" alt="上へ戻る" /></a></p>
+		</div>
+		<!--2Column--> 
+		<!--Main--> 
+		<!--Footer-->
+		<div id="footer">
+			<div class="footer_content">
+				<ul class="foot_nav">
+					<li><a href="../../index.html">HOME</a></li>
+					<li><a href="../../programoutline-a.html">プログラムの概要</a></li>
+					<li><a href="../../prospectivestudents-a.html">入学希望の方へ</a></li>
+					<li><a href="../../currentstudent-a.html">在学生向け情報</a></li>
+					<li><a href="../../others-a.html">アクセス</a></li>
+				</ul>
+				<p class="foot_logo"><a href="../../index.html"><img src="../../images/foot-logo.gif" alt="名古屋大学大学院法学研究科/法制度設計・国際的制度移植専門家の養成プログラム" /></a></p>
+				<ul class="foot_site">
+					<li class="li02"><a href="../../others-b.html">サイトポリシー</a></li>
+					<li class="li01"><a href="../../others-c.html">サイトマップ</a></li>
+					<li class="li01"><a href="../../news.html">新着・イベント情報</a></li>
+				</ul>
+				<p class="copyright">Copyright(c) Leadeing Graduate School All Rights Reserved.</p>
+			</div>
+		</div>
+		<!--Footer--> 
+	</div>
+	<!--Outside--> 
+</div>
+<!--Outside-Line-->
+</body>
+<!-- InstanceEnd --></html>
