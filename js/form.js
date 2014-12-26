@@ -62,7 +62,7 @@ function previewForm (suppressPreview) {
             delete session['session-hour-end'];
         }
         // If we have a minStartDate value, use it for pageDate
-        if (minStartDate) {
+        if (minStartDate && !date.pageDate) {
             data.pageDate = minStartDate;
         }
         data.sessions = convertSessionsObjectToSortedList(data.sessions);
