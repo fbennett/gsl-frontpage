@@ -68,7 +68,9 @@ function initializePage () {
     updateMenuList('announcement');
     updateMenuList('trash');
     
-    pageDate = new Date().getTime();
+    if (!pageDate) {
+        pageDate = new Date().getTime();
+    }
     lastFocusedElement = document.getElementsByClassName('field')[0];
     
     var eventList = document.getElementById('event-list');

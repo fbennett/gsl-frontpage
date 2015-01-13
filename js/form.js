@@ -5,9 +5,7 @@ function mapField (ret,id,value) {
 };
 
 function previewForm (suppressPreview) {
-    var data = {
-        pageDate:pageDate
-    };
+    var data = {};
 
     //data.eventID = document.getElementById('event-id').value;
 
@@ -61,11 +59,15 @@ function previewForm (suppressPreview) {
             delete session['session-hour-start'];
             delete session['session-hour-end'];
         }
-        // If we have a minStartDate value, use it for pageDate
-        if (minStartDate && !date.pageDate) {
-            data.pageDate = minStartDate;
-        }
-        data.sessions = convertSessionsObjectToSortedList(data.sessions);
+	data.sessions = convertSessionsObjectToSortedList(data.sessions);
+    }
+    // If we have a minStartDate value, use it for pageDate
+    if (!data.pageDate) {
+        if (minStartDate) {
+	    data.pageDate = minStartDate;
+        } else {
+	    data.pageDate = pageDate;
+	}
     }
     // If hasAttachment ...
     var attachments = document.getElementsByClassName('attachment-required');
@@ -154,6 +156,7 @@ function getPageContent (event) {
     if (false === data) return;
     role = data.role;
     convertAllDatesToLocal(data);
+    pageDate = data.pageDate;
     // Clear form
     clearForm();
     // Populate form
