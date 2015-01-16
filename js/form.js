@@ -66,9 +66,14 @@ function previewForm (suppressPreview) {
         if (minStartDate) {
 	    data.pageDate = minStartDate;
         } else {
-	    data.pageDate = pageDate;
+	    if (pageDate) {	    
+		data.pageDate = pageDate;
+	    } else {
+		data.pageDate = new Date().getTime();
+	    }
 	}
     }
+    console.log("XXX HEY!!! " + data.pageDate)
     // If hasAttachment ...
     var attachments = document.getElementsByClassName('attachment-required');
     for (var i=0,ilen=attachments.length;i<ilen;i+=1) {

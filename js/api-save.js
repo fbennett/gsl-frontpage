@@ -24,7 +24,7 @@ function savePersonFields (node) {
         , {
             data:data,
             personid:personID,
-            touchdate:clientDateToServer(pageDate)
+            touchdate:clientDateToServer(new Date().getTime())
         }
     );
     if (false === row) return;

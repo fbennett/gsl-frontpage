@@ -268,7 +268,7 @@ function placeSet(event) {
                 + '&cmd=saveplace'
             , {
                 place:event.target.value,
-                touchdate:clientDateToServer(pageDate)
+                touchdate:clientDateToServer(new Date().getTime())
             }
         );
         if (false === ret) return;
